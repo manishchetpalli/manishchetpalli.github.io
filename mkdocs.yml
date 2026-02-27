@@ -1,8 +1,8 @@
-site_name: DEwithManish
+site_name: DataEngineeringNotes
 site_description: Documentation for Data Engineering and Big Data Technologies
 site_author: AnalyticsWithManish
 
-repo_url: https://github.com/manishchetpalli/AnalyticsWithManish
+repo_url: https://github.com/manishchetpalli/DataEngineeringNotes
 repo_name: "AnalyticsWithManish"
 edit_uri: edit/main/docs/
 
