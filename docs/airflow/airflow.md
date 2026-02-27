@@ -157,6 +157,12 @@ A common question is why one shouldn't just use a Python for loop or sequential 
 
 > --- ***Create a DAG***
 
+Different Styles of Writing DAGs
+
+1. Classic Way: Defining the DAG object and passing it to tasks (shown above).
+2. Context Manager (with): Automatically associates tasks with the DAG without passing dag=dag to every operator.
+3. TaskFlow API: Uses decorators like @dag and @task
+
 A DAG file starts with a `dag` object. We can create a `dag` object using a context manager or a decorator.
 
 ```python
@@ -225,6 +231,49 @@ Some of the most-used parameters are:
 4. tags - List of tags helping us search DAGs in the UI.
 
 ---
+
+## Scheduling in airflow
+
+> --- **Core Scheduling Parameters**
+
+To schedule a pipeline, you must define specific parameters within the `DAG` object.
+
+`dag_id`: A unique identifier for the DAG.
+
+`start_date`: The date from which the DAG starts its schedule. It requires a `datetime` object.
+
+`schedule`: (Previously `schedule_interval` in Airflow 2.0) Defines how often the DAG runs.
+
+`catchup`: A boolean (default is often `True` but recommended as `False` in many cases) that determines if Airflow should run all "missed" instances of the DAG from the `start_date` to the current time.
+
+> --- **Scheduling Methods**
+
+-  Macros (Shortcuts)
+These are easy-to-read strings for common intervals.
+
+`@daily`: Runs once a day at midnight (00:00).
+
+`@hourly`: Runs at the start of every hour.
+
+`@weekly`: Runs at midnight on Sunday.
+
+`@monthly`: Runs at midnight on the first day of the month.
+
+- Cron Expressions
+This is the most flexible and widely used method. It uses five fields: `minute`, `hour`, `day`, `month`, and `weekday`.
+
+- Timedelta
+Used when you need exact intervals that Cron cannot easily handle, such as running a pipeline every 10 days regardless of month transitions.
+
+Airflow defaults to UTC. If you are working in a specific region (like India or the US), it is recommended to create timezone-aware DAGs using the `pendulum` library.
+
+Why Pendulum? It handles Daylight Saving Time (DST) adjustments automatically, which standard `datetime` might miss.
+
+Real-world issue: If you run a pipeline at 5:00 AM India time but it defaults to UTC, it might technically be running on the previous calendar day in UTC, causing errors in incremental data loading.
+
+
+---
+
 ## Task level Operator
 
 !!! tip
@@ -473,6 +522,103 @@ random_dag4()
 !!! warning
 
     Although nothing stops us from passing data between tasks, the general advice is to not pass heavy data objects, such as pandas DataFrame and SQL query results because doing so may impact task performance.
+
+---
+
+## **Taskflow API**
+
+The Taskflow API is a higher-level abstraction in Airflow designed to simplify code, especially when working with Python Operators. Its primary goal is to reduce boilerplate code and handle data sharing (XCom) more intuitively.
+
+Key Advantages:
+   Simplifies XCom: You no longer need to explicitly write `xcom_push` or `xcom_pull`.
+   Reduces Boilerplate: You don't have to define a `PythonOperator` for every task; you can turn standard Python functions into tasks using decorators.
+   Cleaner Dependencies: Dependencies can be defined by simply calling functions.
+
+> --- **Classic vs. Taskflow API: Code Comparison**
+
+- The Classic Way (Manual XCom & Operators)
+
+In the older "classic" style, you define a DAG object and use `PythonOperator` to wrap your functions. You must also manually handle the Task Instance (ti) to move data between tasks.
+
+```python
+# Conceptual Classic Logic from the Source
+def extract(context):
+    path = "/path/to/data.csv"
+    context['ti'].xcom_push(key='output_path', value=path)
+
+def transform(context):
+    # Manually pulling data
+    data = context['ti'].xcom_pull(task_ids='extract', key='output_path')
+    print(f"Transforming: {data}")
+
+# Defining the Operator
+extract_task = PythonOperator(task_id='extract', python_callable=extract, dag=dag)
+```
+
+- The Taskflow Way (Decorators)
+
+With Taskflow, you use the `@dag` and `@task` decorators. Returning a value from a function automatically performs an XCom push, and passing that value as an argument to another task function performs an XCom pull.
+
+```python
+from airflow.decorators import dag, task
+
+@dag(dag_id='taskflow_example', start_date=datetime(2025, 1, 1))
+def my_pipeline():
+
+    @task # Automatically treats this as a Python task
+    def extract():
+        return {"output_path": "/path/to/data.csv"}
+
+    @task
+    def transform(extracted_data): # Argument acts as XCom pull
+        path = extracted_data['output_path']
+        print(f"Transforming data from: {path}")
+
+    # Setting Dependencies via Function Calls
+    data = extract()
+    transform(data)
+
+# Call the DAG function to register it
+my_pipeline()
+```
+
+> --- **Advanced Taskflow Concepts**
+
+- Handling Multiple Outputs
+By default, if a task returns a dictionary, Airflow stores the entire dictionary under a single XCom key called `return_value`. However, if you want each dictionary key to be its own independent XCom entry, you can use the `multiple_outputs` parameter.
+
+Logic: Setting `@task(multiple_outputs=True)` ensures that keys like `status` or `location` are stored as individual XCom keys rather than nested inside a single return value.
+
+- Mixing and Matching
+You are not limited to using only Taskflow. You can mix Taskflow tasks with classic operators (like `BashOperator` or a standard `PythonOperator`) within the same DAG.
+
+Example: You might have an `@task` for extraction and a classic `PythonOperator` for loading data if you prefer that structure for certain tasks.
+
+- Dependencies: Implicit vs. Explicit
+
+Implicit: Created when you pass the output of one task function directly into another task function.
+
+Explicit: You can still use the standard bitshift operators (`>>`) if you store the task calls in variables.
+
+> --- **Internal Architecture (Deep Dive)**
+
+While Taskflow looks like simple Python functions, it is internally mapped back to the core Airflow infrastructure.
+
+Default Operator: When you use `@task`, Airflow defaults to the Python Operator. To use others, you can specify them (e.g., `@task.bash`).
+
+Internal Classes: The decorators call the `TaskDecoratorCollection` class, which uses `PythonDecoratorOperator`.
+
+Provider Manager: Airflow's `ProvidersManager` initializes these decorators, identifying which operator (Bash, Python, etc.) to use based on the decorator name.
+
+End-to-End Flow: Even with Taskflow, the final execution still relies on the standard `PythonOperator` logic; it just automates the "handling of output" and "context parsing" on your behalf.
+
+> --- **Limitations and Recommendations**
+
+Implicit Complexity: Taskflow makes dependencies "implicit," which can sometimes lead to confusion in very complex DAGs where it isn't immediately obvious how tasks are chained.
+
+Best Practice: The source suggests using Taskflow when dealing primarily with Python-based logic to keep the code clean. However, if your DAG involves many different types of operators, using the classic "low-level" operator style might offer better clarity.
+
+---
 
 ## **Use Jinja templates**
 

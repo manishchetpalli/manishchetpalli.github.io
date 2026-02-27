@@ -6,10 +6,6 @@ Database is structured, organised set of data.Think of it as a filecabinet whre 
 
 ---
 
-
-
----
-
 ## **What is DBMS?**
 
 A software which allows users to interact with data. Stores data in structured format. A schema defines the structure of data.
@@ -32,914 +28,447 @@ Successful transactions are persisted even in case of failure.Durability ensures
 
 ---
 
-## **The Basics of a Query**
+## The WHERE Clause
+SQL filters data row by row. For every row in a table, the SQL engine evaluates the condition in the `WHERE` clause; if the result is true, the row is kept in the output; if false, it is removed.
 
-> --- ***SELECT and FROM***
+> --- **Comparison Operators**
 
-A query is a way to ask the database a question to retrieve data without modifying the table structure or its contents.
+These are used to compare two expressions (columns, static values, functions, or subqueries).
 
-- SELECT: Specifies which columns you want to retrieve. Use a star () to select all columns.
-- FROM: Specifies the table where the data is located.
+`=` (Equal): Checks if two values are exactly the same.
 
-!!! Example
-    `SELECT  FROM customers;`
-    retrieves every column and row from the "customers" table.
+`!=` or `<>` (Not Equal): Filters out rows that match a specific value.
 
-> --- ***Selecting Specific Columns and Using Aliases***
+`>` / `<` (Greater/Less than): Standard numerical or alphabetical comparisons.
 
-Instead of retrieving everything, you can specify a list of columns separated by commas.
+`>=` / `<=` (Greater/Less than or equal to): Includes the boundary value in the results.
 
-- Syntax: `SELECT column1, column2 FROM table_name;`.
-!!! Note
-    Do not place a comma after the last column in your list, or SQL will return an error.
-    Aliases (AS): You can temporarily rename a column in your result set for better readability using the `AS` keyword.
+> --- **Logical Operators**
 
-!!! Example
-    `SELECT country AS customer_country, SUM(score) AS total_score FROM customers GROUP BY country;`.
+Used to combine multiple conditions into a single filter.
 
-> --- ***Filtering Data: WHERE***
+`AND`: Highly restrictive. Every single condition must be true for the row to be included.
 
-The `WHERE` clause filters rows based on a specific condition. Only data that meets the condition is included in the output.
+`OR`: Relaxed. A row is included if at least one of the conditions is true.
 
-- Syntax: `SELECT  FROM customers WHERE score != 0;` (Retrieves customers whose score is not zero).
-- Handling Strings: If your condition involves text (characters), the value must be enclosed in single quotes.
-!!! Example
-    `SELECT  FROM customers WHERE country = 'Germany';`.
+`NOT`: A reverse operator that switches "true" to "false" and vice versa, excluding matching values.
 
-> --- ***Sorting Data: ORDER BY***
+> --- **Membership & Range Operators**
 
-Use `ORDER BY` to sort your results in a specific order.
+`BETWEEN`: Checks if a value falls within a specific range.
 
-- Mechanisms: Use `ASC` for ascending (lowest to highest, default) or `DESC` for descending (highest to lowest).
-- Nested Sorting: You can sort by multiple columns. SQL prioritizes the first column listed; the second column is used to "refine" the sorting if there are duplicate values in the first column.
-!!! Example
-    `SELECT  FROM customers ORDER BY country ASC, score DESC;` sorts by country alphabetically, then by highest score within each country.
-
-> --- ***Aggregation and Grouping: GROUP BY***
-
-The `GROUP BY` clause combines rows with the same values into summary rows. It is typically used with aggregate functions like `SUM`, `COUNT`, or `AVG`.
-
-- Rule: Any non-aggregated column in your `SELECT` statement must also be included in the `GROUP BY` clause, or you will receive an error.
-!!! Example
-    `SELECT country, SUM(score) FROM customers GROUP BY country;` provides the total score for each unique country.
-
-> --- ***Filtering Aggregated Data: HAVING***
-
-`HAVING` is used to filter data after it has been aggregated by a `GROUP BY` clause.
-
-- Difference from WHERE: `WHERE` filters individual rows before they are grouped; `HAVING` filters the results after the grouping logic is applied.
-!!! Example
-    To find countries with an average score greater than 430: `SELECT country, AVG(score) FROM customers GROUP BY country HAVING AVG(score) > 430;`.
-
-> --- ***Distinct and Top Keywords***
-
-- DISTINCT: Placed immediately after `SELECT`, it removes duplicate rows so that each value in the result is unique. Note that it is an "expensive" operation for the database, so it should only be used when necessary.
-- TOP (or LIMIT): Restricts the number of rows returned based on their row number in the result set.
-!!! Example
-    `SELECT TOP 3  FROM customers ORDER BY score DESC;` retrieves the three customers with the highest scores.
-
-> --- ***Coding Order vs. Execution Order***
-
-The order in which you write a query is different from the order in which the database executes it. Understanding this helps in building correct queries.
-
-| Step | Coding Order (Syntax) | Execution Order (Logic) |
-| :--- | :--- | :--- |
-| 1 | `SELECT` (with `DISTINCT` and `TOP`) | `FROM` (Find the data) |
-| 2 | `FROM` | `WHERE` (Filter original rows) |
-| 3 | `WHERE` | `GROUP BY` (Aggregate/combine rows) |
-| 4 | `GROUP BY` | `HAVING` (Filter aggregated results) |
-| 5 | `HAVING` | `SELECT` / `DISTINCT` (Pick columns/unique values) |
-| 6 | `ORDER BY` | `ORDER BY` (Sort the final list) |
-| 7 | | `TOP` (Limit the number of rows) |
-
-> --- ***Comments in SQL***
-
-Comments are notes for the coder that the database engine ignores.
-
-- Inline: Use two dashes (`--`).
-- Multi-line: Wrap the text in `/` and `/`.
-
----
-
-## **SQL DDL**
-
-> --- ***The CREATE Command***
-
-The `CREATE` command is used to build a new object, like a table, within the database. Usually, a newly created table is empty.
-
-- Syntax & Logic: You must define the table name, column names, data types, and constraints.
-- Data Types: Common types include `INT` (numbers), `VARCHAR` (characters/text), and `DATE`.
-- Constraints: These are rules for the data, such as `NOT NULL` (the field must have a value) or `PRIMARY KEY` (a unique identifier for each row to ensure integrity).
-
-!!! Example
-    Creating a "Persons" Table
-    ```sql
-        CREATE TABLE persons (
-        ID INT NOT NULL,
-        person_name VARCHAR(50) NOT NULL,
-        birth_date DATE, -- This is optional (nulls allowed)
-        phone VARCHAR(15) NOT NULL,
-        CONSTRAINT PK_persons PRIMARY KEY (ID) -- Setting the ID as the primary key
-        );
-    ```
-
-> --- ***The ALTER Command***
-
-The `ALTER` command is used to edit or change the definition of an existing table, such as adding or removing columns or changing data types.
-
-- Adding a Column: When you add a new column, it is automatically placed at the end of the table. If you want a column in the middle, you must drop the whole table and recreate it from scratch.
-- Removing a Column: You only need to specify the column name; you do not need to provide the data type because the database already knows it. Warning: Deleting a column also deletes all data stored in that column.
-
-!!! Example
-    Adding and Removing Columns
-
-    To Add: `ALTER TABLE persons ADD email VARCHAR(50) NOT NULL;`
-    
-    To Remove: `ALTER TABLE persons DROP COLUMN phone;`
-
-> --- ***The DROP Command***
-
-The `DROP` command is used to completely remove a table and all its data from the database.
-
-- Risk Level: This is described as the simplest but most risky command because it destroys the table and all its contents instantly.
-- Comparison: Destroying a table with `DROP` is much easier than building one with `CREATE`.
-
-!!! Example
-    Deleting a Table
-    ```sql
-    DROP TABLE persons;
-    ```
-
----
-
-## **SQL DML**
-
-> --- ***The INSERT Command***
-
-The `INSERT` command is used to add new rows to a table. These rows are typically appended to the end of the existing data.
-
-Method A: Manual Insertion
-
-In this method, you manually specify the values to be added via a script.
-
-- Syntax: `INSERT INTO table_name (column_list) VALUES (value_list);`.
-- Key Rules:
-       The number of columns and values must match.
-       The order of values must match the order of defined columns.
-       Specifying columns is optional; if skipped, SQL expects a value for every column in the table in its default order.
-       Nulls: Use `NULL` to indicate unknown data. Note that columns with constraints (like Primary Keys) will not allow null values.
-
-!!! Example
-    (Multiple Rows):
-    ```sql
-    INSERT INTO customers (ID, first_name, country, score)
-    VALUES (6, 'Anna', 'USA', NULL),
-        (7, 'Sam', NULL, 100);
-    (This adds two customers in a single execution; note the comma separating the value lists).
-    ```
-
-Method B: Inserting from Another Table
-
-You can move data from a Source Table to a Target Table without writing manual values.
-
-1. Select: Write a `SELECT` query to gather the desired data from the source.
-
-2. Insert: Wrap that query in an `INSERT INTO` statement.
-!!! Note
-    Column names do not have to match between tables, but the data types and structure must be compatible.
-
-> --- ***The UPDATE Command***
-
-The `UPDATE` command modifies existing rows. Unlike `INSERT`, it does not create new records; it changes the content of what is already there.
-
-- Syntax: `UPDATE table_name SET column1 = value1, column2 = value2 WHERE condition;`.
-- The Risk of WHERE: If you omit the `WHERE` clause, every single row in the table will be updated with the new value.
-- Best Practice: Test your `WHERE` clause with a `SELECT` statement first to ensure you are targeting the correct records before running the update.
-
-!!! Example 
-    (Updating Multiple Columns):
-    To change customer 10's score and country simultaneously:
-    ```sql
-    UPDATE customers 
-    SET score = 0, country = 'UK' 
-    WHERE ID = 10;
-    (This targets only the specific row where ID is 10).
-    ```
-
-> --- ***The DELETE and TRUNCATE Commands***
-
-These commands are used to remove data from your tables.
-
-DELETE:
-
-Removes specific rows based on a condition.
-
-- Syntax: `DELETE FROM table_name WHERE condition;`.
-- Warning: Just like `UPDATE`, forgetting the `WHERE` clause will delete all data in the table.
-
-!!! Example
-    ```sql
-    DELETE FROM customers WHERE ID > 5;
-    (This removes all recently added customers with an ID higher than 5).
-    ```
-
-TRUNCATE:
-
-If you want to empty a table completely while keeping its structure intact, `TRUNCATE` is the preferred method.
-
-- Efficiency: It is much faster than `DELETE FROM table_name` because it does not use the same logging and background protocols.
-- Behavior: It resets the table to an empty state and does not return the number of rows affected.
-
-| Feature              | DROP                                                                 | TRUNCATE                                                              | DELETE                                                                 |
-|----------------------|----------------------------------------------------------------------|------------------------------------------------------------------------|------------------------------------------------------------------------|
-| Purpose          | Completely removes the entire table structure from the database      | Removes all rows from a table, but the table structure remains         | Removes specific rows based on a condition or all rows from a table, but the table structure remains |
-| Transaction Control | Cannot be rolled back                                              | Cannot be rolled back                                                  | Can be rolled back                                                     |
-| Space Reclaiming | Releases the object and its space                                    | Frees the space containing the table                                   | Doesn't free up space, but leaves empty space for future use           |
-| Speed            | Fastest as it removes all data and structure                         | Faster than DELETE as it doesn't log individual row deletions          | Slowest as it logs individual row deletions                            |
-| Referential Integrity | Not checked                                                     | Checked                                                                | Checked                                                                |
-| Where Clause     | Not applicable                                                       | Not applicable                                                         | Applicable                                                             |
-| Command Type     | DDL (Data Definition Language)                                       | DDL (Data Definition Language)                                         | DML (Data Manipulation Language)                                       |
-
----
-
-## **SQL Where**
-
-> --- ***Core Logic of SQL Conditions***
-
-In SQL, the `WHERE` clause is used to filter data based on specific logic. A condition typically follows this formula: Expression -> Operator -> Expression.
-
-You can compare several types of data
-
-- Column to Column: e.g., comparing first name to last name.
-- Column to Static Value: e.g., `first_name = 'John'`.
-- Functions: Applying a function like `UPPER` to a column before comparing.
-- Math Expressions: e.g., `price  quantity = 1000`.
-- Subqueries: Comparing a column to the result of another complete query.
-
-When a condition is applied, SQL evaluates the data row by row. If a row meets the condition (True), it is kept; if not (False), it is removed from the final result.
-
-> --- ***Comparison Operators***
-
-These are the most basic operators used to compare two values.
-
-- Equal (`=`): Retrieves exact matches.
-!!! Example
-    `SELECT  FROM customers WHERE country = 'Germany';`.
-- Not Equal (`!=` or `<>`): Retrieves everything except the specified value.
-!!! Example
-    `SELECT  FROM customers WHERE country != 'Germany';`.
-- Greater Than (`>`) and Less Than (`<`): Used for numerical ranges.
-!!! Example
-    `WHERE score > 500;`.
-- Greater Than or Equal to (`>=`) and Less Than or Equal to (`<=`): These are "mixed" operators that include the boundary value itself.
-!!! Example
-    `WHERE score >= 500;` (Includes rows where the score is exactly 500).
-
-> --- ***Logical Operators***
-
-Logical operators combine multiple conditions within a single `WHERE` clause.
-
-- AND: This is restrictive. All conditions must be True for a row to be included.
-!!! Example
-    `WHERE country = 'USA' AND score > 500;` (Only keeps customers who meet both criteria).
-- OR: This is less restrictive. A row is kept if at least one of the conditions is True.
-!!! Example
-    `WHERE country = 'USA' OR score > 500;`.
-- NOT: This is a reverse operator. it switches True to False and vice versa to exclude matching values.
-!!! Example
-    `WHERE NOT score < 500;` (This will return all scores that are 500 or higher).
-
-> --- ***Range Operator: BETWEEN***
-
-The `BETWEEN` operator checks if a value falls within a specific range defined by a lower and upper boundary.
-
-- Inclusivity: The boundaries are inclusive, meaning values exactly equal to the boundaries are considered inside the range.
-!!! Example
-    `SELECT  FROM customers WHERE score BETWEEN 100 AND 500;`.
-    Alternative: You can achieve the same result using comparison operators: `WHERE score >= 100 AND score <= 500;`.
-
-> --- ***Membership Operators: IN and NOT IN***
-
-These operators check if a value exists within a specified list.
-
-- Efficiency: Using `IN` is cleaner and more performant than writing multiple `OR` conditions for the same column.
-!!! Example
-    `SELECT  FROM customers WHERE country IN ('Germany', 'USA');`.
-    NOT IN: Reverses the logic to find values not present in the list.
-
-> --- ***Search Operator: LIKE***
-
-The `LIKE` operator is used for pattern matching within text strings. It relies on two special wildcards:
-
-1. Percentage (`%`): Represents "anything"—zero, one, or multiple characters.
-2. Underscore (`_`): Represents exactly one character.
-
-!!! Example
-    Starts with: `WHERE first_name LIKE 'M%';` (Finds Maria, Martin, etc.).
-
-    Ends with: `WHERE first_name LIKE '%n';` (Finds John, Martin, etc.).
-    
-    Contains: `WHERE first_name LIKE '%r%';` (Finds any name with an 'r' anywhere in it).
-    
-    Specific Position: `WHERE first_name LIKE '__r%';` (Uses two underscores to find names where 'r' is exactly the third character).
-
-## **SQL Joins**
-
-> --- ***Combining Tables: Joins vs. Set Operators***
-
-When you want to combine data from two tables (Table A and Table B), you must first decide whether you want to combine columns or rows.
-
-- Joins: Used to combine columns side-by-side. This makes the resulting table wider.
-- Set Operators (e.g., UNION): Used to stack rows on top of each other. This makes the resulting table longer.
-- Requirement for Joins: You must define key columns (usually IDs) that exist in both tables to connect them.
-
-> --- ***Why Use Joins?***
-
-There are three primary reasons to use joins:
-
-1. Recombine Data: In professional databases, data is often spread across multiple tables (e.g., Customers, Addresses, Orders). Joins allow you to see the "big picture" in one result.
-2. Data Enrichment: Using a "lookup" or reference table to add extra information to a master table (e.g., adding zip codes to a customer list).
-3. Check Existence: Joining tables to filter data based on whether a record exists (or doesn't exist) in another table (e.g., finding customers who have never placed an order).
-
-> --- ***The Four Basic Join Types****
-
-A. Inner Join (The Default)
-
-An Inner Join returns only the rows where there is a match in both tables.
-
-- Logic: It represents the "overlapping" area of two circles. If a row in the left table has no match in the right table (or vice versa), it is excluded from the results.
-- Syntax: `SELECT columns FROM tableA INNER JOIN tableB ON tableA.key = tableB.key;`
-!!! Note
-    The order of tables does not matter; you will get the same result whether you start with Table A or Table B.
-
-B. Left Join
-A Left Join returns all rows from the left table and only the matching rows from the right table.
-
-- Logic: The left table is your "primary" source. If there is no match in the right table, SQL will still show the left table's data but will display NULL for the missing right-side values.
-- Syntax: `SELECT columns FROM tableA LEFT JOIN tableB ON tableA.key = tableB.key;`
-!!! Example
-    To see all customers including those without orders, use a Left Join starting with the customers table.
-
-C. Right Join
-The Right Join is the exact opposite of the Left Join. It returns all rows from the right table and only the matching rows from the left table.
-!!! Note
-    Most developers prefer Left Joins. You can achieve a Right Join effect by simply switching the order of the tables in a Left Join.
-!!! Example
-    `SELECT columns FROM tableA RIGHT JOIN tableB...` is the same as `SELECT columns FROM tableB LEFT JOIN tableA...`.
-
-D. Full Join
-A Full Join returns everything from both tables, regardless of whether there is a match.
-
-- Logic: It combines the effects of both Left and Right joins. You will see matching rows side-by-side, and unmatching rows from either table will show NULL for the missing side.
-- Order: Like the Inner Join, the order of tables does not matter.
-
-> --- ***Best Practices for Writing Joins***
-
-- Specify the Type: While `JOIN` often defaults to `INNER JOIN`, it is best practice to explicitly write `INNER`, `LEFT`, or `FULL` to avoid confusion.
-- Use Table Aliases: When tables have long names, use the `AS` keyword to give them short nicknames (e.g., `customers AS C`). This makes the query easier to read.
-- Prefix Column Names: When joining tables, always specify which table a column belongs to (e.g., `C.ID` vs `O.ID`) to avoid "ambiguous column" errors if both tables have columns with the same name.
-
-> --- ***Summary Table of Execution Logic***
-
-| Join Type | Left Table Data | Right Table Data | If No Match Exists... |
-| :--- | :--- | :--- | :--- |
-| Inner | Matching Only | Matching Only | Row is excluded. |
-| Left | All Rows | Matching Only | Right columns show NULL. |
-| Right | Matching Only | All Rows | Left columns show NULL. |
-| Full | All Rows | All Rows | Missing sides show NULL. |
-
-> --- ***Left Anti-Join***
-
-A Left Anti-Join returns only the rows from the left table that have no match in the right table. It effectively filters out any overlapping data, leaving you with only the unique records in the primary (left) table.
-
-- Syntax & Logic: There is no specific "ANTI-JOIN" keyword in SQL Server. Instead, you create this effect in two steps:
-    1. Perform a standard LEFT JOIN.
-    2. Use a WHERE clause to filter for rows where the right table's key IS NULL.
-
-!!! Example
-    To find "inactive" customers who have never placed an order
-    ```sql
-    SELECT  FROM customers AS C
-    LEFT JOIN orders AS O ON C.ID = O.customer_id
-    WHERE O.customer_id IS NULL;
-    This returns only the customers who are in the database but have no corresponding entries in the orders table.
-    ```
-
-> --- ***Right Anti-Join***
-
-The Right Anti-Join is the exact opposite of the left version. It returns rows from the right table that have no match in the left table.
-
-- Logic: The right table acts as the primary source, and the left table is used as a filter.
-- The "Better" Way: While you can use a `RIGHT JOIN ... WHERE left_key IS NULL`, it is often cleaner to simply switch the table order and use a Left Join. Starting with the main table of interest on the left makes the query easier to read.
-
-!!! Example
-    To find "orphaned" orders that do not have a valid customer associated with them:
-    ```sql
-    SELECT  FROM orders AS O
-    LEFT JOIN customers AS C ON O.customer_id = C.ID
-    WHERE C.ID IS NULL;
-    ```
-
-> --- ***Full Anti-Join**
-
-A Full Anti-Join returns all rows that do not match in either table. This is the opposite of an Inner Join; instead of showing only the overlap, it shows everything except the overlap.
-
-- Syntax: Use a FULL JOIN combined with a WHERE clause using an OR operator to check for nulls on both sides.
-
-!!! Example
-    To find all "strange cases" (customers with no orders AND orders with no customers) simultaneously:
-    ```sql
-    SELECT  FROM customers AS C
-    FULL JOIN orders AS O ON C.ID = O.customer_id
-    WHERE C.ID IS NULL OR O.customer_id IS NULL;
-    ```
-
-> --- ***Mimicking an Inner Join (Bonus Tip)***
-
-You can achieve the effect of an Inner Join by using a Left Join combined with a `WHERE ... IS NOT NULL` condition.
-
-!!! Example
-    `SELECT  FROM customers AS C LEFT JOIN orders AS O ON C.ID = O.customer_id WHERE O.customer_id IS NOT NULL;`
-    This keeps only the rows where a match was found, effectively filtering out the non-matching left-table rows.
-
-> --- ***Cross Join***
-
-A Cross Join (or Cartesian Join) combines every row from the left table with every row from the right table.
-
-- Key Characteristics:
-       It generates all possible combinations.
-       The total number of rows returned is the product of the row counts of both tables (e.g., 5 customers × 4 orders = 20 rows).
-       No "ON" condition: Unlike other joins, you do not use a key to match rows because you are combining everything regardless of whether they match.
-- Use Cases: It is rarely used in daily operations but is helpful for simulations, generating test data, or creating full matrices (e.g., combining every product with every available color).
-
-!!! Example
-    ```sql
-    SELECT  FROM customers
-    CROSS JOIN orders;
-    ```
-
-> --- ***Decision Tree for Joining Tables***
-
-When deciding how to combine tables, your choice depends on whether you are looking for matching data, all data, or unmatching data.
-
-- Matching Data Only: Use an Inner Join; this is the only type used when you strictly want the overlapping data between tables.
-
-- All Data (No Missing Records):
-    Left Join: Use this when you have a master table (a "main" table) that is more important than the others and you want to keep all its records.
-    Full Join: Use this if all tables are equally important and you want to see all data from every side.
-
-- Unmatching Data (Checkups):
-    Left Anti-Join: Use this to see unmatching data from one important side.
-    Full Anti-Join: Use this when both tables are important and you want to see unmatching data from both.
-
-## **SQL SET**
-
-> --- ***Core Rules for Set Operators***
-
-For a set operator to function, the participating queries must follow these strict structural rules:
-
-- Rule 1: One Order By: You can only use the `ORDER BY` clause once, and it must be placed at the very end of the entire query.
-- Rule 2: Matching Column Count: Both queries must select the exact same number of columns.
-- Rule 3: Compatible Data Types: The data types of the columns must match or be compatible. SQL uses the first query to set the data type; if the second query's data cannot be converted (e.g., trying to map text to an integer), the query will fail.
-- Rule 4: Identical Column Order: SQL maps columns by their position (the first column of Query A with the first column of Query B). You must ensure the data in those positions matches logically.
-- Rule 5: First Query Controls Aliases: The column names (aliases) shown in the final output are determined solely by the first query. Any aliases in subsequent queries are ignored.
-- Rule 6: Logical Mapping: SQL only checks if data types match, not if the data makes sense. It is the user's responsibility to ensure they aren't accidentally mapping "first names" to "last names".
-
-> --- ***The Four Set Operators***
-
-A. UNION
-
-Returns all distinct, unique rows from both queries. It combines the data and removes any duplicates found in the overlapping sets.
-!!! Example
-    Combining a customer list and an employee list to find every unique person. If "Kevin Brown" is both a customer and an employee, he will appear only once in the result.
-
-B. UNION ALL
-
-Returns all rows from both queries, including duplicates.
-
-- Performance: `UNION ALL` is significantly faster than `UNION` because it skips the extra step of searching for and removing duplicates.
-!!! Example
-    Combining the same lists as above, "Kevin Brown" would appear twice in the output.
-
-C. EXCEPT (or MINUS)
-
-Returns distinct rows from the first query that are not found in the second query. This is the only set operator where the order of queries changes the result.
-!!! Example
-    `SELECT name FROM employees EXCEPT SELECT name FROM customers;` finds employees who are not also customers.
-
-D. INTERSECT
-
-Returns only the rows that are common to both queries (the overlap) and removes duplicates.
-!!! Example
-    `SELECT name FROM employees INTERSECT SELECT name FROM customers;` finds only the people who are both employees and customers.
-
-> --- 3. Professional Use Cases and Examples
-
-- Use Case 1: Consolidating Similar Tables
-Instead of writing four separate reports for Employees, Customers, Suppliers, and Students, you can use `UNION` to combine them into one "Persons" table. This allows you to write a single analytical query on the combined data rather than repeating logic for four different tables.
-
-- Use Case 2: Handling Split Tables
-Databases often split large tables by year (e.g., `Orders_2023`, `Orders_2024`). You can use `UNION` to recreate one master `Orders` table for multi-year analysis.
-
-- Use Case 3: Data Migration and Quality Checks
-
-To ensure two tables are identical after a migration:
-
-1. Run `TableA EXCEPT TableB`.
-2. Run `TableB EXCEPT TableA`.
-3. If both results are empty, the tables are 100% identical.
-
-> --- ***Best Practices for Set Operators***
-
-- Avoid `SELECT`: Explicitly list your columns. This prevents errors if one table's schema changes (e.g., adding or reordering columns) in the future.
-
-- Add a "Source" Column: When combining tables, add a static string to identify where each row originated.
-
-!!! Example
-    ```sql
-    SELECT 'Orders' AS SourceTable, OrderID FROM Orders
-    UNION
-    SELECT 'Archive' AS SourceTable, OrderID FROM Orders_Archive;
-    This helps users distinguish between active and archived data in the final report.
-    ```
-
-## **SQL Functions**
-
-> --- ***What is an SQL Function?***
-
-A function is a built-in code block that accepts an input value, processes it through transformations, and returns a result as an output value. Functions are essential for four main types of tasks:
-
-- Data Manipulation: Changing values to solve specific tasks.
-- Aggregations & Analysis: Finding insights and building reports.
-- Data Cleansing: Identifying and fixing "bad" data within tables.
-- Data Transformation: Converting data into a more usable format.
-
-> --- ***The Two Main Categories***
-
-Functions are divided into two high-level groups based on how they handle rows:
-
-- Single-Row Functions: These follow a "one value in, one value out" logic.
-!!! Example
-    If you input the name "Maria," the function processes that specific string and returns a single modified value (like "MARIA" or "ma").
-- Multi-Row (Aggregate) Functions: These take multiple rows as input and return a single summary value.
-!!! Example
-    The `SUM` function can take a column of values (e.g., 30, 10, 20, 40) and return the single total of 100.
-
-> --- ***Nesting Functions (The "Factory" Logic)***
-
-In SQL, you can nest functions, meaning you use multiple functions together to manipulate a single value. The sources compare this to a factory where material is processed through multiple stations.
-
-- How it Works: The output of the first function becomes the input for the next function.
-!!! Example
-    1. LEFT: Extract the first two characters from "Maria" → Output: "Ma".
-    2. LOWER: Take "Ma" and convert it to lowercase → Output: "ma".
-    3. LEN (Length): Measure the characters in "ma" → Output: 2.
-- Execution Order: SQL always executes from the inner function to the outer function. In the example above, `LEFT` runs first, followed by `LOWER`, and finally `LEN`.
-
-> --- ***Functional Subcategories***
-
-Within the two main categories, functions are further grouped by the type of data they handle:
-
-| Single-Row Functions (Data Prep) | Multi-Row Functions (Analysis) |
-| :--- | :--- |
-| String: Manipulating text values. | Basic Aggregates: Standard summaries like SUM or AVG. |
-| Numeric: Handling math and numbers. | Window/Analytical: Advanced functions for complex data analysis. |
-| Date & Time: Formatting and calculating time. | |
-| Null Handling: Managing missing data. | |
-
-## **SQL String Functions**
-
-> --- ***Data Manipulation Functions***
-
-These functions are used to transform or combine existing string values into a new format.
-
-- CONCAT (Concatenation): Combines multiple string values into a single column. This is useful for merging separated data, such as first and last names, into a "Full Name" field.
-!!! Example
-    `SELECT CONCAT(first_name, ' ', country) AS name_country FROM customers;`.
-- UPPER and LOWER: These change the case of a string. `UPPER` capitalizes every character, while `LOWER` converts everything to lowercase.
-!!! Example
-    `SELECT LOWER(first_name) AS low_name, UPPER(first_name) AS up_name FROM customers;`,.
-- TRIM: Removes "leading" (start) and "trailing" (end) spaces from a string. Spaces are often considered "evil" in data because they are hard to see but can cause errors in queries. To find rows with hidden spaces, compare the column to its trimmed version: `WHERE first_name != TRIM(first_name)`.
-- REPLACE: Substitutes a specific "old" character or string with a "new" one. To remove a character entirely, replace the old value with an empty string (`''`),.
-!!! Example
-    Changing a file extension from `.txt` to `.csv`: `REPLACE('reports.txt', '.txt', '.csv')`.
-
-> --- ***Calculation Functions***
-
-LEN (Length): Counts the total number of characters, digits, or symbols in a value.
-
-- Versatility: It works on strings, numbers, and dates (including separators like underscores or dashes).
-!!! Example
-    `SELECT LEN(first_name) FROM customers;`.
-
-> --- ***Extraction Functions***
-These are used to pull out specific parts of a string based on position,.
-
-- LEFT and RIGHT: Extracts a specific number of characters starting from either the beginning (`LEFT`) or the end (`RIGHT`) of the string,. It is often best to `TRIM` a value before using `LEFT` or `RIGHT` to ensure you aren't accidentally extracting empty spaces.
-!!! Example
-    `SELECT LEFT(first_name, 2)` retrieves the first two characters.
-- SUBSTRING: Extracts a part of a string starting from any specified position. It requires three arguments: the value, the starting position, and the number of characters to extract.
-!!! Example
-    To extract two characters starting after the second character, you would set the starting position to 3.
-
-> --- ***Advanced Concept: Building Dynamic Queries***
-
-In professional SQL, functions are often nested to solve complex tasks. A common "trick" for the `SUBSTRING` function is to make it dynamic so it works on strings of varying lengths,.
-
-- Dynamic Extraction: If you want to extract "everything after the first character," you can start at position 2 and use the `LEN` function as the third argument,. This ensures that whether a name is 4 characters or 20 characters long, the query will always capture the remainder of the string.
-
-!!! Example
-    ```sql
-    SELECT SUBSTRING(TRIM(first_name), 2, LEN(first_name)) FROM customers;
-    ```
-
----
-
-## **SQL Number Functions**
-
-> --- ***The ROUND Function***
-
-The `ROUND` function is used to round a numeric value to a specified number of decimal places.
-
-- How it Works: SQL looks at the digit immediately following your specified decimal place to determine whether to round the number up or leave it as is.
-   The "5 or Higher" Rule:
-       If the deciding digit is 5 or higher, SQL rounds the number up,.
-       If the deciding digit is less than 5, the number does not round up and stays as it is.
-- Resetting Digits: Any digits remaining after the rounding point are reset to zero,.
-
-!!! Examples
-    Rounding to 2 Decimal Places: `ROUND(3.516, 2)` results in 3.52. The third digit (6) is higher than 5, so the second digit (1) rounds up to 2.
-    Rounding to 1 Decimal Place: `ROUND(3.516, 1)` results in 3.5. The second digit (1) is less than 5, so the first digit (5) remains unchanged.
-    Rounding to 0 Decimal Places: `ROUND(3.516, 0)` results in 4. Because the first digit after the decimal (5) is 5 or higher, the integer (3) is rounded up to 4.
-
-> --- ***The ABS (Absolute) Function***
-
-The `ABS` function is used to determine the absolute value of a number, effectively converting any negative number into a positive number.
-
-- Behavior:
-       If the input is negative, it returns the positive version.
-       If the input is already positive, the function does nothing and returns the same value.
-- Professional Application: This is highly useful for correcting database errors. For example, if a database accidentally contains "negative sales" (which is logically impossible), you can use `ABS` to transform those errors into valid positive numbers.
-
-!!! Examples
-    `ABS(-10)` returns 10.
-    `ABS(10)` returns 10.
-
----
-
-## **SQL Date Time Functions**
-
-> --- ***Three Sources of Dates***
-
-You can query date information from three different sources.
-1. Stored Columns: Data already saved in database tables (e.g., `order_date` or `creation_time`).
-2. Hardcoded Strings: Static dates added manually to a query (e.g., `'2025-08-20'`).
-3. GETDATE() Function: A fundamental function that returns the current system date and time at the moment the query is executed.
-
-> --- ***Part Extraction Functions***
-
-These functions extract specific components from a date.
-
-- Basic Extraction (Day, Month, Year)
-These functions are quick and return the result as an integer.
-!!! Example
-    `SELECT MONTH(creation_time) AS month_num` returns `1` for January, `2` for February, etc..
-
-- DATEPART
-Returns a specific part of a date as an integer. It is more powerful than the basic functions because it can extract parts like weeks, quarters, and hours.
-!!! Example
-    `DATEPART(quarter, creation_time)` returns `1` for dates in January through March.
-
-- DATENAME
-Similar to `DATEPART`, but it returns the name of the part as a string (text), making it ideal for human-readable reports.
-!!! Example:
-    `DATENAME(month, '2025-08-20')` returns "August" (string), whereas `DATEPART` would return 8 (integer).
-    Usage Tip: Use `DATENAME(weekday, date)` to get the full name of the day, such as "Wednesday".
-
-> --- ***Truncation and Calculations***
-
-- DATETRUNC
-This function "truncates" a date to a specific level in the hierarchy by resetting all lower levels to their minimum values (0 for time, 01 for days). If you truncate at the Month level, the Year and Month are kept, but the Day is reset to `01` and the Time is reset to `00:00:00`.
-!!! Example
-    `DATETRUNC(year, creation_time)` resets everything to January 1st of that year.
-
-- EOMONTH (End of Month)
-Returns the last day of the month for a given date.
-!!! Example
-    If the input is `'2025-02-01'`, `EOMONTH` returns `'2025-02-28'`.
-    Trick for Start of Month: While there is no "Start of Month" function, you can use `DATETRUNC` at the month level to get the first day of any month.
-
-> --- ***Professional Applications and Best Practices***
-
-- Data Aggregation
-Extracting parts allows you to group data for reporting, such as calculating "Total Sales by Year" or "Orders per Month".
-!!! Example
-    To count orders per month:
-    `SELECT MONTH(order_date), COUNT() FROM sales_orders GROUP BY MONTH(order_date);`.
-
-- Filtering Data
-You can use extracted parts in a `WHERE` clause to filter for specific timeframes.
-!!! Example
-    To see only February orders: `WHERE MONTH(order_date) = 2;`.
-    Performance Tip: Always prefer filtering by integers (using `MONTH` or `DATEPART`) rather than strings (using `DATENAME`). Searching for numbers is faster for the database.
-
-> ---  ***Formatting vs. Casting***
-
-- Formatting: Changing how a value looks. For example, displaying a date with slashes instead of dashes, or showing a number with a currency symbol.
-- Casting: Changing the data type from one to another. For example, converting a string of text ("123") into an actual integer (123) so you can perform math on it.
-
-> --- ***Date Format Specifiers***
-
-To format dates, SQL uses "format specifiers" which act as a code for different components. These are case-sensitive.
-
-- Year: `yyyy` (4 digits) or `yy` (2 digits).
-- Month: `MM` (2 digits), `MMM` (abbreviation), or `MMMM` (full name).
-!!! Note
-    Big M is for Month; small m is for minutes.
-- Day: `dd` (2 digits), `ddd` (abbreviated name), or `dddd` (full name).
-- Time: `HH` (24-hour), `hh` (12-hour), `mm` (minutes), `ss` (seconds), and `tt` (AM/PM designator).
-
-> --- ***The `FORMAT` Function***
-
-This function is used primarily to change the look of dates and numbers into a string value.
-
-- Syntax: `FORMAT(value, format, [culture])`
-
-!!! Examples
-    Date Formatting: `FORMAT(creation_time, 'dd-MM-yyyy')` changes the international standard (yyyy-MM-dd) to a European style.
-    Number Formatting:
-       'N': Adds commas to large numbers (Numeric).
-       'C': Adds a currency symbol (Currency).
-       'P': Converts the number to a percentage (Percentage).
-    Custom Strings: You can combine static text with `FORMAT` to create complex labels, such as "Day: Monday Jan Q1 2025".
-
-> --- ***The `CONVERT` Function***
-
-`CONVERT` is a versatile function that can perform both casting and formatting for date and time values.
-
-- Syntax: `CONVERT(data_type, value, [style_number])`
-!!! Examples
-    Casting Only: `CONVERT(int, '123')` turns a string into an integer.
-    Casting and Formatting: `CONVERT(varchar, creation_time, 32)` converts a date-time value into a string formatted as `MM-dd-yyyy`.
-
-> --- ***The `CAST` Function***
-
-`CAST` is the most straightforward function, used strictly for changing data types. It does not allow for custom styling or formatting; it always returns the SQL standard format.
-
-- Syntax: `CAST(value AS data_type)`
-
-!!! Examples
-    String to Number: `CAST('123' AS int)`.
-    DateTime to Date: `CAST(creation_time AS date)` removes the time information and keeps only the date.
-    Integer to String: `CAST(123 AS varchar)`.
-
-> --- ***Function Comparison Summary***
-
-| Feature | `CAST` | `CONVERT` | `FORMAT` |
-| :--- | :--- | :--- | :--- |
-| Primary Goal | Change data type | Change type & format | Change look (to string) |
-| Formatting | No formatting | Date/Time styles only | Date/Time and Numbers |
-| Output Type | Any type | Any type | String only |
-| Best For... | Quick type changes | Date standard styles | Custom reports/Numbers |
+`IN`: Checks if a value exists within a defined list.
 
 !!! Tip
-    `FORMAT` is highly useful for data preparation before aggregation. You can format dates as 'MMM-yy' (e.g., "Jan-25") and then group by that column to create clean, readable monthly sales reports.
+    Use `IN` instead of multiple `OR` statements. It is cleaner, easier to extend, and offers better performance.
 
-> --- ***DATEADD Function***
+> --- **Search Operator (LIKE)**
 
-The DATEADD function is used to add or subtract a specific time interval (years, months, days, etc.) to or from a date,.
+Used to search for patterns within text using wildcards.
 
-- Syntax: `DATEADD(part, interval, date)`.
-    Part: The specific portion of the date you want to manipulate (e.g., `year`, `month`, `day`).
-    Interval: The amount you want to change. A positive number adds time, while a negative number subtracts time.
-    Date: The original date value you are starting from.
+`%` (Percentage): Represents any number of characters (zero, one, or many).
 
-!!! Examples
-    Adding Years: `DATEADD(year, 2, order_date)` results in a date exactly two years later than the original.
-    Adding Months: `DATEADD(month, 3, order_date)` moves the date three months forward (e.g., January becomes April).
-    Subtracting Days: `DATEADD(day, -10, order_date)` retrieves a date 10 days before the original.
+       `'M%'`: Starts with M.
+       `'%n'`: Ends with n.
+       `'%r%'`: Contains r anywhere.
 
-> --- ***DATEDIFF Function***
-
-The DATEDIFF function calculates the difference between two dates and returns the result as a number,.
-
-- Syntax: `DATEDIFF(part, start_date, end_date)`.
-    Part: The unit of measurement for the result (e.g., how many `years`, `months`, or `days` are between them).
-    Start Date: The earlier (younger) date.
-    End Date: The later (older) date.
-
-- Professional Use Cases:
-
-1. Calculating Age: To find an employee's age, you calculate the years between their birth date and the current date: `DATEDIFF(year, birth_date, GETDATE())`,.
-2. Shipping Duration: To find how long it took to ship an order, you calculate the days between the order date and the shipping date: `DATEDIFF(day, order_date, ship_date)`.
-3. Time Gap Analysis: You can use `DATEDIFF` alongside the `LAG` window function to find the number of days between a current order and the previous order placed by a customer,.
-
-> --- ***ISDATE Function***
-
-The ISDATE function is a validation tool used to check if a string or value is a valid date.
-
-- Return Values: It returns 1 (True) if the value is a valid date and 0 (False) if it is not.
-- Logic: SQL evaluates whether the value follows standard database date formats.
-!!! Examples
-    `ISDATE('2025-08-20')` returns 1.
-    `ISDATE('123')` returns 0.
-    `ISDATE('2025')` returns 1 (SQL is smart enough to interpret a single year as the first of January of that year).
-    Non-standard formats: If you provide a date in a format SQL does not recognize (e.g., `day/month/year` when the system expects `year/month/day`), it will return 0.
-
-> --- ***Advanced Use Case: Data Cleansing***
-
-A major use for `ISDATE` is handling data quality issues where a string column contains mostly dates but some "corrupt" or invalid text.
-
-- The Problem: Attempting to `CAST` a string column directly to a `DATE` type will result in a query error if even one row contains invalid data.
-- The Solution: Use a CASE WHEN statement combined with `ISDATE` to safely convert the data.
-
-!!! Example
-    ```sql
-    CASE
-        WHEN ISDATE(order_date) = 1 THEN CAST(order_date AS DATE)
-        ELSE NULL -- Or a dummy value like '9999-12-31'
-    END AS New_Order_Date
-    This approach allows you to successfully convert valid strings into dates while turning invalid strings into `NULL` (or a identifiable dummy value) instead of crashing the entire query.
-    ```
+`_` (Underscore): Represents exactly one character.
+       `'__R%'`: Matches a string where 'R' is specifically in the third position.
 
 ---
 
-## **SQL NULL Functions**
+## **JOINS**
 
-> --- ***Understanding NULLs***
+> --- **The Four Basic Join Types**
 
-In SQL, a NULL represents a missing, unknown, or nonexistent value.
-   It is not zero: NULL is not equivalent to the number 0.
-   It is not an empty string: It is not a blank space or an empty set of quotes ('').
-   Logical Meaning: A NULL simply tells us that there is "nothing" there or the value is currently unknown.
+| Join Type | Result | Order of Tables Matters? |
+| :--- | :--- | :--- |
+| INNER JOIN | Returns only matching rows from both tables. | No; A join B is the same as B join A. |
+| LEFT JOIN | Returns all rows from the left table and matching rows from the right. | Yes; The first table mentioned is the "primary" source. |
+| RIGHT JOIN | Returns all rows from the right table and matching rows from the left. | Yes; The second table is the "primary" source. |
+| FULL JOIN | Returns all rows from both tables, matching or not. | No; Both tables are equally important. |
 
-> --- ***Functions to Replace NULLs***
+!!! Note
+    In `LEFT`, `RIGHT`, and `FULL` joins, if there is no matching data, SQL will display NULL for the missing values.
 
-If you want to remove a NULL from your results and replace it with a meaningful value, you use `ISNULL` or `COALESCE`.
+> --- **Anti-Joins: The "Non-Existence" Check**
 
-A. ISNULL (SQL Server Specific)
+Anti-joins are used to find rows in one table that do not have a corresponding match in another. These are essential for identifying "strange cases" or missing data.
 
-This function checks a value and replaces it if it is NULL. It is limited to two arguments.
-   Syntax: `ISNULL(check_expression, replacement_value)`.
+Left Anti-Join: Returns rows from the left table only if they have no match on the right.
+       Logic: `LEFT JOIN` + `WHERE [right_table_key] IS NULL`.
 
-!!! Example
-    (Static Replacement): `ISNULL(shipping_address, 'Unknown')` replaces any missing address with the word "Unknown".
-    (Column Replacement): `ISNULL(shipping_address, billing_address)` uses the billing address as a backup if the shipping address is missing.
+Right Anti-Join: Returns rows from the right table that have no match on the left.
+       Logic: `RIGHT JOIN` + `WHERE [left_table_key] IS NULL`.
 
-B. COALESCE (Standard SQL)
+Full Anti-Join: Returns all unmatching rows from both sides (the opposite of an Inner Join).
+       Logic: `FULL JOIN` + `WHERE [left_key] IS NULL OR [right_key] IS NULL`.
 
-`COALESCE` is more flexible and powerful because it accepts a list of multiple values. It returns the first non-null value in that list, checking from left to right.
+> --- **The Cross Join (Cartesian Product)**
 
-!!! Example
-    `COALESCE(shipping_address, billing_address, 'N/A')`. SQL checks the shipping address; if that's null, it checks the billing address; if both are null, it returns "N/A".
-    Advantage: It is a database standard and works across SQL Server, Oracle, and MySQL, making scripts easier to migrate.
+A Cross Join combines every row from the first table with every row from the second table.
 
-> --- ***Function to Create NULLs: NULLIF***
+Key Distinction: Unlike all other joins, it does not require an `ON` condition because it doesn't care about matching data.
 
-`NULLIF` does the opposite of the functions above; it replaces a real value with a NULL.
-  
-- Logic: It returns NULL if the two values are equal. If they are not equal, it returns the first value.
-Use Case (Data Cleansing): If a price is entered as -1 (an error), you can turn it into a NULL: `NULLIF(price, -1)`.
-Use Case (Preventing Errors): To avoid "Divide by Zero" errors, you can wrap the divisor: `Sales / NULLIF(quantity, 0)`.
+The Math: The total number of rows is the product of both tables (e.g., 5 customers × 4 orders = 20 rows).
 
-> --- ***Keywords for Checking NULLs***
+Use Cases: Generating test data, simulations, or finding all possible combinations (like every product matched with every available color).
 
-To filter or check for the existence of NULLs without changing them, use these boolean keywords.
+> --- **The Join Decision Tree**
 
-- IS NULL: Returns true if the value is missing.
-!!! Example
-    `WHERE score IS NULL` finds customers with no scores.
-- IS NOT NULL: Returns true if a value exists.
-!!! Example
-    `WHERE score IS NOT NULL` retrieves a clean list of customers with scores.
+When deciding how to combine tables, follow this logic based on your goal:
 
-> --- ***Professional Use Cases***
+To see ONLY matching data: Use an Inner Join.
 
-- Data Aggregations
-Standard aggregate functions (SUM, AVG, MIN, MAX) totally ignore NULLs.
-   The Risk: If you have sales of 15, 25, and NULL, `AVG` will return 20 (it divides by 2 instead of 3).
-   The Fix: If the business considers a NULL to be a zero, handle it first: `AVG(COALESCE(score, 0))`.
+To see EVERYTHING (Don’t want to miss any data):
+       If one table is more important (a "Master" table): Use a Left Join.
+       If all tables are equally important: Use a Full Join.
 
-- Mathematical & String Operations
-Any operation involving a NULL (using `+`, `-`, etc.) results in a NULL because you cannot perform math on an unknown value.
-   String Concatenation: `First_Name + ' ' + Last_Name` will return NULL if the last name is missing.
-   The Fix: Use `COALESCE(last_name, '')` to replace the NULL with an empty string so the first name still displays.
+To see ONLY unmatching data (Checkups):
+       From only one specific side: Use a Left Anti-Join.
+       From both sides: Use a Full Anti-Join.
 
-- Joining Tables
-SQL cannot compare NULLs in join keys. If Table A has a NULL in the key and Table B also has a NULL, an Inner Join will ignore them, and you will lose data.
-   The Fix: Handle the NULLs directly in the `ON` clause: `ON ISNULL(T1.Type, '') = ISNULL(T2.Type, '')`.
+## **Set Operators**
 
-- Sorting Data
-By default, `ORDER BY` places NULLs at the start of an ascending list.
+SQL Joins: Combine tables side-by-side by merging columns, resulting in a wider table.
 
-Professional Solution: To force NULLs to the end while keeping the rest in ascending order, create a "flag" column
+Set Operators: Combine tables by appending rows underneath each other, resulting in a longer table.
 
-    ```sql
-    ORDER BY (CASE WHEN score IS NULL THEN 1 ELSE 0 END), score;
-    This pushes the NULLs (flag 1) to the bottom regardless of the actual score values.
-    ```
+Key Requirement: While joins require a key column (like an ID), set operators require the queries to have the same column structure.
+
+> --- **The Four Set Operators**
+
+`UNION`: Returns all distinct rows from both queries. It automatically removes duplicates.
+
+`UNION ALL`: Returns all rows from both queries, including duplicates.
+
+!!! Tip
+    `UNION ALL` is much faster than `UNION` because it doesn't perform the extra step of checking for and removing duplicates.
+
+`EXCEPT` (or `MINUS`): Returns distinct rows from the first query that are not found in the second query.
+
+`INTERSECT`: Returns only the rows that are common to both queries.
+
+> --- **Expert Tips & Interview Strategies**
+
+Choose `UNION ALL` by Default: If you know your data has no duplicates or if you are performing a quality check to find duplicates, use `UNION ALL` for better performance.
+
+The "Order" Trap: In an interview, remember that `EXCEPT` is the only operator where the order of tables matters. Switching the order will yield completely different results.
+
+Avoid `SELECT `: For production scripts, explicitly list all column names. Using `` is "quick and dirty" and can break your query if the table schema changes in the future.
+
+Identify the Source: When combining data from multiple tables (like `Orders` and `Orders_Archive`), create a static column (e.g., `'Archive' AS SourceTable`) so users know where each row originated.
+
+> --- **Real-World Use Cases (To impress interviewers)**
+
+Data Migration Quality: Use `EXCEPT` in both directions between two databases to ensure they are identical. If both results are empty, the migration was 100% complete.
+
+Finding the "Delta": Data engineers use `EXCEPT` to compare today's data with yesterday's to identify only the new records that need to be loaded.
+
+Centralizing "Person" Data: Instead of writing four separate reports for Employees, Customers, Suppliers, and Students, use a `UNION` to combine them into one master "Persons" table first. This ensures consistent logic across your analysis.
+
+---
+
+## **SQL String**
+
+> --- **Data Manipulation Functions**
+
+These functions are used to change the format or appearance of string values.
+
+`CONCAT`: Combines multiple string values or columns into a single value.
+!!! Tip
+    Always remember to add a manual separator (like a space `' '` or underscore `'_'`) between columns, or the data will be squashed together.
+
+`UPPER` & `LOWER`: Converts text to all capital letters or all lowercase letters.
+       
+`TRIM`: Removes "evil" leading and trailing white spaces from a string.
+!!! Tip
+    Spaces are often invisible. If your data isn't matching as expected, use `TRIM` to clean up the "mess".
+
+`REPLACE`: Swaps a specific character or substring with something new. To remove a character instead of replacing it, specify an empty string (`''`) as the new value.
+       
+
+`LENGTH` (or `LEN`): Counts the total number of characters in a value, including spaces, special characters, and digits.
+
+
+`LEFT`: Extracts a specific number of characters starting from the beginning (left side) of the string.
+
+`RIGHT`: Extracts a specific number of characters starting from the end (right side) of the string.
+
+`SUBSTRING`: Extracts a part of a string from any specified position. Needs three arguments: the value, the starting position, and the number of characters (length) to extract.
+
+> --- **Important Interview Tips & Expert Logic**
+
+Detecting Hidden Spaces: A classic interview task is finding records with leading or trailing spaces. The speaker suggests two methods:
+    1.  Logical Comparison: Use `WHERE column != TRIM(column)`. If the trimmed version isn't equal to the original, spaces were present.
+    2.  Length Difference: Use `WHERE LENGTH(column) != LENGTH(TRIM(column))`. A difference in length confirms hidden characters.
+
+Nested Functions: Demonstrate expertise by combining functions. For example, if you need the first two characters of a name but the data has leading spaces, use `LEFT(TRIM(first_name), 2)`.
+
+Dynamic Substrings: When you want to extract "everything after a certain point" but the total length of the strings varies (like removing the first character of every name), use `LENGTH` as the third argument in your `SUBSTRING`.
+    The Trick: Providing a length that is longer than the actual string (e.g., `SUBSTRING(name, 2, LENGTH(name))`) ensures you capture all remaining characters without getting an error.
+
+Data Cleansing Awareness: Emphasize that functions like `TRIM` are used for data cleansing to ensure accuracy in analysis and reporting.
+
+## **Date & Time**
+
+> --- **Core Concepts: Date vs. Time vs. DateTime**
+
+In SQL, date and time information is structured into a hierarchy (Year > Month > Day > Hour > Minute > Second).
+
+Date: Contains only year, month, and day (e.g., 2025-08-20).
+
+Time: Contains only hours, minutes, and seconds.
+
+DateTime / Timestamp: Combines both date and time into one structure.
+
+Sources of Dates: You can query dates from database columns, hardcoded strings (static values), or the `GETDATE()` function, which returns the current system date and time.
+
+> --- **Part Extraction Functions (The "Big Three")**
+
+These are the most common functions for retrieving specific components of a date.
+
+`DAY()`, `MONTH()`, `YEAR()`: Quick functions that accept one parameter (the date) and return the corresponding part as an integer.
+
+`DATEPART(part, date)`: A more powerful function that can extract "hidden" information like weeks, quarters, or hours as integers.
+
+`DATENAME(part, date)`: Similar to `DATEPART`, but returns the name of the part (e.g., "August" or "Wednesday") as a string.
+
+> --- **Advanced Manipulation Functions**
+
+`DATETRUNC(part, date)`: This function "resets" or truncates a date to a specific level of granularity. For example, truncating to the `MONTH` level resets the day to 01 and all time components to 00:00:00. It always returns a DateTime value.
+
+`EOMONTH(date)`: Returns the last day of the month for a given date. It returns a Date data type.
+   The "First Day of Month" Trick: There is no "Start of Month" function, but you can simulate it by using `DATETRUNC(month, date)`, which resets the day to the 1st.
+
+
+> --- **Important Interview Tips & Best Practices**
+
+Performance Optimization: When filtering data in a `WHERE` clause, always use numeric functions (`MONTH`, `YEAR`, `DATEPART`) instead of string functions (`DATENAME`). Searching for integers is significantly faster for the database than searching for text strings.
+   Decision-Making Tree:
+       Need Day, Month, or Year as a number? Use `DAY()`, `MONTH()`, or `YEAR()`.
+       Need a full name (like "January") for a report? Use `DATENAME()`.
+       Need a specific part like Week or Quarter? Use `DATEPART()`.
+
+Reporting vs. Analysis: Use `DATENAME` to make reports more "human-readable" (e.g., "Sales for January" looks better than "Sales for Month 1").
+
+Aggregation Strategy: Use `DATETRUNC` to quickly "zoom in or zoom out" of data during analysis. It allows you to group thousands of precise timestamps into manageable buckets like "Sales by Month" or "Sales by Year".
+
+Validation: Use the `ISDATE()` function to test if a string is a valid date that SQL can understand before performing calculations.
+
+> --- **Casting vs. Formatting**
+
+Formatting: Changing how a value looks (e.g., changing 2025-01-01 to "Jan 25"). It always returns the data as a string.
+
+Casting: Changing the actual data type of a value (e.g., turning the string "123" into an integer 123, or a `DateTime` into a `Date`).
+
+| Function | Best Use Case | Can Format? | Can Cast? |
+| :--- | :--- | :--- | :--- |
+| `CAST` | Simple, readable data type changes. | No (Always returns standard format). | Yes (Any type to any type). |
+| `CONVERT` | Casting while applying specific "Style" codes. | Yes (Using predefined style numbers). | Yes (Any type to any type). |
+| `FORMAT` | Custom, complex, or culture-specific looks. | Yes (Full flexibility with specifiers). | Limited (Only to a String). |
+
+When using the `FORMAT` function, these specifiers are case-sensitive.
+
+Years: `yyyy` (4 digits), `yy` (2 digits).
+
+Months: `MM` (2 digits), `MMM` (Abbreviation like "Jan"), `MMMM` (Full name like "January").
+
+Days: `dd` (2 digits), `ddd` (Short name like "Mon"), `dddd` (Full name like "Monday").
+
+Time: `HH` (24-hour), `hh` (12-hour), `mm` (minutes), `ss` (seconds), `tt` (AM/PM).
+   
+
+> --- **Formatting Numbers**
+
+The `FORMAT` function is unique because it can also style numeric values.
+
+`'N'` (Numeric): Adds commas for thousands separation.
+
+`'C'` (Currency): Adds a currency symbol (like `$`) based on the culture.
+
+`'P'` (Percentage): Multiplies by 100 and adds the `%` sign.
+
+> --- **DATEADD: Manipulating Dates**
+
+The `DATEADD` function allows you to add or subtract specific time intervals (years, months, days) to or from a date.
+
+Syntax: `DATEADD(part, interval, date)`.
+    Part: What you want to change (e.g., `year`, `month`, `day`).
+    Interval: A number representing how much to add. Use positive numbers to move forward in time and negative numbers to subtract.
+       Date: The value you are manipulating.
+
+
+> --- **DATEDIFF: Calculating Differences**
+
+`DATEDIFF` (Date Difference) finds the amount of time passed between two specific dates and returns the result as an integer.
+
+Syntax: `DATEDIFF(part, start_date, end_date)`.
+
+Logic: It subtracts the start date from the end date based on the specified part (years, months, or days).
+
+Common Use Cases for Interviews:
+    Calculating Age: Use `DATEDIFF(year, birth_date, GETDATE())` to find the number of years between a birthday and the current system date.
+    Shipping Duration: Calculate how many days passed between an order being placed and being shipped using `DATEDIFF(day, order_date, ship_date)`.
+    Time Gap Analysis: Finding the number of days between the current order and the previous order by combining `DATEDIFF` with the `LAG` window function.
+
+> --- **ISDATE: Data Validation & Quality**
+
+`ISDATE` is a validation function that checks if a string or numeric value is a valid date.
+
+Return Values: Returns 1 (True) if the value is a valid date and 0 (False) if it is not.
+
+Standard Formats: SQL generally only understands "standard" database formats; non-standard strings (like `day/month/year` in some contexts) may return 0 even if they look like dates to a human.
+
+
+> --- **Important Interview Tips & Professional Strategies**
+
+The "Casting Failure" Trap: A common interview scenario involves a query failing because you tried to `CAST` a string column to a `DATE` type, but the column contained "corrupt" or bad data.
+
+Force-Casting with Logic: To avoid query errors when dealing with bad data quality, the speaker recommends using `CASE WHEN` combined with `ISDATE`:
+    Strategy: `CASE WHEN ISDATE(col) = 1 THEN CAST(col AS DATE) ELSE NULL END`. This forces SQL to only attempt the conversion on valid dates, while turning "bad" data into `NULL` instead of crashing the query.
+
+Identifying Issues: You can quickly find data quality problems by filtering for all rows where `ISDATE(column) = 0`.
+
+Using Dummy Values: Instead of `NULL`, you can use a "dummy" or very large date in your `ELSE` statement to make errors easy to spot in a report.
+
+Analytical Power: Emphasize that these functions are not just for display; they are critical for data analytics, such as calculating average shipping durations per month or finding business-critical "time gaps" between customer actions.
+
+## **NULL**
+
+A NULL represents nothing, unknown, or missing data. NULL is not equal to zero, an empty string, or a blank space.
+
+
+> --- **ISNULL vs. COALESCE (Replacing NULLs)**
+
+`ISNULL(value, replacement)`: Replaces a NULL with a specified default value or another column. It is limited to only two arguments.
+
+`COALESCE(val1, val2, ... valN)`: Returns the first non-null value from a list of multiple values. It checks values from left to right and stops as soon as it finds data.
+
+!!! Tip
+    Always prefer `COALESCE` over `ISNULL`. `COALESCE` is a standard SQL function that works across all databases (Oracle, MySQL, PostgreSQL), whereas `ISNULL` is specific to Microsoft SQL Server. Additionally, `COALESCE` is more powerful because it handles more than two values.
+
+`NULLIF(val1, val2)` (Creating NULLs): Returns NULL if the two values are equal; otherwise, it returns the first value.
+
+!!! Tip
+    Use `NULLIF` to prevent the common "Divide by Zero" error by replacing a `0` divisor with `NULL` (e.g., `sales / NULLIF(quantity, 0)`).
+
+`IS NULL` / `IS NOT NULL` (Checking for NULLs): These are comparison keywords that return a Boolean (True/False).
+
+
+
+> --- **Critical Interview Tips & Use Cases**
+
+1. Aggregations and NULLs
     
+    The Trap: Standard aggregate functions (`AVG`, `SUM`, `MIN`, `MAX`) totally ignore NULL values. 
+    
+    Exception: `COUNT()` counts rows, so it includes NULLs, while `COUNT(column_name)` ignores them.
+    
+    Solution: If the business considers a NULL to be zero, you must handle the NULL (e.g., `COALESCE(score, 0)`) before running the aggregation to get an accurate average.
 
-- Advanced: Left Anti-Join
-This technique finds records in the left table that have no match in the right table (e.g., customers who have never placed an order).
-   How-To: Perform a `LEFT JOIN` and then use `WHERE [Right_Table_Key] IS NULL` to filter for the unmatching rows.
+2. Mathematical & String Operations
+   
+    The Rule: Any number plus NULL equals NULL. Similarly, concatenating a string with a NULL results in a NULL.
+    
+    Interview Advice: Before merging first and last names or adding bonus points to a score, use `COALESCE` to replace NULLs with an empty string (`''`) or a `0` to avoid losing the entire result.
+
+2. Handling NULLs in Joins
+   
+    The Problem: SQL cannot map or match NULL keys during a join. If a joining key contains a NULL, those records will be lost in the output, leading to inaccurate results.
+    
+    The Fix: Use `ISNULL` or `COALESCE` within the `ON` clause to replace NULL keys with a temporary default value (like an empty string) so SQL can successfully match the rows.
+> --- **Detection Strategy: "Don't Trust Your Eyes"**
+
+It is nearly impossible to distinguish between a NULL, an empty string, and a blank space just by looking at query results. 
+
+!!! Tip
+    Always use the `DATALENGTH()` (or `LENGTH()`) function to identify the true value.
+       NULL: Returns a length of NULL.
+       Empty String: Returns a length of 0.
+       Blank Space: Returns a length of 1 or more, depending on the number of spaces.
+
+| Feature | NULL | Empty String | Blank Space |
+| :--- | :--- | :--- | :--- |
+| Storage | Best (consumes the least) | Wastes space | Wastes space |
+| Performance| Fastest for queries | Fast | Slowest (Worst option) |
+| Searching | Must use `IS NULL` | Use `=` operator | Use `=` operator |
+
+## **CASE WHEN**
+
+The `CASE` statement is SQL’s way of applying conditional logic (similar to "if-then" in programming) to evaluate conditions and return specific values.
+
+The Syntax: 
+    `CASE`: Indicates the start of the logic.
+    `WHEN [condition] THEN [result]`: Defines the criteria and the value to show if true.
+    `ELSE [default]`: Optional. Provides a value if all other conditions fail.
+    `END`: Mandatory. Signals the completion of the logic.
+
+The "NULL" Trap: If you skip the `ELSE` clause and none of your conditions are met, SQL will automatically return a `NULL`.
+
+> --- **Top 4 Use Cases for Interviews**
+
+The primary purpose of `CASE` is data transformation—creating new information from existing data without changing the source database.
+
+1.  Categorization: Grouping data into buckets for better reporting (e.g., classifying sales as "High," "Medium," or "Low").
+
+2.  Value Mapping: Translating technical codes or abbreviations into human-readable text (e.g., turning `0` into "Inactive" or `M` into "Male").
+
+3.  Handling NULLs: Replacing `NULL` values with usable data (like `0`) to ensure calculations like `AVG` or `SUM` are accurate for the business.
+
+4.  Conditional Aggregation: Flagging specific rows with a `1` or `0` based on a condition, then using `SUM` to count only those specific records (e.g., "Count only orders greater than $30").
+
+## **WINDOW**
+
+> --- **Window Functions vs. GROUP BY**
+
+The most critical distinction for an interview is how these two handle data granularity:
+
+`GROUP BY`: "Smashes" or "squeezes" multiple rows into a single summary row, causing you to lose the level of detail for individual records.
+
+Window Functions: Perform calculations (like sums or averages) on a subset of data without losing the detail of individual rows.
+
+Key Advantage: If you have 10 input rows, you get 10 output rows, allowing you to show both raw data (like Order ID) and aggregate data (like Total Sales) in the same query.
+
+
+> --- **The Three Components of the `OVER` Clause**
+
+The `OVER` clause tells SQL you are using a window function. It contains three optional parts:
+
+`PARTITION BY`: Divides the data into groups or "windows" (e.g., by Product ID). If left empty, SQL treats the entire dataset as one single window.
+
+`ORDER BY`: Sorts the data within each window. While optional for aggregate functions, it is mandatory for Ranking and Value functions.
+
+`FRAME` Clause: Defines a specific scope of rows within a window to be involved in a calculation (e.g., "the current row and the two following rows").
+
+
+| Group | Functions | Key Interview Detail |
+| :--- | :--- | :--- |
+| Aggregate | `SUM`, `COUNT`, `AVG`, `MIN`, `MAX` | `COUNT` accepts any data type; others require numeric data. |
+| Ranking | `ROW_NUMBER`, `RANK`, `DENSE_RANK`, `NTILE` | Used to assign a rank; they cannot take an expression (must be empty) except for `NTILE`. |
+| Value/Analytics | `LEAD`, `LAG`, `FIRST_VALUE`, `LAST_VALUE` | Used to access specific values from other rows (e.g., the previous order). |
+
+> --- **Mandatory Rules & Limitations**
+
+Placement: You are only allowed to use window functions in the `SELECT` and `ORDER BY` clauses.
+
+No Filtering: You cannot use a window function in the `WHERE` or `GROUP BY` clauses.
+
+No Nesting: You cannot put one window function inside another (e.g., `SUM(RANK() OVER(...))`).
+
+Execution Order: SQL executes the `WHERE` clause first, then calculates window functions on the filtered data.
+
+Mixing with `GROUP BY`: You can use both in the same query only if the window function uses columns that are also present in the `GROUP BY` clause.
+
+> --- **Important Tip**
+
+The Default Frame Trap: Be careful when using `ORDER BY` with aggregate functions. SQL applies a hidden default frame (`ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW`), which creates a "running total" rather than a total for the whole window.
+
+The Power of Partitioning: Use `PARTITION BY` to perform "row-level calculations." For example, you can calculate the total sales for a specific product and display it next to every individual order for that product.
+
+Analytical Strategy: When faced with a complex task (like ranking customers by their total sales), Baraa recommends building the `GROUP BY` query first to get the totals, and then adding the window function (the rank) as the final step.
+
+Flexibility: Window functions allow you to show different levels of aggregation in a single query—such as the individual sale, the total sales for that product, and the total sales for the entire company—all in one row.
+
+Frame Boundaries: Remember that the lower boundary must always come before the higher boundary in the `ROWS BETWEEN` syntax.
+

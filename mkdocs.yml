@@ -8,7 +8,10 @@ edit_uri: edit/main/docs/
 
 
 copyright: >
-  Copyright &copy; 2026 Manishkumar Chetpalli
+  Copyright &copy; 2026 Manishkumar Chetpalli. 
+  This website is maintained for personal learning and documentation purposes.
+  Content is inspired by various public resources and original authors.
+
 
 theme:
   name: material
@@ -152,6 +155,8 @@ extra:
       link: https://www.linkedin.com/in/manishkumarchetpalli/
     - icon: fontawesome/brands/github
       link: https://github.com/manish-chet
+  footer: |
+    ⚠️ Content is written for personal learning purposes based on various public resources.
 
 extra_css:
   - stylesheets/extra.css
