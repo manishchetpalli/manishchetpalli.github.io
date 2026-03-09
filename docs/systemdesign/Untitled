@@ -1,0 +1,38 @@
+
+> --- **Definition of Cloud**
+
+It is defined as services accessed through the internet that are provided by someone else.
+!!! Example
+    Google Drive is a perfect example. Users store files on it and access them via the internet, but the service and infrastructure are managed by Google.
+
+> --- **Why Cloud?**
+
+Traditional IT Challenges: Before cloud, companies had to establish their own data centers. This required renting buildings, buying servers and networking equipment, and hiring 24/7 manpower.
+
+The Cost/Risk Problem: If a company took on a 6-month project, they would spend a massive amount on infrastructure that would become useless once the contract ended.
+
+The Cloud Solution: Cloud providers have already established data centers. Users simply purchase what they need and pay only for what they use. Services can be deleted once they are no longer needed, significantly reducing costs.
+
+> --- 4. Types of Cloud
+
+There are three primary deployment models:
+
+- Public Cloud: Accessible to everyone through the internet.
+- Private Cloud: Accessible only within a specific organization. It is generally more secure than the public cloud.
+- Hybrid Cloud: A combination of both public and private clouds.
+
+
+Software as a Service (SaaS):
+    The provider maintains everything (front end, back end, infrastructure).
+    The user simply uses the service and pays for it.
+    Examples: Gmail, Dropbox.
+    Cost: This is the most costly model because the provider handles all management.
+
+Platform as a Service (PaaS):
+    The user provides their own code.
+    The cloud provider provides the platform to execute it, including the runtime, operating system, and hosting infrastructure.
+
+Infrastructure as a Service (IaaS):
+   The user manages the code and the platform but asks the cloud provider for the underlying infrastructure.
+   This includes servers, storage, networking, and virtualization.
+   The user manages more components here than in the other two models.

@@ -3,7 +3,7 @@ Data warehousing is the process of collecting, integrating, storing and managing
 !!! Note
      The main goal of data warehousing is to support decision-making by providing clean, consistent and timely access to data. It ensures fast data retrieval even when working with massive datasets.
 
-**------------------------------------------------------------------------------------------------------------**
+---
 
 ### ***Data Warehouse Architecture***
 
@@ -13,47 +13,30 @@ Data warehousing is the process of collecting, integrating, storing and managing
 
 > --- ***Need for Data Warehousing***
 
-1. Handling Large Data Volumes - Traditional databases store limited data (MBs to GBs), while data warehouses are built to handle huge datasets (up to TBs), making it easier to store and analyze long-term historical data.
-
-2. Enhanced Analytics - Databases handle transactions; data warehouses are optimized for complex analysis and historical insights.
-
-3. Centralized Data Storage - A data warehouse combines data from multiple sources, giving a single, unified view for better decision-making.
-
-4. Trend Analysis - By storing historical data, a data warehouse allows businesses to analyze trends over time, enabling them to make strategic decisions based on past performance and predict future outcomes.
-
-5. Business Intelligence Support - Data warehouses work with BI tools to give quick access to insights, helping in data-driven decisions and improving efficiency. Components of Data Warehouse
-
-6. Data Sources - These are the various operational systems, databases and external data feeds that provide raw data to be stored in the warehouse. ETL (Extract, Transform, Load) Process - The ETL process is responsible for extracting data from different sources, transforming it into a suitable format and loading it into the data warehouse.
-
-7. Data Warehouse Database - This is the central repository where cleaned and transformed data is stored. It is typically organized in a multidimensional format for efficient querying and reporting.
-
-8. Metadata - Metadata describes the structure, source and usage of data within the warehouse, making it easier for users and systems to understand and work with the data.
-
-9. Data Marts - These are smaller, more focused data repositories derived from the data warehouse, designed to meet the needs of specific business departments or functions.
-
-10. OLAP (Online Analytical Processing) Tools - OLAP tools allow users to analyze data in multiple dimensions, providing deeper insights and supporting complex analytical queries.
-
-11. End-User Access Tools - These are reporting and analysis tools, such as dashboards or Business Intelligence (BI) tools, that enable business users to query the data warehouse and generate reports.
+1. Handling Large Data Volumes
+2. Enhanced Analytics
+3. Centralized Data Storage
+4. Trend Analysis
+5. Business Intelligence Support
+6. Data Sources
+7. Data Warehouse Database
+8. Metadata
+9. Data Marts
+10. OLAP (Online Analytical Processing) Tools
+11. End-User Access Tools
 
 ---
 
 > --- ***Types of Data Warehouses***
 
-Enterprise Data Warehouse (EDW) - A centralized warehouse that stores data from across the organization for analysis and reporting.
-
-Operational Data Store (ODS) - Stores real-time operational data used for day-to-day operations, not for deep analytics.
-
-Data Mart - A subset of a data warehouse, focusing on a specific business area or department.
-
-Cloud Data Warehouse - A data warehouse hosted in the cloud, offering scalability and flexibility.
-
-Big Data Warehouse - Designed to store vast amounts of unstructured and structured data for big data analysis.
-
-Virtual Data Warehouse - Provides access to data from multiple sources without physically storing it.
-
-Hybrid Data Warehouse - Combines on-premises and cloud-based storage to offer flexibility.
-
-Real-time Data Warehouse - Designed to handle real-time data streaming and analysis for immediate insights.
+1. Enterprise Data Warehouse (EDW)
+2. Operational Data Store (ODS)
+3. Data Mart
+4. Cloud Data Warehouse
+5. Big Data Warehouse
+6. Virtual Data Warehouse
+7. Hybrid Data Warehouse
+8. Real-time Data Warehouse
 
 ---
 
@@ -90,7 +73,7 @@ However, while it's possible to store and query unstructured and semi-structured
 !!! Note
      It's important to note that implementing a data warehouse is not a trivial task. It involves data cleaning, data integration, and data transformation tasks that can be complex and time-consuming. Therefore, the decision to create a data warehouse should take into consideration the specific needs of the organization, the availability of resources, and the potential return on investment.
 
-**------------------------------------------------------------------------------------------------------------**
+---
 
 ### **OLTP**
 
@@ -201,9 +184,12 @@ Data Normalization is a process in database design that organizes data to minimi
 3. Efficient Use of Storage - Normalized databases are more compact and often require less storage space, especially for large databases.
 4. Simplified Data Management - Normalization simplifies the management and updating of data as it ensures that a piece of information exists in one place only.
 
-Normalized Data Systems, such as OLTP (Online Transaction Processing) systems, use normalized databases. These systems require high data integrity and support a large number of short online transactions (INSERT, UPDATE, DELETE). Examples include databases for managing sales transactions, customer relationship management (CRM) systems, airline reservation systems, and banking systems. These systems rely on data normalization to ensure data consistency and efficiency in processing a high volume of transactions.
+Normalized Data Systems, such as OLTP (Online Transaction Processing) systems, use normalized databases. These systems require high data integrity and support a large number of short online transactions (INSERT, UPDATE, DELETE). 
 
-**------------------------------------------------------------------------------------------------------------**
+!!! Example
+    Databases for managing sales transactions, customer relationship management (CRM) systems, airline reservation systems, and banking systems. These systems rely on data normalization to ensure data consistency and efficiency in processing a high volume of transactions.
+
+---
 
 ## **Denormalized Data**
 
@@ -250,52 +236,51 @@ Denormalized Data Systems, such as OLAP (Online Analytical Processing) systems o
 It's important to remember that this is not an either/or situation. Often, in a single system, a part of the database might be normalized (to support transactional operations) and another part might be denormalized (to support analytical operations). It's all 
 about choosing the right tool for the right job based on your specific needs.
 
-**------------------------------------------------------------------------------------------------------------**
+---
 
 ## **Data Warehouse Internals**
 
 While a business user might view the Data Warehouse as a single entity, it internally consists of two primary layers:
 
-• Staging Layer (The Landing Zone): This is where data first arrives from source systems. It acts as a temporary or permanent holding area before transformation.
+This is where data first arrives from source systems. It acts as a temporary or permanent holding area before transformation.
 
-• User Access Layer: This is the layer that business users and Business Intelligence (BI) tools interact with. It contains the finalized, modeled data
+This is the layer that business users and Business Intelligence (BI) tools interact with. It contains the finalized, modeled data
 
 > --- **The Staging Layer (Extract Phase)**
 
 The primary goal of this layer is to pull data from source systems as quickly as possible without worrying about complex transformations or modeling.
 
-• One-to-One Mapping: Data is usually moved from the source table to a corresponding staging table with the same structure.
+Data is usually moved from the source table to a corresponding staging table with the same structure.
 
-• No Modeling: No dimensional modeling is applied at this stage; the focus is purely on extraction
+No dimensional modeling is applied at this stage; the focus is purely on extraction
 
 > --- **Types of Staging layer**
 
 - Non-Persistent Staging Layer
 
-Data is loaded into staging, processed into the User Access Layer, and then immediately deleted or truncated.
+   Data is loaded into staging, processed into the User Access Layer, and then immediately deleted or truncated.
 
-• Workflow: Extract → Load to Stage → Transform to Access Layer → Truncate Stage.
+   Extract → Load to Stage → Transform to Access Layer → Truncate Stage.
 
-• Pros: Requires significantly less storage space and has lower security/governance risks since the layer is usually empty.
+   Requires significantly less storage space and has lower security/governance risks since the layer is usually empty.
 
-• Cons: If the DWH becomes corrupt, you must go back to the original source systems to rebuild it.
+   If the DWH becomes corrupt, you must go back to the original source systems to rebuild it.
 
 - Persistent Staging Layer
 
-Data is kept in the staging layer even after it has been loaded into the User Access Layer.
+   Data is kept in the staging layer even after it has been loaded into the User Access Layer.
 
-• Workflow: Extract → Load to Stage → Transform to Access Layer → Retain Data in Stage.
+   Extract → Load to Stage → Transform to Access Layer → Retain Data in Stage.
 
-• Pros: You can rebuild the User Access Layer without hitting the source systems again. It also makes Quality Assurance (QA) easier because you can compare the final data directly against the landed raw data.
+   You can rebuild the User Access Layer without hitting the source systems again. It also makes Quality Assurance (QA) easier because you can compare the final data directly against the landed raw data.
 
-• Cons: Higher storage costs and increased security risks, as sensitive data remains in multiple locations
-
+   Higher storage costs and increased security risks, as sensitive data remains in multiple locations
 
 > --- **The User Access Layer (Modeling Phase)**
 
 In this layer, data from various staging tables is consolidated into Master Tables using Dimensional Modeling. This is where inconsistencies (like different column names for "city" or "location") are resolved
 
-**------------------------------------------------------------------------------------------------------------**
+---
 
 ## **Data Warehouse Transformations**
 
@@ -355,7 +340,7 @@ Incremental loads handle three main types of data changes:
 • Deleted Data: Handling data that is no longer needed. In a DWH, data is often not physically deleted but is instead marked as "Inactive" (e.g., when an employee resigns). It may also involve removing very old data to maintain a specific historical window (e.g., keeping only the last 2 years)
 
 
-**------------------------------------------------------------------------------------------------------------**
+---
 
 ## **DataLake**
 Data Lake is a storage repository, usually on a large scale, that holds a vast amount of raw data in its original, native format until it's needed. Unlike a traditional data warehouse, which stores data in a structured and often processed format, a data lake retains all data—structured, semi-structured, and unstructured—and does not require the schema to be defined before storing the data.
@@ -374,7 +359,7 @@ Data Lake is a storage repository, usually on a large scale, that holds a vast a
 6. Real-time Processing - Supports both batch and real-time data processing, suitable for real-time analytics.
 7. Schema on Read - Doesn't require data modeling before storing, offering flexibility in data usage.
 
-**------------------------------------------------------------------------------------------------------------**
+---
 
 ## **DataMart**
 
@@ -396,11 +381,20 @@ Essentially, a data mart is a condensed version of a data warehouse that is tail
 
 Despite these advantages, it's essential to ensure that data marts are well-coordinated within an organization to avoid issues like data duplication or data inconsistencies. Sometimes, an organization may choose a hybrid approach, having a central data warehouse for the entire organization, and then creating data marts for specific departments or functions.
 
-**------------------------------------------------------------------------------------------------------------**
+---
 
 ## **Data Modeling**
 
 Data Modelling, on the other hand, is a specific part of the data warehouse design process. It involves creating a conceptual model of how data should be structured in the database.
+
+Data modeling typically consists of three levels: conceptual, logical, and physical. The conceptual model defines high-level entities and relationships, the logical model defines tables and attributes, and the physical model represents the actual database implementation including datatypes and indexes.
+
+| Data Model | Real Life           |
+| ---------- | ------------------- |
+| Conceptual | Idea of house       |
+| Logical    | House blueprint     |
+| Physical   | Actual construction |
+
 
 ---
 
@@ -460,30 +454,29 @@ Dimension tables help in performing meaningful analysis of the fact data. They a
 
 - Step 1: Select the Business Process
 
-The first step involves understanding the business domain—whether it is Retail, Real Estate, or Insurance. You must sit with stakeholders to identify the end goal of the analysis.
+   The first step involves understanding the business domain—whether it is Retail, Real Estate, or Insurance. You must sit with stakeholders to identify the end goal of the analysis.
 
-• Key Questions: What does the business do? What specific measurements do you want to analyze (e.g., sales price, patient behavior)?
+   What does the business do? What specific measurements do you want to analyze (e.g., sales price, patient behavior)?
 
-• Retail Use Case Goal: To analyze which products are selling, in which store, on which day, and under what promotional activity.
+   To analyze which products are selling, in which store, on which day, and under what promotional activity.
 
 - Step 2: Declare the Grain
 
-The Grain is the level of detail stored in each record of the Fact table. It is one of the most critical decisions for a data modeler.
+   The Grain is the level of detail stored in each record of the Fact table. It is one of the most critical decisions for a data modeler.
 
-• Atomic Level Grain: It is recommended to capture data at the lowest possible (atomic) level. While this increases storage size because you have more records, it allows you to answer ad-hoc and unknown future questions.
+   It is recommended to capture data at the lowest possible (atomic) level. While this increases storage size because you have more records, it allows you to answer ad-hoc and unknown future questions.
 
-• The Problem with Aggregation: If you store data at an aggregated level (e.g., total sales per customer per day), you cannot later answer questions about specific products.
+   If you store data at an aggregated level (e.g., total sales per customer per day), you cannot later answer questions about specific products.
 
 - Step 3: Identify Dimensions
 
-Dimensions provide the context (Who, What, When, Where) for the facts. Once the grain is correctly declared, identifying dimensions becomes much easier.
+   Dimensions provide the context (Who, What, When, Where) for the facts. Once the grain is correctly declared, identifying dimensions becomes much easier.
 
-• Common Retail Dimensions: Date, Product, Store, and Promotion.
-
-• Role: They answer descriptive questions and provide the "context" for the measurements.
+   They answer descriptive questions and provide the "context" for the measurements.
 
 - Step 4: Identify the Facts
-Facts are the quantitative measurements resulting from the business process (e.g., Sales Quantity, Price). The selection of facts is directly dependent on the Grain you defined in Step 2
+   
+   Facts are the quantitative measurements resulting from the business process (e.g., Sales Quantity, Price). The selection of facts is directly dependent on the Grain you defined in Step 2
 
 > --- **Derived Facts vs. Database Views**
 
@@ -496,20 +489,25 @@ A Derived Fact is a measurement calculated from other existing facts, such as Pr
 > --- **Types of Additive Facts**
 
 Additive facts are measurements that can be summed across any dimension associated with the Fact Table. These are the most common and useful facts for business analysis.
-!!! Example:
-     Sales Amount. You can sum sales for a specific date, for a specific store, or for a specific product without generating a "nonsensical" result
+
+!!! Example
+    Sales Amount. You can sum sales for a specific date, for a specific store, or for a specific product without generating a "nonsensical" result
 
 Non-additive facts are measurements that cannot be summed along any dimension. Attempting to add these values results in a "nonsensical" or incorrect figure.
-!!! Examples
-     ◦ Unit Price: If one soap costs ₹25 and another costs ₹60, saying the total unit price is ₹85 makes no sense.
-     ◦ Temperature: If yesterday was 45°C and today is 28°C, they cannot be added to say the total temperature is 73°C.
-     ◦ Profit Percentage: You cannot simply add percentages (e.g., 10% + 5%) to get a total
+
+!!! Example
+     Unit Price: If one soap costs ₹25 and another costs ₹60, saying the total unit price is ₹85 makes no sense.
+
+     Temperature: If yesterday was 45°C and today is 28°C, they cannot be added to say the total temperature is 73°C.
+     
+     Profit Percentage: You cannot simply add percentages (e.g., 10% + 5%) to get a total
 
 Semi-additive facts can be summed along some dimensions but not all. Typically, they can be added across dimensions like Store or Product, but cannot be added across the Time/Date dimension.
+
 !!! Example
-     Inventory (Quantity on Hand).
-     ◦ Can Add (Store/Product): If Store A has 500 units and Store B has 200 units on Nov 25th, the total inventory for that day is 700.
-     ◦ Cannot Add (Time): If you had 500 units on Monday and 400 on Tuesday, you cannot say you have 900 total units in the inventory; you simply have 400 units remaining
+     Inventory (Quantity on Hand). Can Add (Store/Product): If Store A has 500 units and Store B has 200 units on Nov 25th, the total inventory for that day is 700.
+
+     ◦Cannot Add (Time): If you had 500 units on Monday and 400 on Tuesday, you cannot say you have 900 total units in the inventory; you simply have 400 units remaining
 
 > --- **Types of Fact table**
 
@@ -599,83 +597,92 @@ When designing indicators (like Holiday or Weekday), there is a trade-off betwee
 
 • The Verdict: Because the storage impact is negligible (~65 KB), it is better to store descriptive strings to make reports immediately readable without requiring the user to memorize codes
 
-> --- 1. The Product Dimension Table
-The primary goal of dimension modeling is to provide data in a way that is simple and accessible for decision-makers, BI analysts, and data scientists. 
+- The Product Dimension Table
 
-> ---# A. Product Master Table vs. Active Products
-   Master Table: Managed by a specialized team, this table contains every product ever sold by the company (e.g., 50,000–60,000 records). Entries are never deleted from the master table, even if a product is discontinued, to maintain historical records.
-   Active Products: Only a subset (e.g., 10,000) of these products are currently active and sold across various stores. 
-   Store-Level Fetching: Each store fetches only the product data it needs from the master table based on its specific location and ID. A product only appears in a Sales Transaction table if it is available in that specific store.
+The primary goal of dimension modeling is to provide data in a way that is simple and accessible for decision-makers, BI analysts, and data scientists.
 
-> ---# B. Typical Table Structure
+Master Table: Managed by a specialized team, this table contains every product ever sold by the company (e.g., 50,000–60,000 records). Entries are never deleted from the master table, even if a product is discontinued, to maintain historical records.
+
+Active Products: Only a subset (e.g., 10,000) of these products are currently active and sold across various stores.
+
+Store-Level Fetching: Each store fetches only the product data it needs from the master table based on its specific location and ID. A product only appears in a Sales Transaction table if it is available in that specific store.
+
 A Product Dimension table includes descriptive columns that provide context for sales measurements.
-   Columns: Product ID (Primary Key), Product Description, Brand, Category, Sub-category, Department, Package Size, Fat Content, Weight, and Storage Type.
 
+- The Problem of Redundancy (Star Schema)
 
-> --- 2. The Problem of Redundancy (Star Schema)
 In a Star Schema, all these attributes are stored in a single, flat dimension table. While simple, it leads to significant data redundancy.
 
-   Example: If there are 50,000 products but only 20 departments, the value "Bakery" will be repeated roughly 2,500 times in the department column. 
-   Storage Issues: Storing detailed descriptions for departments or categories within the same table results in many redundant columns and massive storage waste.
+Example: If there are 50,000 products but only 20 departments, the value "Bakery" will be repeated roughly 2,500 times in the department column.
 
-> --- 3. Snowflake Schema and One-to-Many Hierarchies
+Storage Issues: Storing detailed descriptions for departments or categories within the same table results in many redundant columns and massive storage waste.
+
+- Snowflake Schema and One-to-Many Hierarchies
+
 The Snowflake Schema solves redundancy by breaking the flat dimension table into multiple related tables based on hierarchies.
 
-   One-to-Many Hierarchy: One department contains many categories, and one category contains many sub-categories.
-   Implementation: The main Product table stores a Foreign Key pointing to a sub-category table, which in turn points to a category table, and finally to a department table.
+One-to-Many Hierarchy: One department contains many categories, and one category contains many sub-categories.
 
+Implementation: The main Product table stores a Foreign Key pointing to a sub-category table, which in turn points to a category table, and finally to a department table.
 
-> --- 4. Measurements in Dimension Tables
+- Measurements in Dimension Tables
+
 Occasionally, a numerical measurement like Standard Price is stored in a dimension table.
-   When to keep in Dimension: If the price is a fixed attribute that rarely changes and is only needed for occasional lookups.
-   When to keep in Fact: If the measurement is used for continuous, heavy analysis (e.g., calculating potential revenue: `Standard Price  Quantity`), it should be stored in the Fact table for performance.
 
-> --- 5. Analytical Operations: Drill-down and Roll-up
+When to keep in Dimension: If the price is a fixed attribute that rarely changes and is only needed for occasional lookups.
+
+When to keep in Fact: If the measurement is used for continuous, heavy analysis (e.g., calculating potential revenue: `Standard Price  Quantity`), it should be stored in the Fact table for performance.
+
+- Analytical Operations: Drill-down and Roll-up
+
 These terms describe how analysts change the level of detail (grain) in their reports.
 
-   Drill-down (Roll-down): Moving from a high-level summary to a more detailed level by adding columns to the `GROUP BY` clause.
-       Example: Moving from "Department Sales" to "Sales by Brand within a Department".
-   Roll-up (Drill-up): Aggregating data to a higher level of the hierarchy.
-       Example: Aggregating monthly data into quarterly or yearly summaries.
+Drill-down (Roll-down): Moving from a high-level summary to a more detailed level by adding columns to the `GROUP BY` clause.
+   Example: Moving from "Department Sales" to "Sales by Brand within a Department".
+
+Roll-up (Drill-up): Aggregating data to a higher level of the hierarchy.
+   Example: Aggregating monthly data into quarterly or yearly summaries.
 
 By drilling down, a business might discover that while a department's sales are high, a specific brand within that department is underperforming, allowing for targeted improvements.
 
-### 1. Conformed Dimension
+> --- **Conformed Dimension**
+
 A Conformed Dimension is a single dimension table that is used across multiple fact tables in a Data Warehouse. 
-   Most Common Example: The Date Dimension table is the most frequent example because it is created once and reused for various fact tables, such as Retail Sales or Promotion Coverage.
-   Advantage of Consistency: By using the exact same table (not a copy), you avoid redundant storage and confusion between teams. 
-   Standardization: It ensures that column names and meanings remain the same (e.g., using "Calendar Month" everywhere), which helps Business Intelligence (BI) tools maintain accurate and consistent levels for Drill-up and Drill-down operations.
 
----
+Most Common Example: The Date Dimension table is the most frequent example because it is created once and reused for various fact tables, such as Retail Sales or Promotion Coverage.
 
-### 2. Role Playing Dimension
+Advantage of Consistency: By using the exact same table (not a copy), you avoid redundant storage and confusion between teams. 
+
+Standardization: It ensures that column names and meanings remain the same (e.g., using "Calendar Month" everywhere), which helps Business Intelligence (BI) tools maintain accurate and consistent levels for Drill-up and Drill-down operations.
+
+> --- **Role Playing Dimension**
+
 A Role Playing Dimension occurs when a single dimension table plays multiple "roles" within the same fact table. 
-   Example: In an Inventory Accumulating Fact Table, you might have three different date IDs: `Date_Received_ID`, `Date_Inspection_ID`, and `Last_Shipment_Date_ID`.
-   Implementation via Views: Instead of creating physical copies of the date table, you create a View (a logical entity that uses no physical storage) for each role. This allows you to alias column names to match their specific roles (e.g., renaming `Date_Key` to `Order_Date_Key`).
 
+Example: In an Inventory Accumulating Fact Table, you might have three different date IDs: `Date_Received_ID`, `Date_Inspection_ID`, and `Last_Shipment_Date_ID`.
 
+Implementation via Views: Instead of creating physical copies of the date table, you create a View (a logical entity that uses no physical storage) for each role. This allows you to alias column names to match their specific roles (e.g., renaming `Date_Key` to `Order_Date_Key`).
 
 This method makes joins easier and ensures column names make sense for specific business use cases without wasting storage.
 
 ---
 
-### 3. Junk Dimension
+> --- **Junk Dimension**
+
 A Junk Dimension is used to handle low-cardinality information (like "Yes/No" flags or status indicators) that would otherwise clutter a large fact table and waste storage.
 
-   The Problem: If you have a 1-billion row fact table and store text like "Payment Mode" (Cash/Card/UPI) and "Promotion" (Yes/No) directly in it, you could waste billions of bytes of storage.
-   The Solution: Instead of creating multiple tiny dimension tables for each flag, you merge all possible combinations into a single "Junk" dimension table.
-   The Cartesian Product: The number of records in a junk dimension is the product of all flag options (e.g., 4 Payment Modes × 2 Promotion flags × 2 Commission flags = 16 total records).
+The Problem: If you have a 1-billion row fact table and store text like "Payment Mode" (Cash/Card/UPI) and "Promotion" (Yes/No) directly in it, you could waste billions of bytes of storage.
 
-Storage Efficiency Example:
-   Before (Direct Storage): Storing flags as text strings might take 9 Billion bytes (9 GB) for a 1-billion row table.
-   After (Junk Dimension): By replacing those strings with a single small integer ID pointing to a 16-row junk dimension, you only use approximately 2 Billion bytes (2 GB), saving 7 GB of storage while keeping the fact table concise.
+The Solution: Instead of creating multiple tiny dimension tables for each flag, you merge all possible combinations into a single "Junk" dimension table.
 
----
+The Cartesian Product: The number of records in a junk dimension is the product of all flag options (e.g., 4 Payment Modes × 2 Promotion flags × 2 Commission flags = 16 total records).
 
-### 4. Slowly Changing Dimension (SCD)
-The video introduces the Slowly Changing Dimension (SCD) as a critical concept for handling data that changes over time. Detailed explanations for SCD will be covered in separate dedicated videos.
+Before (Direct Storage): Storing flags as text strings might take 9 Billion bytes (9 GB) for a 1-billion row table.
 
-### Summary of Dimension Types
+After (Junk Dimension): By replacing those strings with a single small integer ID pointing to a 16-row junk dimension, you only use approximately 2 Billion bytes (2 GB), saving 7 GB of storage while keeping the fact table concise.
+
+> --- **Slowly Changing Dimension (SCD)**
+
 | Dimension Type | Definition | Key Benefit |
 | :--- | :--- | :--- |
 | Conformed | One table used across multiple fact tables. | Data consistency and standardized reporting. |
@@ -683,13 +690,15 @@ The video introduces the Slowly Changing Dimension (SCD) as a critical concept f
 | Junk | One table merging multiple low-cardinality flags. | Massive storage savings and cleaner fact tables. |
 | SCD | A dimension that changes slowly over time. | Tracks historical changes in data. |
 
+> --- **The Problem: Transactional Table Issues**
 
-### 1. The Problem: Transactional Table Issues
 In a raw transactional system, a single table often contains both context (customer names, product details) and measurements (sales quantity, date). 
 
-   Data Redundancy: Storing information like a customer's name ("Manish") every time they make a purchase leads to massive duplication.
-   Costs: If there are 1 billion records, repeating the same descriptive data 1 billion times significantly increases storage costs and computation costs.
-   Solution: Data modelers split these tables into a central Fact table (measurements) and surrounding Dimension tables (context).
+Data Redundancy: Storing information like a customer's name ("Manish") every time they make a purchase leads to massive duplication.
+
+Costs: If there are 1 billion records, repeating the same descriptive data 1 billion times significantly increases storage costs and computation costs.
+
+Solution: Data modelers split these tables into a central Fact table (measurements) and surrounding Dimension tables (context).
 
 Conceptual SQL Example: From Transactional to Structured
 ```sql
@@ -707,80 +716,29 @@ SELECT date_id, customer_id, product_id, sales_qty FROM raw_data;
 
 ---
 
-### 2. Star Schema
-The Star Schema is the simplest form of dimensional modeling where the Fact table is at the center, surrounded by Dimension tables that are only one level away.
+## **Primary Key (PK)**
 
-   Structure: Every dimension table connects directly to the Fact table via a single join.
-   Denormalization: It often contains redundant data within the dimensions (e.g., repeating a brand name for every product) to keep the design simple.
-   Performance: It is optimized for fast query execution because fewer joins are required to retrieve information.
+A Primary Key is a column (or set of columns) that uniquely identifies a specific row in a table.
 
-Conceptual SQL Example: Star Schema Query
-```sql
--- Only one join needed to get product context
-SELECT f.sales_qty, p.product_name
-FROM fact_sales f
-JOIN dim_product p ON f.product_id = p.product_id;
-```
+Identification: In a raw product table, columns like Category or Sub-category may contain duplicate values (e.g., "Education" appearing multiple times) and cannot be primary keys. However, a Product ID (like 101, 102) is unique to each item and serves as the Primary Key.
+
+- No Nulls: A Primary Key column cannot contain empty or null values.
+- No Duplicates: Every entry must be unique; duplicate entries are strictly prohibited.
+- Quantity: A table can have only one Primary Key.
+- Format: It can be Numeric (e.g., 101) or Alpha-numeric (e.g., 101ABC).
 
 ---
 
-### 3. Snowflake Schema
-A Snowflake Schema is a more complex structure where dimension tables are normalized into multiple related tables.
+> --- **Transitioning from De-normalized to Normalized Tables**
 
-   Structure: It breaks down dimensions into sub-dimensions (e.g., Product $\rightarrow$ Brand $\rightarrow$ Category). The Fact table is still at the center, but dimensions have their own "branches".
-   Normalization: It removes redundancy. Instead of repeating "Ice Cream" in the product table, you store a `Category_ID` that points to a separate Category table.
-   Storage: It is highly storage-efficient because data is not duplicated.
 
-Conceptual SQL Example: Snowflake Schema Query
-```sql
--- Multiple joins are needed to get brand-level info
-SELECT f.sales_qty, p.product_name, b.brand_name
-FROM fact_sales f
-JOIN dim_product p ON f.product_id = p.product_id
-JOIN dim_brand b ON p.brand_id = b.brand_id; -- Extra join layer
-```
+De-normalized Table: Contains repetitive text like "Education," "Kitchen," or "Grocery" across thousands of rows.
 
----
+Normalization Process: This involves splitting the large table into smaller, specialized tables (e.g., Category Table, Sub-category Table) and using ID references instead of repeating full text. 
 
-### 4. The Data Modeler's Trade-off
-Choosing between Star and Snowflake involves a trade-off between Computation (Execution Speed) and Storage.
+Trade-off: While normalization saves storage, it requires multiple joins to retrieve the full information for a report.
 
-   Storage vs. Speed: Storage is relatively cheap, so modelers often prefer the Star Schema to make execution faster by reducing the number of expensive join operations.
-   High Normalization: Transactional systems (OLTP) are usually highly normalized to ensure data integrity, but Data Warehouses (OLAP) favor denormalization for analytical speed.
-   Decision Factor: If a dimension has millions of records, a modeler might "Snowflake" it to save space; if it is small, they might leave it as a "Star" to keep queries fast.
-
----
-
-### 5. Summary Comparison
-
-| Feature | Star Schema | Snowflake Schema |
-| :--- | :--- | :--- |
-| Storage | Higher (due to redundancy) | Lower (normalized) |
-| Execution Time | Faster (fewer joins) | Slower (more joins) |
-| Complexity | Simple design | Complex/Multi-level |
-| Normalization | Denormalized | Highly Normalized |
-| Joins | Fewer joins required | More joins required |
-
-### **1. Primary Key (PK)**
-A Primary Key is a column (or set of columns) that **uniquely identifies a specific row** in a table.
-
-*   **Identification:** In a raw product table, columns like Category or Sub-category may contain duplicate values (e.g., "Education" appearing multiple times) and cannot be primary keys. However, a **Product ID** (like 101, 102) is unique to each item and serves as the Primary Key.
-*   **Core Features:**
-    *   **No Nulls:** A Primary Key column cannot contain empty or null values.
-    *   **No Duplicates:** Every entry must be unique; duplicate entries are strictly prohibited.
-    *   **Quantity:** A table can have **only one** Primary Key.
-    *   **Format:** It can be **Numeric** (e.g., 101) or **Alpha-numeric** (e.g., 101ABC).
-
----
-
-### **2. Transitioning from De-normalized to Normalized Tables**
-The source explains that storing all information in one large table leads to **redundant (duplicate) data**, which wastes storage.
-
-*   **De-normalized Table:** Contains repetitive text like "Education," "Kitchen," or "Grocery" across thousands of rows.
-*   **Normalization Process:** This involves splitting the large table into smaller, specialized tables (e.g., Category Table, Sub-category Table) and using **ID references** instead of repeating full text. 
-*   **Trade-off:** While normalization saves storage, it requires **multiple joins** to retrieve the full information for a report.
-
-**Conceptual Code Example: Splitting Tables**
+Conceptual Code Example: Splitting Tables
 ```sql
 -- DE-NORMALIZED (Redundant)
 -- Product_ID | Product_Name | Category_Name
@@ -800,25 +758,29 @@ The source explains that storing all information in one large table leads to **r
 
 ---
 
-### **3. Foreign Key (FK)**
-A Foreign Key is essentially a **Primary Key from another table** that is used in the current table to establish a relationship.
+## **Foreign Key (FK)**
 
-*   **Function:** It links tables together. For example, a `Category_ID` in the Product table "points" to the Primary Key of the Category table to identify which category a product belongs to.
-*   **Core Features:**
-    *   **Null Values:** Unlike Primary Keys, Foreign Keys **can have null values** if the information is missing.
-    *   **Duplicates:** They **can have duplicate values** (e.g., many products belonging to the same Category ID).
-    *   **Relationship:** They are used to fetch details through **Joins**.
+A Foreign Key is essentially a Primary Key from another table that is used in the current table to establish a relationship.
+
+   Function: It links tables together. For example, a `Category_ID` in the Product table "points" to the Primary Key of the Category table to identify which category a product belongs to.
+   Core Features:
+       Null Values: Unlike Primary Keys, Foreign Keys can have null values if the information is missing.
+       Duplicates: They can have duplicate values (e.g., many products belonging to the same Category ID).
+       Relationship: They are used to fetch details through Joins.
 
 ---
 
-### **4. Composite Key**
-A Composite Key is used when a **single column is not enough** to uniquely identify a record in a table.
+## **Composite Key**
 
-*   **Requirement:** In scenarios where multiple rows share the same ID but have different attributes (like price), one column alone fails the uniqueness test.
-*   **Definition:** It is a combination of **two or more columns** that together create a unique identifier for a row.
-*   **Example:** If "Pressure Cooker" has the same Product ID for both 2-liter and 5-liter versions, you might combine **Product ID + Price** to uniquely identify each specific product record.
+A Composite Key is used when a single column is not enough to uniquely identify a record in a table.
 
-**Conceptual Code Example: Composite Key**
+Requirement: In scenarios where multiple rows share the same ID but have different attributes (like price), one column alone fails the uniqueness test.
+
+Definition: It is a combination of two or more columns that together create a unique identifier for a row.
+
+Example: If "Pressure Cooker" has the same Product ID for both 2-liter and 5-liter versions, you might combine Product ID + Price to uniquely identify each specific product record.
+
+Conceptual Code Example: Composite Key
 ```sql
 -- Neither Product_ID nor Price is unique on its own
 -- Product_ID | Product_Name     | Price
@@ -829,22 +791,27 @@ A Composite Key is used when a **single column is not enough** to uniquely ident
 -- Together, they uniquely identify the 2L vs 5L version.
 ```
 
-### **Summary Table**
+> --- **Summary Table**
+
 | Feature | Primary Key | Foreign Key |
 | :--- | :--- | :--- |
-| **Uniqueness** | Must be unique | Can be duplicate |
-| **Nulls** | Not allowed | Allowed |
-| **Purpose** | Identify a row | Link tables/establish relationships |
-| **Limit** | One per table | Multiple allowed per table |
+| Uniqueness | Must be unique | Can be duplicate |
+| Nulls | Not allowed | Allowed |
+| Purpose | Identify a row | Link tables/establish relationships |
+| Limit | One per table | Multiple allowed per table |
 
 
-### **1. Natural Key (Business Key)**
-A **Natural Key** is an identifier that is derived directly from **business values** and carries specific meaning,. 
-*   **Structure:** It often combines multiple attributes to create a code. For example, a product key might be `SG4025`, which decodes to **SG** (Sugar), **40** (Price: ₹40/kg), and **25** (Expiry Year: 2025).
-*   **Pharmacy Example:** In the pharmaceutical industry, a natural key might combine the drug name (e.g., Paracetamol), dosage (500mg), batch number, and manufacturing location into one long string.
-*   **Usage:** It is often used in transactional systems to help business users identify records quickly.
+## **Natural Key (Business Key)**
 
-**Conceptual Code Example (SQL):**
+A Natural Key is an identifier that is derived directly from business values and carries specific meaning,. 
+
+Structure: It often combines multiple attributes to create a code. For example, a product key might be `SG4025`, which decodes to SG (Sugar), 40 (Price: ₹40/kg), and 25 (Expiry Year: 2025).
+
+Pharmacy Example: In the pharmaceutical industry, a natural key might combine the drug name (e.g., Paracetamol), dosage (500mg), batch number, and manufacturing location into one long string.
+
+Usage: It is often used in transactional systems to help business users identify records quickly.
+
+Conceptual Code Example (SQL):
 In a transactional system, a natural key might be stored as a string:
 ```sql
 -- Creating a table using a Natural Key (Business Key)
@@ -854,30 +821,29 @@ CREATE TABLE sales_source (
     customer_id VARCHAR(20) -- e.g., 'MANI1234'
 );
 ```
-*Note: This SQL code is synthesized to illustrate the concepts described in the sources.*
 
----
+> --- **Problems with Natural Keys in a DWH**
 
-### **2. Problems with Natural Keys in a DWH**
 While natural keys work in simple systems, they present several challenges in a Data Warehouse environment:
 
-1.  **Violation of Uniqueness:** If a customer’s address changes, a new record might be created. If the natural key is based on their name and phone number (which haven't changed), the Primary Key constraint is violated because the same key now points to two different address records,.
-2.  **Merging Systems:** When two companies merge (e.g., Reliance and Big Bazaar), they may have different logic for generating natural keys, or they might have overlapping IDs, leading to duplicates when the data is combined,.
-3.  **Storage Inefficiency:** Natural keys are often long **Alpha-numeric strings**. Since these keys must be stored in the Fact Table as Foreign Keys, they waste significant storage space (bytes) and degrade query performance,.
-4.  **Indexing:** Indexing on long strings is much slower and more difficult than indexing on integers,.
+1.  Violation of Uniqueness: If a customer’s address changes, a new record might be created. If the natural key is based on their name and phone number (which haven't changed), the Primary Key constraint is violated because the same key now points to two different address records,.
+2.  Merging Systems: When two companies merge (e.g., Reliance and Big Bazaar), they may have different logic for generating natural keys, or they might have overlapping IDs, leading to duplicates when the data is combined,.
+3.  Storage Inefficiency: Natural keys are often long Alpha-numeric strings. Since these keys must be stored in the Fact Table as Foreign Keys, they waste significant storage space (bytes) and degrade query performance,.
+4.  Indexing: Indexing on long strings is much slower and more difficult than indexing on integers,.
 
 ---
 
-### **3. Surrogate Key**
-A **Surrogate Key** is an artificial, **numeric identifier** generated within the Data Warehouse to act as the Primary Key for a dimension table.
+## **Surrogate Key**
 
-*   **Characteristics:**
-    *   **Numeric and Incremental:** It is usually an auto-generated integer (1, 2, 3, etc.),.
-    *   **No Business Meaning:** Unlike a natural key, it carries no information about the product or customer; it is just a unique identifier for that specific row.
-    *   **Guaranteed Uniqueness:** Because the Data Warehouse generates it, uniqueness is guaranteed even if source systems change or merge,.
-    *   **Internal Use:** It is applied in the Fact and Dimension tables but is **not used in transactional (source) systems**.
+A Surrogate Key is an artificial, numeric identifier generated within the Data Warehouse to act as the Primary Key for a dimension table.
 
-**Conceptual Code Example (SQL):**
+Characteristics:
+    Numeric and Incremental: It is usually an auto-generated integer (1, 2, 3, etc.),.
+    No Business Meaning: Unlike a natural key, it carries no information about the product or customer; it is just a unique identifier for that specific row.
+    Guaranteed Uniqueness: Because the Data Warehouse generates it, uniqueness is guaranteed even if source systems change or merge,.
+    Internal Use: It is applied in the Fact and Dimension tables but is not used in transactional (source) systems.
+
+Conceptual Code Example (SQL):
 A Surrogate Key is typically an auto-incrementing integer:
 ```sql
 -- Adding a Surrogate Key to a Dimension Table
@@ -896,25 +862,20 @@ CREATE TABLE fact_sales (
     FOREIGN KEY (product_sk) REFERENCES dim_product(product_sk)
 );
 ```
-*Note: This SQL code is synthesized to illustrate the architectural logic described in the sources.*
-
 ---
 
-### **4. Summary Comparison**
+> --- **Summary Comparison**
 
 | Feature | Natural Key (Business Key) | Surrogate Key |
 | :--- | :--- | :--- |
-| **Origin** | Source/Transactional System | Data Warehouse (Internal) |
-| **Format** | Often Alpha-numeric strings | Always Numeric (Integers) |
-| **Business Meaning** | Yes (e.g., Price/Expiry in key) | No business meaning |
-| **Uniqueness** | May be violated during merges/updates, | Guaranteed unique (auto-generated) |
-| **Performance** | Slower joins/indexing due to size | Faster joins/indexing |
-| **Storage** | High (more bytes per record) | Low (compact integers) |
+| Origin | Source/Transactional System | Data Warehouse (Internal) |
+| Format | Often Alpha-numeric strings | Always Numeric (Integers) |
+| Business Meaning | Yes (e.g., Price/Expiry in key) | No business meaning |
+| Uniqueness | May be violated during merges/updates, | Guaranteed unique (auto-generated) |
+| Performance | Slower joins/indexing due to size | Faster joins/indexing |
+| Storage | High (more bytes per record) | Low (compact integers) |
 
-Surrogate keys are essential for handling **Slowly Changing Dimensions (SCD) Type 2**, where historical changes must be tracked without breaking relationships between tables.
-
-
-
+Surrogate keys are essential for handling Slowly Changing Dimensions (SCD) Type 2, where historical changes must be tracked without breaking relationships between tables.
 
 **------------------------------------------------------------------------------------------------------------**
 

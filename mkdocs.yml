@@ -89,14 +89,13 @@ nav:
       - Delta Lake: delta/deltalake.md
   - Cloud computing:
     - Overview: cloud/overview.md
+    - AWS: cloud/aws.md
     - Databricks:
       - Overview: cloud/databricks.md
   - System Design:
-    - Overview: systemdesign/overview.md
-    - Horizonatal vs Vertical Scaling: systemdesign/scaling.md
-    - Load Balancing: systemdesign/loadbalancing.md
-    - Consistent Hashing: systemdesign/consistenthashing.md
-    - Messaging Queue: systemdesign/messagingqueue.md
+    - DE data modeling: systemdesign/finance.md
+    - Kafka Cluster Design: systemdesign/kafka.md
+    - Social Media Platform ER: systemdesign/socialmediaer.md
   - SetupDocs:
     - Airflow Setup: tooling/airflow_install_onpremise.md
     - Ignite Multi Node Setup: tooling/igniteinstall.md
