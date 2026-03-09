@@ -1,0 +1,3230 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for Data Engineering and Big Data Technologies">
+      
+      
+        <meta name="author" content="AnalyticsWithManish">
+      
+      
+        <link rel="canonical" href="https://manishchetpalli.github.io/cloud/aws/">
+      
+      
+        <link rel="prev" href="../overview/">
+      
+      
+        <link rel="next" href="../databricks/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/sqldeveloper-original.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.4">
+    
+    
+      
+        <title>AWS - DEwithManish</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="pink">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#aws" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="DEwithManish" class="md-header__button md-logo" aria-label="DEwithManish" data-md-component="logo">
+      
+  <img src="../../assets/images/sqldeveloper-original.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            DEwithManish
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              AWS
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="pink"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="light-green"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/manishchetpalli/DataEngineeringNotes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    AnalyticsWithManish
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../DataEngineering/DE/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Fundamentals
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../projects/FlightBookingDataPipelinewithAirflow%26CICD/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Projects
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../hadoop/Bigdata/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  BigData
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../overview/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Cloud computing
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../systemdesign/finance/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  System Design
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../tooling/airflow_install_onpremise/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  SetupDocs
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../hadoop/hadoopiq/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Interview Prep
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../about/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  About Me
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="DEwithManish" class="md-nav__button md-logo" aria-label="DEwithManish" data-md-component="logo">
+      
+  <img src="../../assets/images/sqldeveloper-original.svg" alt="logo">
+
+    </a>
+    DEwithManish
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/manishchetpalli/DataEngineeringNotes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    AnalyticsWithManish
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fundamentals
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Fundamentals
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DataEngineering/DE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DataEngineering/DEcycle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DE Lifecycle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DataEngineering/DEundercurrent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DE UnderCurrents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DataEngineering/DesigningGDA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DE Architecture & Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../airflow/dataorchestration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Orchestration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../datawarehousing/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Warehousing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DataEngineering/fileformat/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File Formats
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql/sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Projects
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Projects
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../projects/FlightBookingDataPipelinewithAirflow%26CICD/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flight Booking Data Pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../projects/flink-ignite/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flink Ignite Custom Dialect
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../projects/kafkaapi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FastAPI Kafka Producer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BigData
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    BigData
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hadoop/Bigdata/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hadoop/HDFS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HDFS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hadoop/mapreduce/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MapReduce
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hadoop/yarn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    YARN
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hadoop/kerberos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kerberos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hive/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kafka/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kafka
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ignite/ignite/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ignite
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../airflow/airflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Airflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../spark/spark/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Spark
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql/Mongo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mongo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../delta/deltalake/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Delta Lake
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cloud computing
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Cloud computing
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AWS
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AWS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#cloud-computing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cloud computing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#s3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        S3
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#iam" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IAM
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lambda" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lambda
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ec2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EC2
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#glue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Glue
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#athena" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Athena
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kinesis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Kinesis
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SNS
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aws-sqs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AWS SQS
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#redshift" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Redshift
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Databricks
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Databricks
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../databricks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System Design
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    System Design
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../systemdesign/finance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DE data modeling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../systemdesign/kafka/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kafka Cluster Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../systemdesign/socialmediaer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Social Media Platform ER
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SetupDocs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    SetupDocs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tooling/airflow_install_onpremise/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Airflow Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tooling/igniteinstall/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ignite Multi Node Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tooling/kafka_install_zookeeper/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kafka Multi Node Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tooling/kubernetes_install/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kubernetes Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tooling/spark3standalone/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sparkstandalone Multi Node Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interview Prep
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Interview Prep
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hadoop/hadoopiq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hadoop
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kafka/iq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kafka
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../airflow/airflowiq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Airflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../flink/iq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flink
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql/mongoiq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MongoDB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About Me
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#cloud-computing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cloud computing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#s3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        S3
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#iam" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IAM
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lambda" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lambda
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ec2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EC2
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#glue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Glue
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#athena" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Athena
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kinesis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Kinesis
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SNS
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aws-sqs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AWS SQS
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#redshift" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Redshift
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../overview/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Cloud computing
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="aws">AWS<a class="headerlink" href="#aws" title="Permanent link">#</a></h1>
+<h2 id="cloud-computing"><strong>Cloud computing</strong><a class="headerlink" href="#cloud-computing" title="Permanent link">#</a></h2>
+<p>It is defined as services accessed through the internet that are provided by someone else.</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p>Google Drive is a perfect example. Users store files on it and access them via the internet, but the service and infrastructure are managed by Google.</p>
+</div>
+<blockquote>
+<p>--- <strong>Why Cloud?</strong></p>
+</blockquote>
+<p>Traditional IT Challenges: Before cloud, companies had to establish their own data centers. This required renting buildings, buying servers and networking equipment, and hiring 24/7 manpower.</p>
+<p>The Cost/Risk Problem: If a company took on a 6-month project, they would spend a massive amount on infrastructure that would become useless once the contract ended.</p>
+<p>The Cloud Solution: Cloud providers have already established data centers. Users simply purchase what they need and pay only for what they use. Services can be deleted once they are no longer needed, significantly reducing costs.</p>
+<blockquote>
+<p>--- <strong>Types of Cloud</strong></p>
+</blockquote>
+<p>There are three primary deployment models:</p>
+<ul>
+<li>Public Cloud: Accessible to everyone through the internet.</li>
+<li>Private Cloud: Accessible only within a specific organization. It is generally more secure than the public cloud.</li>
+<li>Hybrid Cloud: A combination of both public and private clouds.</li>
+</ul>
+<p>There are three types of services on cloud:</p>
+<p><img alt="Steps" src="../model.svg" /></p>
+<p>Software as a Service (SaaS):
+    The provider maintains everything (front end, back end, infrastructure).
+    The user simply uses the service and pays for it.
+    Eg: Gmail, Dropbox.
+    Cost: This is the most costly model because the provider handles all management.</p>
+<p>Platform as a Service (PaaS):
+    The user provides their own code.
+    The cloud provider provides the platform to execute it, including the runtime, operating system, and hosting infrastructure.</p>
+<p>Infrastructure as a Service (IaaS):
+   The user manages the code and the platform but asks the cloud provider for the underlying infrastructure.
+   This includes servers, storage, networking, and virtualization.
+   The user manages more components here than in the other two models.</p>
+<h2 id="s3"><strong>S3</strong><a class="headerlink" href="#s3" title="Permanent link">#</a></h2>
+<p>AWS S3 stands for Simple Storage Service. </p>
+<p>It is considered one of the most critical topics for an AWS Data Engineer and is widely used by organizations due to its popularity and ease of use.</p>
+<p>S3 solves the major organizational challenge of storing huge amounts of data generated daily by providing a solution that is highly scalable, secure, and supports encryption.</p>
+<blockquote>
+<p>--- <strong>Overcoming Traditional Storage Limitations</strong></p>
+</blockquote>
+<p>Physical Storage (Hard Disks): In traditional setups, storing large amounts of data required purchasing physical hard disks, which was costly. Additionally, data retrieval was slow because it required physical access to the system where the disk was plugged in.</p>
+<p>General Cloud Storage (e.g., Google Drive): While cloud storage like Google Drive offers fast internet-based retrieval, it often uses fixed tiers (e.g., having to pay for 100GB even if you only need 20GB).</p>
+<p>The S3 Advantage: AWS S3 allows you to store any amount of data and follow a pay-as-you-go model. If you store 20GB, you only pay for 20GB; if you scale to 40GB, you pay only for that amount, solving the "typical IT" problem of over-provisioning.</p>
+<blockquote>
+<p>--- <strong>Key Features of Amazon S3</strong></p>
+</blockquote>
+<p>Scalability: Users can store an unlimited amount of data without restrictions.</p>
+<p>Availability: It is designed for 99.99% availability. AWS achieves this by replicating data across multiple data centers; if one hardware failure occurs, the data remains accessible from another center.</p>
+<p>Data Protection: S3 provides features for data encryption and high security to protect stored information.</p>
+<p>Versioning: This feature allows users to keep a backup of previous versions of a file even after it has been modified.</p>
+<p>Object Lock: This prevents a specific file or "object" from being modified or deleted, which is vital for data integrity.</p>
+<p>Multipart Upload: For huge datasets, S3 allows you to break the data into parts, upload them individually, and then combine them in the cloud.</p>
+<blockquote>
+<p>--- <strong>Primary Use Cases</strong></p>
+</blockquote>
+<p>Data Backup and Archiving: Organizations use S3 to back up multiple databases. It offers multiple tier operations, allowing users to pay lower rates for data they do not intend to access frequently.</p>
+<p>Application Data Storage: It is used for storing application logs and data from IoT services, where massive amounts of log files are generated.</p>
+<p>Disaster Recovery: Because data is replicated across multiple centers, S3 ensures data remains secure and recoverable even in the event of a disaster.</p>
+<blockquote>
+<p>--- <strong>Key Terminology</strong></p>
+</blockquote>
+<p>Bucket: This is a container for your data. </p>
+<p>Object: In AWS S3, all files and folders are referred to as "objects".</p>
+<p>Global Service: S3 is a global service, meaning you can upload a file and access it from anywhere in the world.</p>
+<blockquote>
+<p>--- <strong>Creating an S3 Bucket</strong></p>
+</blockquote>
+<p>Region Selection: While S3 is global, you must select a specific AWS Region for low latency and faster performance. Selecting a region near you ensures faster operations.</p>
+<p>Naming Convention: Every bucket name must be globally unique.</p>
+<p>Public Access Settings: By default, "Block all public access" is enabled to ensure security.</p>
+<p>Default Encryption: S3 provides server-side encryption by default.</p>
+<blockquote>
+<p>--- <strong>Bucket Versioning</strong></p>
+</blockquote>
+<p>Definition: Versioning acts as a backup or a copy of your files, similar to how GitHub functions.</p>
+<p>Functionality: If you modify and re-upload a file with the same name, S3 will keep the previous version instead of replacing it. </p>
+<p>Usage: It must be manually enabled in the bucket properties. This allows users to retrieve older versions of a file if needed.</p>
+<blockquote>
+<p>--- <strong>Data Access Scenarios</strong></p>
+</blockquote>
+<p>Organizations typically deal with two main data scenarios that determine which storage class to use:</p>
+<p>Frequently Accessed Data: Data used regularly for analysis and development.</p>
+<p>Infrequently Accessed Data: Typically backup data stored for disaster recovery and not accessed on a frequent basis.</p>
+<blockquote>
+<p>--- <strong>Frequent Access Storage Classes</strong></p>
+</blockquote>
+<p>These classes are designed for data that needs to be retrieved quickly and often.</p>
+<ul>
+<li>S3 Standard: 
+    Used for general-purpose storage of frequently accessed data.
+    Offers low latency (retrieval in milliseconds).
+    Data is replicated across more than three Availability Zones (AZs), ensuring high availability and durability (99.9%).
+    This is the most costly general option due to its performance and high availability.</li>
+<li>S3 Express One Zone:
+   Used for frequently accessed data where cost is a higher priority than redundancy.
+   Unlike S3 Standard, data is stored in only one Availability Zone, making it less expensive.</li>
+</ul>
+<blockquote>
+<p>--- <strong>Infrequent Access (IA) Storage Classes</strong></p>
+</blockquote>
+<p>These are intended for data that is not accessed often but must be available immediately when needed.</p>
+<ul>
+<li>S3 Standard-IA: 
+    Designed for infrequent access.
+    Still provides millisecond latency for retrievals.
+    Data is replicated across more than three Availability Zones.</li>
+<li>S3 One Zone-IA:
+    Similar to Standard-IA but stores data in only one Availability Zone.
+    It is cheaper than S3 Standard-IA.</li>
+</ul>
+<blockquote>
+<p>--- <strong>S3 Glacier (Archival Storage)</strong></p>
+</blockquote>
+<p>Glacier is the preferred choice for long-term backups and archiving where immediate access is not always required.</p>
+<p>S3 Glacier Instant Retrieval: Offers low latency similar to Standard classes but requires a minimum storage duration of 90 days.</p>
+<p>S3 Glacier Flexible Retrieval: Highly durable but retrieval can take minutes or hours; it is cheaper than Instant Retrieval.</p>
+<p>S3 Glacier Deep Archive: The lowest-cost storage option. Retrieval is slow and may take several hours.</p>
+<blockquote>
+<p>--- <strong>S3 Intelligent-Tiering</strong></p>
+</blockquote>
+<p>This class automates cost savings for data with unknown or changing access patterns.</p>
+<p>How it works: AWS automatically moves your data between tiers (Standard, Infrequent Access, and Glacier) based on how often it is accessed.</p>
+<p>Automation: If data isn't accessed for 60-90 days, it moves to IA; if not accessed for years, it moves to Glacier.</p>
+<p>Cost: Because AWS provides active monitoring and automation, there is a monitoring charge, which can make it more expensive than </p>
+<p>S3 Standard if the automation benefits aren't fully utilized.</p>
+<p>When choosing a class, consider the following trade-offs:</p>
+<ul>
+<li>Cost: S3 Standard is the most expensive, followed by IA, with Glacier being the cheapest.</li>
+<li>Latency: Standard and IA offer millisecond retrieval, while some Glacier tiers take minutes or hours.</li>
+<li>Redundancy: "One Zone" options are cheaper but offer less protection against data center failures compared to multi-AZ options.</li>
+</ul>
+<blockquote>
+<p>--- <strong>Why select a region for a global service?</strong></p>
+</blockquote>
+<p>To ensure low latency and faster performance by storing data in a data center closer to the user.</p>
+<p>Total Storage Limit: You can store an unlimited amount of data in S3.</p>
+<p>Individual File Size Limit: The maximum size for a single file is 5 TB. If you have more than 5 TB of data, it must be divided into multiple files.</p>
+<p>Bucket Limits: By default, you can create up to 100 buckets per AWS account, though this limit can be extended by raising a ticket with AWS.</p>
+<h2 id="iam"><strong>IAM</strong><a class="headerlink" href="#iam" title="Permanent link">#</a></h2>
+<p>AWS IAM stands for Identity and Access Management. It is the primary service used to manage access to AWS resources and services.</p>
+<p>Role Responsibilities: In a professional environment, an AWS account is typically maintained by DevOps engineers. When a new user (such as a data analyst or engineer) joins an organization, they must request specific access for the services they need to use, such as Tableau, Databricks, S3, or EC2.</p>
+<p>Best Practice (Least Privilege): A critical practice in IAM is providing only the minimum access required for a user to perform their job. Providing full access is risky; for example, an unauthorized or accidental deletion of a database could compromise the entire organization.</p>
+<blockquote>
+<p>--- <strong>The Four Pillars of IAM</strong></p>
+</blockquote>
+<ol>
+<li>
+<p>Users: Individuals who join an organization and need to authenticate into the AWS account. DevOps engineers create these users and provide them with login credentials.</p>
+</li>
+<li>
+<p>Policies: Documents that define specific permissions. If a user only needs to read data from S3, a specific S3 read access policy is attached to them.</p>
+</li>
+<li>
+<p>Groups: Collections of users who share similar roles (e.g., Developers, QA, or Data Engineers). Instead of assigning policies to 500 individual users, policies are attached to a Group, and users are added to that group to automatically inherit those permissions.</p>
+</li>
+<li>
+<p>Roles: These are used when services need to communicate with other services. For example, if an S3 bucket needs to trigger or access a Lambda function, an IAM Role is utilized.</p>
+</li>
+</ol>
+<blockquote>
+<p>--- <strong>Importance of IAM Roles</strong></p>
+</blockquote>
+<p>What is an IAM Role? An IAM Role is a critical topic for data engineering that allows multiple services within an AWS account to communicate with each other.</p>
+<p>Primary Use Case: Unlike IAM Users (which represent people), Roles are generally used when you have two or more services that need to interact. For example, if Amazon S3 needs to communicate with an EC2 instance, an IAM Role must be created and assigned to allow that interaction.</p>
+<blockquote>
+<p>--- <strong>IAM Roles in Data Pipelines</strong></p>
+</blockquote>
+<p>Roles are essential when building complex data pipelines where multiple services are linked together.</p>
+<ul>
+<li>
+<p>Example Pipeline Scenario:</p>
+<p>Source: Data is stored in Amazon S3.</p>
+<p>Processing: AWS Glue is used to copy this data.</p>
+<p>Destination: The data is moved into an RDS database instance.</p>
+<p>Trigger: A Lambda function is used to trigger the AWS Glue activity.</p>
+</li>
+</ul>
+<p>The Role's Function: In this scenario, S3 must communicate with Glue, and Glue must communicate with Lambda. An IAM Role is required to grant these services the necessary permissions to "talk" to one another and perform their tasks.</p>
+<h2 id="lambda"><strong>Lambda</strong><a class="headerlink" href="#lambda" title="Permanent link">#</a></h2>
+<p>Serverless Computation Engine: AWS Lambda is a service that allows you to run code without provisioning or managing servers.</p>
+<p>Core Philosophy: Users should only focus on their code while AWS handles all the underlying infrastructure, including maintenance and auto-scaling.</p>
+<p>Triggers: Lambda is highly versatile and can be triggered by over 200 different AWS services.</p>
+<blockquote>
+<p>--- <strong>AWS Lambda vs. Amazon EC2</strong></p>
+</blockquote>
+<p>Infrastructure Management: With EC2, you must manually create instances (Windows or Linux), select RAM, CPU cores, and manage auto-scaling. With Lambda, you don't worry about any of these server details.</p>
+<ul>
+<li>
+<p>Pricing Model: </p>
+<p>EC2: You pay for the entire time the instance is running, even if it is idle.</p>
+<p>Lambda (Pay-as-you-go): You are only charged for the exact duration your code executes. For example, if your code runs for only 2 minutes, you only pay for those 2 minutes, even if the function exists in your account all day.</p>
+</li>
+</ul>
+<blockquote>
+<p>--- <strong>Key Use Cases</strong></p>
+</blockquote>
+<p>Lambda is used for various tasks in professional environments:</p>
+<p>Cost Optimization: You can write code to monitor all running AWS services and send notifications if services are running but not being used, helping to avoid unnecessary costs.</p>
+<p>Data Pipeline Monitoring: It can monitor ETL activities (like those in AWS Glue) or data pipelines. If a pipeline fails or is running inefficiently, Lambda can trigger an event or notification to alert the relevant person.</p>
+<p>Service Triggering: Lambda is often used to start other services. For example, it can be programmed to trigger an AWS Glue job.</p>
+<ul>
+<li>
+<p>File Processing and Transfers: </p>
+<p>A common example is an image-resizing website. When a user uploads a photo to an S3 bucket, it triggers a Lambda function.</p>
+<p>The function resizes the image and stores the new version in a separate S3 bucket to be displayed on the website.</p>
+</li>
+</ul>
+<blockquote>
+<p>--- <strong>Summary of Benefits</strong></p>
+</blockquote>
+<p>No Server Management: No need to patch or maintain OS.</p>
+<p>Automatic Scaling: Scales automatically based on the number of incoming requests.</p>
+<p>Cost Efficiency: Significant savings due to the pay-per-execution model.</p>
+<p>Performance Optimization: Helps in optimizing the overall performance of cloud services through automated monitoring and alerts.</p>
+<blockquote>
+<p>--- <strong>Creating a Lambda Function</strong></p>
+</blockquote>
+<p>To begin, navigate to the AWS console and search for Lambda. From the dashboard, select "Create function". There are three primary options for creation:</p>
+<p>Author from scratch: Used if you want to write your own custom code.</p>
+<p>Use a blueprint: Provides pre-written code for common tasks, such as retrieving an object from Amazon S3.</p>
+<p>Container image: Used if you have a pre-existing container image to deploy.</p>
+<blockquote>
+<p>--- <strong>Monitoring via CloudWatch</strong></p>
+</blockquote>
+<p>Every time a Lambda function executes, it generates logs.</p>
+<p>Monitor Tab: Users can navigate to the "Monitor" tab within the Lambda console to access CloudWatch logs.</p>
+<p>Log Details: These logs provide a detailed record of when the function started, what it printed, any errors that occurred, and the final response.</p>
+<h2 id="ec2"><strong>EC2</strong><a class="headerlink" href="#ec2" title="Permanent link">#</a></h2>
+<p>Definition:   AWS EC2 (Elastic Compute Cloud)  provides secure,  resizable computation capacity  in the cloud.</p>
+<p>Data Engineering Context:  Data engineers often deal with  large amounts of data  that require significant processing power. EC2 is vital because it allows engineers to  scale computation capacity up or down  based on the size of the dataset.</p>
+<p>Overcoming Hardware Limits: In traditional setups, users are limited by the  RAM and CPU  of their physical laptops (e.g., 8GB RAM). Upgrading physical hardware is  costly  and inefficient for temporary projects; EC2 solves this by allowing users to select high-power specs (like 4 CPUs and 8GB RAM) only when needed.</p>
+<blockquote>
+<p>--- <strong>EC2 Instance Families and Categories</strong></p>
+</blockquote>
+<p>Instance types are divided into categories based on their performance characteristics:</p>
+<p>General Purpose: <br />
+    Provides a   balance   of compute, memory, and networking resources.
+    Use Case:   Ideal for applications like   web servers  .
+    Naming Example:   The   T family   (e.g., T2) is a general-purpose category. In "T2 micro,"   T   is the family,   2   is the version, and   micro   is the size.</p>
+<p>Compute Optimized: <br />
+    Designed for tasks requiring high processing power.
+    Use Case:   Common in   machine learning   applications.
+    Category:   Identified by the   C family  .</p>
+<p>Memory Optimized: <br />
+    Built to process   large datasets   directly in the memory.
+    Use Case:   Frequently used in   Big Data systems  .</p>
+<p>Storage Optimized:
+    Focused on workloads that require   high sequential read and write   operations.
+    Category:   Includes families like   I3   and   D2  .</p>
+<p>HPC Optimized (High Performance Computing): <br />
+    An advanced version of compute-optimized instances.
+    Use Case:   Used for   deep learning   and applications requiring extreme optimization.</p>
+<h2 id="glue"><strong>Glue</strong><a class="headerlink" href="#glue" title="Permanent link">#</a></h2>
+<p>AWS Glue is a cloud-optimized, serverless ETL (Extract, Transform, Load) service. </p>
+<p>ETL Explained: It extracts data from various sources (like SQL Server, Postgre SQL, or CSV files), cleans or aggregates the data, and loads it into a destination so data scientists or analysts can perform reporting and predictions.</p>
+<p>Serverless Nature: The primary advantage is that users do not need to maintain any servers or infrastructure. AWS handles all auto-scaling and management, allowing engineers to focus solely on their data pipelines and business needs.</p>
+<blockquote>
+<p>--- **Key Advantages and Benefits **</p>
+</blockquote>
+<p>Schema Inference: AWS Glue can automatically detect the schema of your data.</p>
+<p>Auto-generated ETL Scripts: The service can automatically generate scripts for your workflows, reducing the need to write them manually.</p>
+<p>Cost-Effective: Because it is serverless, you only pay for the resources you use during execution.</p>
+<p>Low Hassle: It connects easily with multiple AWS services, including Amazon S3, RDS, and Redshift.</p>
+<blockquote>
+<p>--- <strong>Key Terminology</strong></p>
+</blockquote>
+<p>Data Store: The source where your raw data resides (e.g., Amazon S3).</p>
+<p>Crawler: A program that connects to a data store, scans the data to detect its schema, and extracts metadata.</p>
+<p>Data Catalog: A central repository that stores all metadata information, including table and job definitions.</p>
+<p>Classifier: A component that helps the crawler detect specific data formats, such as CSV or JSON.</p>
+<p>Job: The business logic or ETL script that performs the actual data transformation.</p>
+<p>Trigger: A mechanism used to start ETL jobs, either manually or on a schedule.</p>
+<blockquote>
+<p>--- <strong>AWS Glue Architecture &amp; Workflow</strong></p>
+</blockquote>
+<p><img alt="Steps" src="../glue.svg" /></p>
+<p>1.Scanning:A Crawler goes to the Data Store (S3) to scan the raw CSV data.</p>
+<p>2.Cataloging: The crawler detects the metadata (e.g., Column names like ID, Name, Salary) and stores these definitions in the Data Catalog.</p>
+<p>3.Transformation: An ETL Job is created. Here, a script is written (or auto-generated) to perform transformations, such as selecting only 20 relevant columns out of an original 50.</p>
+<p>4.Loading: The job processes the data and dumps the final, cleaned result into the destination (e.g., a final table or another S3 bucket in JSON format).</p>
+<blockquote>
+<p>--- <strong>Best Practices and Pricing</strong></p>
+</blockquote>
+<p>Pricing: AWS charges for the crawler, data catalog requests, and the execution of ETL jobs.</p>
+<p>Cost Management: A critical recommendation for students is to terminate or shut down crawlers and jobs immediately after practicing to avoid unnecessary or high charges.</p>
+<blockquote>
+<p>--- <strong>AWS Crawler</strong></p>
+</blockquote>
+<p>It is a component of AWS Glue designed to automatically discover data sources and extract metadata information.</p>
+<p>Primary Function: It scans data sources (such as Amazon S3), identifies the data format, detects the schema (column names and data types), and stores this information in the AWS Glue Data Catalog.</p>
+<p>Handling Diverse Data: A single crawler can scan an entire S3 bucket containing multiple files with different schemas (e.g., employee, department, and worker files) and create corresponding metadata for each.</p>
+<blockquote>
+<p>--- <strong>Key Advantages</strong></p>
+</blockquote>
+<p>Automatic Schema Detection: It automatically identifies whether a column is a string, integer, or other data type and creates a table for it in the catalog.</p>
+<p>Schema Evolution: If a new column is added to a data source after the initial scan, re-running the crawler will automatically detect the change and update the schema, ensuring that data pipelines do not break.</p>
+<p>Efficiency: It eliminates the need to manually define tables and schemas for large or changing datasets.</p>
+<h2 id="athena"><strong>Athena</strong><a class="headerlink" href="#athena" title="Permanent link">#</a></h2>
+<p>AWS Athena is a serverless, interactive query service offered by Amazon Web Services (AWS) that allows users to analyze data in Amazon Simple Storage Service (S3) using standard SQL. Athena is designed to provide fast querying capabilities without the need for infrastructure setup and management. </p>
+<blockquote>
+<p>--- <strong>Key features</strong></p>
+</blockquote>
+<ul>
+<li>Serverless: There is no infrastructure to manage, and you don't need to start or stop services. You simply write queries and get results.</li>
+<li>Pay-per-query: With Athena, you pay only for the queries you run. You are charged based on the amount of data scanned during the query execution, not for the storage of the data.</li>
+<li>SQL-compatible: Athena uses a version of Presto, a distributed SQL query engine, with added support for AWS's data catalog and other AWS-specific optimizations. As a result, those familiar with SQL can easily use Athena to analyze their datasets.</li>
+<li>Integrated with AWS Glue: AWS Glue is a managed extract, transform, load (ETL) and data catalog service. Athena integrates with the AWS Glue Data Catalog, allowing you to create a centralized metadata repository across various services, crawl data sources to discover schemas, and populate your catalog with new and modified table and partition definitions.</li>
+<li>Performance: Athena is optimized for fast performance with Amazon S3. It can handle large datasets and uses a distributed query system to parallelize queries, speeding up execution.</li>
+<li>JDBC/ODBC Support: Athena provides a JDBC and an ODBC driver, allowing you to integrate with various business intelligence (BI) tools and other applications.</li>
+<li>Schema-on-Read: Unlike traditional databases where you have to define a schema when writing data, Athena uses a schema-on-read approach. This means you define the schema when you are ready to query the data. This approach offers more flexibility, especially for use cases like data lakes.</li>
+<li>Supports a variety of data formats: Athena can query data in various formats, including CSV, JSON, Parquet, ORC, Avro, and more.</li>
+</ul>
+<blockquote>
+<p>--- <strong>Choice between Athena vs Spark</strong></p>
+</blockquote>
+<p>Using Athena or Spark depends on the specific requirements and constraints of your project. Each tool has its own advantages and trade-offs. </p>
+<ul>
+<li>No Infrastructure Management: Athena is serverless, meaning there's no need to set up, manage, or scale any infrastructure. You don't have to worry about cluster provisioning, configuration, or tuning. With Spark, you often use a managed cluster service like Amazon EMR or manage your own clusters, which can introduce overhead in terms of setup, management, and cost.</li>
+<li>Cost Model: With Athena, you pay per query based on the amount of data scanned. For ad-hoc querying or sporadic use, this can be more cost-effective than maintaining a Spark cluster that might sit idle at times.</li>
+<li>Simplicity: For users who just want to run SQL queries on their data without dealing with the complexities of distributed data processing, Athena offers a simpler interface. There's no need to write Spark code or understand the Spark API.</li>
+<li>Integration with AWS Services: Athena is tightly integrated with other AWS services like AWS Glue (for data cataloging) and QuickSight (for visualization). If you are heavily invested in the AWS ecosystem, using Athena might offer smoother integration and management.</li>
+<li>Performance: For certain query types and data sizes, Athena might offer faster results, especially if the data is stored in columnar formats like Parquet or ORC which Athena can optimize for.</li>
+<li>Concurrent Queries: With Athena, you can run multiple queries concurrently without worrying about resource contention, as each query's resources are managed by the service.</li>
+<li>Advanced Data Processing: Spark offers a wide range of libraries and APIs for batch processing, stream processing, machine learning, and graph processing. If your use case goes beyond SQL querying, Spark provides more flexibility.</li>
+<li>Cost for Large Scale or Continuous Processing: If you're running continuous large-scale data processing jobs, maintaining a dedicated Spark cluster might be more cost-effective than per-query costs with Athena, especially if you optimize your Spark jobs well.</li>
+<li>Customizability and Control: Spark allows you to customize its behavior, optimize performance, and integrate with a broader ecosystem of tools and libraries.</li>
+<li>Data Transformation: While Athena is designed primarily for querying, Spark excels at complex data transformation and ETL tasks.</li>
+</ul>
+<blockquote>
+<p>--- <strong>Pricing Model</strong></p>
+</blockquote>
+<p>Athena follows a per-query billing structure.</p>
+<p>Data Scanned: You are charged based on the number of bytes scanned by each query.</p>
+<p>Billing Specifics: Charges are rounded to the nearest megabyte, with a minimum charge per query. For example, scanning 12 MB may be billed at a 10 MB rate, while scanning 18 MB might be billed at a 20 MB rate.</p>
+<h2 id="kinesis"><strong>Kinesis</strong><a class="headerlink" href="#kinesis" title="Permanent link">#</a></h2>
+<p>Amazon Kinesis is an AWS service used to collect and process large amounts of streaming data in real-time. </p>
+<p>It is the go-to solution in the AWS ecosystem whenever a requirement involves handling real-time data processing.</p>
+<blockquote>
+<p>--- <strong>Three Types of AWS Kinesis Services</strong></p>
+</blockquote>
+<p>Kinesis Data Stream:
+    Primary use case is to collect and process data in true real-time.</p>
+<p>Kinesis Firehose:
+    Used for near real-time data processing.
+    It is considered "near real-time" because it typically includes a 60-second or 1-minute buffer before processing.
+    A key feature is its ability to store data directly into various destinations like Amazon S3 or Amazon Redshift.</p>
+<p>Kinesis Analytics:
+    Used specifically for data analytics.
+    It allows users to run queries and perform analytics directly on top of the real-time data as it arrives.</p>
+<h2 id="sns"><strong>SNS</strong><a class="headerlink" href="#sns" title="Permanent link">#</a></h2>
+<p>Amazon Simple Notification Service (Amazon SNS) is a fully managed messaging service provided by AWS. It is designed for distributing notifications to a wide range of recipients. With SNS, you can send messages to individual recipients or to large numbers of recipients.</p>
+<blockquote>
+<p>--- <strong>Key Features</strong></p>
+</blockquote>
+<ul>
+<li>
+<p>Pub/Sub Messaging: SNS follows the publish/subscribe (pub/sub) messaging paradigm, allowing users to create "topics" and then have subscribers that receive messages or notifications on those topics.</p>
+</li>
+<li>
+<p>Multiple Protocols: SNS supports multiple protocols, meaning you can deliver messages to:
+   HTTP/HTTPS endpoints
+   Email/Email-JSON
+   Short Message Service (SMS)
+   Application (for sending messages to other AWS services or to applications)
+   AWS Lambda
+   Simple Queue Service (SQS)
+   Application Endpoints (for mobile devices)</p>
+</li>
+<li>Flexibility: You can send a message to an SNS topic, and then that single message can be delivered to many recipients across various supported protocols.</li>
+<li>Durability: SNS messages are stored redundantly across multiple servers and data centers, providing high availability and durability.</li>
+<li>Content Filtering: With SNS, you can filter the messages delivered to each subscription, ensuring subscribers only receive the messages of interest to them.</li>
+<li>Access Control: Integration with AWS Identity and Access Management (IAM) allows granular access control to the SNS topics. You can specify who can publish or subscribe to a topic.</li>
+<li>Large Message Size: For messages that exceed the normal size limit (256 KB), SNS can store the large message in an Amazon S3 bucket and send a pointer to the message in the notification.</li>
+<li>Monitoring: Integrated with Amazon CloudWatch, allowing users to monitor metrics related to the SNS service.</li>
+<li>Encryption: Supports encryption in transit (using HTTPS endpoints) and at rest (using AWS Key Management Service).</li>
+<li>Cost: Users pay for what they use. This includes the number of requests, number of messages delivered, and data transfer. </li>
+</ul>
+<blockquote>
+<p>--- <strong>Why Use SNS?</strong></p>
+</blockquote>
+<p>Critical Pipeline Monitoring: In professional environments, production data pipelines are critical. If a pipeline fails, it can result in a huge cost for the business.</p>
+<p>Quick Action: SNS allows engineers to monitor these pipelines and receive instant notifications (via Email, SMS, etc.) so they can respond and resolve failures quickly.</p>
+<blockquote>
+<p>--- <strong>The Publisher-Subscriber Model</strong></p>
+</blockquote>
+<p>SNS operates on a "Pub/Sub" architecture, which involves three main components:</p>
+<p>Publisher: The entity that triggers the notification (e.g., an S3 bucket where a file is uploaded).</p>
+<p>Topic: A central "hub" or communication channel. The publisher sends a message to the SNS Topic.</p>
+<p>Subscriber: The entity that receives the message from the topic. This could be a support team or another application.</p>
+<p>Note: Only those who have explicitly subscribed to a topic will receive notifications from it.</p>
+<h2 id="aws-sqs"><strong>AWS SQS</strong><a class="headerlink" href="#aws-sqs" title="Permanent link">#</a></h2>
+<p>Amazon Simple Queue Service (Amazon SQS) is a fully managed message queuing service that enables the decoupling of microservices, distributed systems, and serverless applications. It is designed to send, store, and receive messages between software components at any volume, without losing messages or requiring other services to be available.</p>
+<blockquote>
+<p>--- <strong>Key Features</strong></p>
+</blockquote>
+<ul>
+<li>Fully Managed: No need to manage and operate message-oriented middleware systems or any other infrastructure.</li>
+<li>Durability: SQS stores messages redundantly across multiple servers and data centers to ensure that a message is delivered at least once.</li>
+<li>Two Queue Types:
+    Standard Queue: Offers maximum throughput, best-effort ordering, and at-least-once delivery.
+    FIFO (First-In-First-Out) Queue: Ensures messages are processed only once, in the exact order they are sent.</li>
+<li>Message Attributes: Messages can contain metadata (as key-value pairs) so that the receiver can handle the message appropriately.</li>
+<li>Long Polling: Reduces unnecessary network traffic with empty responses by waiting until a message is available in the queue before sending a response.</li>
+<li>Batch Operations: Supports sending, receiving, or deleting messages in batches, helping to improve the efficiency of both your producer and consumer applications.</li>
+<li>Dead Letter Queues: If a message cannot be processed successfully, it's moved to a dead letter queue. This is useful for debugging and ensuring that problematic messages don't get stuck and aren't retried indefinitely.</li>
+<li>Visibility Timeout: After a message is retrieved by a consumer, it remains hidden from other consumers for a specified period. If the message isn't processed within that time, it becomes visible again.</li>
+<li>Message Lifecycle: You can set a retention period for messages, up to a maximum of 14 days.</li>
+<li>Integration with other AWS Services: SQS can be integrated with services like AWS Lambda, Amazon S3, and Amazon Redshift, among others.</li>
+<li>Scalability: SQS can handle high volumes of messages without any throughput limitations.</li>
+<li>Server-Side Encryption (SSE): Uses AWS Key Management Service (AWS KMS) to encrypt SQS messages.</li>
+</ul>
+<blockquote>
+<p>--- <strong>AWS SQS and Kafka are same?</strong></p>
+</blockquote>
+<p>Amazon SQS and Apache Kafka address different messaging patterns and use cases, so it's not accurate to say SQS is a direct replacement for Kafka in AWS. However, they do overlap in some functionalities.</p>
+<ul>
+<li>
+<p>Messaging Patterns</p>
+<p>SQS: Primarily a message queue service designed for decoupling point-to-point communication between producers and consumers.</p>
+<p>Kafka: A distributed streaming platform that can handle high-velocity data streams and allows for publish-subscribe and record storage.</p>
+</li>
+<li>
+<p>Throughput</p>
+<p>SQS: Suitable for a wide range of workloads, including those that require high throughput.</p>
+<p>Kafka: Built for extremely high throughput and low latency, making it suitable for real-time analytics and monitoring.</p>
+</li>
+<li>
+<p>Consumers</p>
+<p>SQS: Each message is processed by a single consumer.</p>
+<p>Kafka: Multiple consumers can read the same message from a topic without affecting other consumers.</p>
+</li>
+<li>
+<p>Retention</p>
+<p>SQS: Messages can be retained for a limited period (up to 14 days).</p>
+<p>Kafka: Messages can be retained indefinitely or for a configured duration.</p>
+</li>
+<li>
+<p>Ordering</p>
+<p>SQS: Standard queues offer at-most-once delivery and best-effort ordering. FIFO queues offer exactly-once processing and guaranteed ordering.</p>
+<p>Kafka: Provides strict ordering within a partition of a topic.</p>
+</li>
+<li>
+<p>Scalability</p>
+<p>SQS: Managed by AWS and scales automatically.</p>
+<p>Kafka: Requires manual cluster scaling and configuration.</p>
+</li>
+<li>
+<p>Ecosystem</p>
+<p>SQS: Integrated tightly within the AWS ecosystem.</p>
+<p>Kafka: Has a vast ecosystem with Kafka Streams, Kafka Connect, and more. It's more than just a messaging system; it's a whole streaming platform.</p>
+</li>
+</ul>
+<p>If you're looking for a managed Kafka-like service in AWS, consider Amazon Managed Streaming for Apache Kafka (Amazon MSK). It's a fully managed service that makes it easy to build and run applications that use Apache Kafka to process streaming data. With Amazon MSK, you get the combined capabilities and benefits of Apache Kafka along with the scalability and reliability of AWS.</p>
+<h2 id="redshift"><strong>Redshift</strong><a class="headerlink" href="#redshift" title="Permanent link">#</a></h2>
+<p>Amazon Redshift is a fully managed, cloud-based data warehouse service offered by AWS. It allows you to store and analyze large amounts of structured and semi-structured data at scale, using standard SQL and integration with business intelligence (BI) and analytics tools. </p>
+<p>The query handling efficiency is achieved through the combination of:</p>
+<ul>
+<li>Massively Parallel Processing (MPP): Amazon Redshift leverages a shared-nothing architecture where multiple processors work in parallel to execute complex queries. Each processor performs independent, coordinated computations on its own slice of data, ensuring high performance and scalability.</li>
+<li>Columnar Database Design: Redshift uses a column-oriented storage format, which is optimized for analytical workloads. This design makes it faster and more efficient for aggregating and analyzing large datasets. As a fully managed service, it provides a cost-effective, easy-to-use, and quick-to-deploy solution for organizations.</li>
+<li>Data Compression: Thanks to its columnar storage architecture, Redshift applies adaptive compression encoding based on the data type of each column. This reduces storage requirements significantly and speeds up query execution by minimizing I/O operations.</li>
+<li>Advanced Query Optimization: The Redshift query optimizer analyzes table metadata, including statistics and data distribution, to create efficient query execution plans. This ensures that queries run with minimal latency, even on large datasets.</li>
+<li>Compiled Query Execution: Redshift query engine converts queries into machine-compiled code, which is distributed across the cluster nodes. By eliminating the overhead of interpretation during execution, the compiled code delivers faster query performance.</li>
+</ul>
+<blockquote>
+<p>--- <strong>AWS Redshift Query LifeCycle</strong></p>
+</blockquote>
+<p><img alt="steps" src="lc.svg" /></p>
+<blockquote>
+<p>--- <strong>Leader node</strong></p>
+</blockquote>
+<p>The leader node manages all external and internal communications with data applications and all communication with compute nodes. </p>
+<p>It is responsible for:
+- Parsing and query rewriting,
+- Planning of query processing,
+- Query compiling to C++ and further distribution to compute nodes,
+- Task scheduler and WLM,
+- Executing queries (limited functionality).</p>
+<blockquote>
+<p>--- <strong>Compute node</strong></p>
+</blockquote>
+<p>A compute node in Amazon Redshift is a worker node responsible for storing data and performing query processing. It works in parallel with other compute nodes to execute queries efficiently and return results to the leader node.</p>
+<blockquote>
+<p>--- <strong>Slices</strong></p>
+</blockquote>
+<p>A slice in Amazon Redshift is a logical subdivision of a compute node, responsible for processing a portion of the node’s data in parallel. Each slice independently executes queries on its assigned data, contributing to the overall performance and scalability of the cluster.</p>
+<p>Each computational node is composed of two or more slices, which allow parallel access and processing across slices on each node. The objective of this concept is to distribute the workload of queries evenly across all nodes in order to leverage the parallel processing and to increase efficiency. The three distribution styles supported by Redshift are EVEN, KEY, and ALL (also AUTO, but it is not considered to be a separate style).</p>
+<blockquote>
+<p>--- <strong>Data Distribution in Slices</strong></p>
+</blockquote>
+<p>· KEY distribution: Rows are distributed according to the values in one column. The leader node places matching values on the same node slice. It is usually done with high cardinality columns [CJ1] to improve performance between two tables while joining them or aggregating values.
+· ALL distribution: A copy of the entire table is distributed to every node. ALL distribution multiplies the storage required by the number of nodes in the cluster, and so it takes much longer to load, update, or insert data into multiple tables. ALL distribution is appropriate only for relatively slow-moving tables.
+· EVEN distribution: The leader node distributes the rows across the slices in a round-robin fashion, regardless of the values in any particular column. EVEN distribution is appropriate when a table doesn’t participate in joins. It is also appropriate when there is not a clear choice between KEY distribution and ALL distribution.</p>
+<blockquote>
+<p>--- <strong>What is Redshift Spectrum?</strong></p>
+</blockquote>
+<p>Amazon Redshift Spectrum is a feature of Amazon Redshift, a fully managed data warehouse service in AWS. Redshift Spectrum allows users to run complex SQL queries directly against vast amounts of data in Amazon S3, without needing to load or ETL (Extract, Transform, Load) the data into Redshift itself. </p>
+<blockquote>
+<p>--- <strong>Key Features</strong></p>
+</blockquote>
+<ul>
+<li>Extensive Data Querying: Redshift Spectrum lets you query data that resides in Amazon S3, as if they were regular Redshift tables. This makes it seamless to analyze data in its raw, stored format.</li>
+<li>No ETL Required: Since you can query data directly in Amazon S3, there's no need for an ETL process to load data into the Redshift warehouse, which can be a time-saving advantage for ad-hoc or one-off analyses.</li>
+<li>Scalability: Redshift Spectrum scales out query processing by dynamically allocating thousands of parallel query processors as required. This ensures quick results even on large datasets.</li>
+<li>Cost-Effective: With Redshift Spectrum, you pay only for the queries you run against the data stored in S3. This makes it a flexible solution, especially if you don't need to analyze your entire dataset in Redshift itself.</li>
+<li>Integrated with AWS Glue: AWS Glue's Data Catalog is used as the native metadata repository for Redshift Spectrum, making it easy to discover and manage the metadata of datasets.</li>
+<li>Support for Various Data Formats: Redshift Spectrum supports popular data formats like Parquet, ORC, JSON, Avro, and more.</li>
+<li>Security: Redshift Spectrum offers multiple layers of security, including options to encrypt data at rest and in transit. It also integrates with AWS Identity and Access Management (IAM) for access controls.</li>
+<li>Unified Data Analysis: Users can run SQL queries that span their data warehouse and data lake, allowing for complex analyses that blend structured data in Redshift with semi-structured or unstructured data in Amazon S3.</li>
+<li>Performance Optimization: The system uses sophisticated query optimization and columnar storage on S3, reducing the amount of data that needs to be read from disk, which speeds up queries.</li>
+</ul>
+<blockquote>
+<p>--- <strong>The usefulness of a manifest file</strong></p>
+</blockquote>
+<ul>
+<li>Explicitness: By using a manifest file, you're being explicit about which files to load. This can be useful in scenarios where there may be other unrelated files in the same S3 location.</li>
+<li>Error Handling: If a COPY operation fails for some files but succeeds for others, you can adjust the manifest file to only retry the files that failed, rather than retrying the entire dataset.</li>
+<li>Parallelism: Redshift can load multiple files in parallel. If your data is split across many files (which is often the case when unloading data from Redshift or using distributed data processing frameworks), using a manifest file ensures that all files are loaded concurrently, utilizing Redshift's MPP (massively parallel processing) capabilities.</li>
+<li>Flexibility: Manifest files give you flexibility in data loading. For example, you can have files from different S3 locations or even from different S3 buckets in a single manifest.</li>
+<li>Ensuring Completeness: Especially in environments where new data files might be continuously added to an S3 location, using a manifest ensures that you know exactly which files were loaded into Redshift.</li>
+</ul>
+<blockquote>
+<p>--- <strong>Materialized view in Redshift</strong></p>
+</blockquote>
+<p>A materialized view in Amazon Redshift is a database object that contains the results of a query. Unlike a regular view which is just a saved SQL query that runs against the base tables every time it's queried, a materialized view stores the actual query results in the Redshift cluster.</p>
+<ul>
+<li>Performance: Since materialized views store the query results, accessing a materialized view can be much faster than running the underlying query, especially if the query is complex and involves multiple joins, aggregations, and filtering.</li>
+<li>Minimize Redundant Computation: If you find yourself running the same heavy query frequently, it's wasteful to compute the results from scratch every single time. Materialized views allow you to compute once and reuse the results.</li>
+<li>Automated Refresh: You can set materialized views to be refreshed automatically at regular intervals or manually as needed, ensuring that the data remains relatively up-to-date without constant manual intervention.</li>
+<li>Simplified Querying: Materialized views can simplify complex business logic into a single table-like structure. This can make it easier for analysts and other end-users to fetch data without having to understand the intricacies of the base tables and joins.</li>
+<li>Optimization: Redshift can further optimize how the data in a materialized view is stored, making reads even faster. For instance, using sort keys and data distribution strategies.</li>
+<li>Cost-effective: For heavy queries that would otherwise be run multiple times, using a materialized view can save computational resources, translating to cost savings.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../overview/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Overview">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Overview
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../databricks/" class="md-footer__link md-footer__link--next" aria-label="Next: Overview">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Overview
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 Manishkumar Chetpalli.  This website is maintained for personal learning and documentation purposes. Content is inspired by various public resources and original authors.
+
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://www.linkedin.com/in/manishkumarchetpalli/" target="_blank" rel="noopener" title="www.linkedin.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/manish-chet" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.annotation", "content.code.copy", "content.tooltips", "content.tabs.link", "navigation.tabs", "navigation.tabs.sticky", "navigation.path", "navigation.top", "navigation.footer", "navigation.indexes", "navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.instant.preview", "navigation.tracking", "navigation.path", "search.highlight", "search.suggest", "search.share", "navigation.footer", "content.action.feedback", "toc.follow", "toc.extend"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
