@@ -1,6 +1,6 @@
 # Welcome
 
-Hello! I'm Manish. This site is my personal hub for sharing projects, insights, and lessons learned from my journey as a Big Data Engineer.
+Hello! I'm Manish. This site is my personal hub for sharing projects, notes, and lessons learned from my journey as a Big Data Engineer.
 
 Whether you're a beginner or a seasoned professional, there's something to learn from each project.
 

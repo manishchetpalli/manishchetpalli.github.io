@@ -1,15 +1,13 @@
-#  Hey there! I'm Manish Chetpalli
 
-Welcome to my GitHub space — a curated collection of my work, ideas, and explorations in Big Data, Cloud Engineering, and open-source development.
+Hey there! I'm Manish Chetpalli
 
- I’m a Big Data Engineer with hands-on experience in Hadoop, Spark, Kafka, Airflow, Python, and distributed systems. I love building scalable data pipelines and solving real-world problems with elegant tech solutions.
+Data Engineer with 4+ years of experience in Data & Analytics, hands-on expertise in Hadoop and Kafka administration, and a strong background in building real-time, scalable data platforms that drive business-critical insights.
+
+Strong background in Linux system administration and scripting with Python to optimize system performance and automation.
+
+Passionate about learning new big data technologies and solving complex data challenges. Motivated to contribute to high-impact projects, optimize data systems, and support data-driven decision-making in dynamic engineering environments.
 
 ---
-I'm always open to:
-
--  Talking tech
--  Sharing ideas or insights
--  Collaborating on open-source or data engineering projects
 
 Feel free to reach out — let's build something amazing together!
 

@@ -38,6 +38,9 @@ theme:
     - navigation.instant.preview
     - navigation.tracking
     - navigation.path
+    - navigation.expand
+    - navigation.sections
+    - navigation.instant
     - search.highlight
     - search.suggest
     - search.share
@@ -61,41 +64,32 @@ theme:
 
 nav:
   - Home: index.md
-  - Fundamentals:
+  - Projects:
+    - Flink Ignite Custom Dialect: projects/flink-ignite.md
+    - FastAPI Kafka Producer: projects/kafkaapi.md
+  - Data Engineering:
       - Overview: DataEngineering/DE.md
       - DE Lifecycle: DataEngineering/DEcycle.md
       - DE UnderCurrents: DataEngineering/DEundercurrent.md
       - DE Architecture & Design: DataEngineering/DesigningGDA.md
-      - Data Orchestration: airflow/dataorchestration.md
-      - Data Warehousing: datawarehousing/overview.md
       - File Formats: DataEngineering/fileformat.md
-      - SQL: sql/sql.md
-  - Projects:
-    - Flight Booking Data Pipeline: projects/FlightBookingDataPipelinewithAirflow&CICD.md
-    - Flink Ignite Custom Dialect: projects/flink-ignite.md
-    - FastAPI Kafka Producer: projects/kafkaapi.md
-  - BigData:  
-      - Overview: hadoop/Bigdata.md
-      - HDFS:  hadoop/HDFS.md
-      - MapReduce: hadoop/mapreduce.md
-      - YARN: hadoop/yarn.md
-      - Kerberos: hadoop/kerberos.md
-      - Hive: hive/overview.md
-      - Kafka: kafka/overview.md
-      - Ignite: ignite/ignite.md
-      - Airflow: airflow/airflow.md
-      - Spark: spark/spark.md
-      - Mongo: sql/Mongo.md
-      - Delta Lake: delta/deltalake.md
+  - Data Warehousing: 
+    - Overview: datawarehousing/overview.md
+    - DE data modeling: systemdesign/finance.md
+    - Social Media Platform ER: systemdesign/socialmediaer.md
+  - Data Orchestration: airflow/dataorchestration.md
+  - Data Processing:
+    - Apache Spark: 
+      - Fundamentals: spark/sparkbasics.md
+      - Performance Optimizations: spark/optimzations.md
+      - Advanced: spark/resource.md
+      - Streaming: spark/streaming.md 
+      - Best Practises: spark/practise.md
   - Cloud computing:
     - Overview: cloud/overview.md
     - AWS: cloud/aws.md
     - Databricks:
       - Overview: cloud/databricks.md
-  - System Design:
-    - DE data modeling: systemdesign/finance.md
-    - Kafka Cluster Design: systemdesign/kafka.md
-    - Social Media Platform ER: systemdesign/socialmediaer.md
   - SetupDocs:
     - Airflow Setup: tooling/airflow_install_onpremise.md
     - Ignite Multi Node Setup: tooling/igniteinstall.md
