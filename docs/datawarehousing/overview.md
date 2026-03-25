@@ -3,44 +3,19 @@ Data warehousing is the process of collecting, integrating, storing and managing
 !!! Note
      The main goal of data warehousing is to support decision-making by providing clean, consistent and timely access to data. It ensures fast data retrieval even when working with massive datasets.
 
----
 
-### ***Data Warehouse Architecture***
 
-![Steps](dw.svg)
-
----
-
-> --- ***Need for Data Warehousing***
+> --- **Need for Data Warehousing**
 
 1. Handling Large Data Volumes
-2. Enhanced Analytics
-3. Centralized Data Storage
-4. Trend Analysis
-5. Business Intelligence Support
-6. Data Sources
-7. Data Warehouse Database
-8. Metadata
-9. Data Marts
-10. OLAP (Online Analytical Processing) Tools
-11. End-User Access Tools
+2. Centralized Data Storage
+3. Business Intelligence Support
+4. Data Marts
+5. OLAP (Online Analytical Processing) Tools
+6. End-User Access Tools
 
----
 
-> --- ***Types of Data Warehouses***
-
-1. Enterprise Data Warehouse (EDW)
-2. Operational Data Store (ODS)
-3. Data Mart
-4. Cloud Data Warehouse
-5. Big Data Warehouse
-6. Virtual Data Warehouse
-7. Hybrid Data Warehouse
-8. Real-time Data Warehouse
-
----
-
-> --- ***DBMS vs DataWarehouse***
+> --- **DBMS vs DataWarehouse**
 
 | Aspect                   | Database (DBMS)                                                | Data Warehouse                                               |
 | ------------------------ | -------------------------------------------------------------- | ------------------------------------------------------------ |
@@ -58,9 +33,7 @@ Data warehousing is the process of collecting, integrating, storing and managing
 | Users                | End users, applications                                        | Data analysts, BI tools, decision makers                     |
 | Examples             | Student records in a school database                           | Analyzing best-performing schools across a city              |
 
----
-
-> --- ***We can only store Structured Data in Data Warehouse?***
+> --- **We can only store Structured Data in Data Warehouse?**
 
 Traditionally, data warehouses were designed to handle structured data - that is, data that fits neatly into a table with rows and columns, like you would find in a relational database or an Excel spreadsheet. This structured data could be analyzed using SQL or similar querying languages.
 
@@ -73,13 +46,10 @@ However, while it's possible to store and query unstructured and semi-structured
 !!! Note
      It's important to note that implementing a data warehouse is not a trivial task. It involves data cleaning, data integration, and data transformation tasks that can be complex and time-consuming. Therefore, the decision to create a data warehouse should take into consideration the specific needs of the organization, the availability of resources, and the potential return on investment.
 
----
-
-### **OLTP**
+## **OLTP**
 
 OLTP, or Online Transaction Processing, is a class of software applications capable of supporting transaction-oriented programs. 
 
----
 
 > --- ***Here are some key points about OLTP***
 
@@ -92,41 +62,41 @@ OLTP, or Online Transaction Processing, is a class of software applications capa
 7. Performance Metrics - The performance of OLTP systems is usually measured in transactions per second (TPS).
 8. Database Design - OLTP systems often use a relational database design with an extensive index to deliver rapid responses to SQL queries.
 
----
+
 
 > --- ***OLTP Systems***
 
-1. ERP Systems - Many ERP (Enterprise Resource Planning) systems, such as SAP ERP, Oracle ERP, Microsoft Dynamics, etc., are considered OLTP systems.
-2. Banking Systems - Online banking systems and ATM (Automated Teller Machines) software are examples of OLTP systems.
-3. Airline Reservation Systems - Software for reserving and selling tickets for airlines.
-4. E-commerce Platforms - Systems like Amazon and eBay, which handle numerous online transactions daily.
-5. Telecommunication Network Systems - They handle real-time transactions like call data records.
-6. Retail POS Systems - Point of Sale systems in retail stores.
-7. Customer Relationship Management Systems - CRM systems like Salesforce and HubSpot, where real-time data updates are crucial.
-8. Online Service Applications - Many apps, such as ride-sharing apps like Uber and Lyft, food delivery apps like DoorDash, and Airbnb, use OLTP systems for real-time transactions.
+1. ERP Systems 
+2. Banking Systems
+3. Airline Reservation Systems
+4. E-commerce Platforms 
+5. Telecommunication Network Systems
+6. Retail POS Systems 
+7. Customer Relationship Management Systems
+8. Online Service Applications 
 
----
+
 
 > --- ***Popular Databases for OLTP***
 
-1. Oracle Database - A popular relational database management system from Oracle Corporation.
-2. MySQL - An open-source relational database management system owned by Oracle Corporation.
-3. Microsoft SQL Server - A relational database management system developed by Microsoft.
-4. PostgreSQL - A powerful, open-source object-relational database system.
-5. IBM DB2 - A family of database server products developed by IBM.
-6. MariaDB - An open-source relational database management system, forked from MySQL.
-7. SAP HANA - An in-memory, column-oriented, relational database management system developed by SAP.
-8. Amazon Aurora - A relational database service from Amazon Web Services (AWS), compatible with MySQL and PostgreSQL.
-9. Google Cloud Spanner - A scalable, enterprise-grade, globally-distributed, and strongly consistent database service built for the cloud specifically to combine the benefits of relational database structure with non-relational horizontal scale.
-10. CockroachDB - An open-source distributed SQL database designed for global online transaction processing (OLTP).
+1. Oracle Database 
+2. MySQL 
+3. Microsoft SQL Server 
+4. PostgreSQL 
+5. IBM DB2 
+6. MariaDB 
+7. SAP HANA 
+8. Amazon Aurora 
+9. Google Cloud Spanner
+10. CockroachDB 
 
-**------------------------------------------------------------------------------------------------------------**
 
-### ***OLAP***
+
+## ***OLAP***
 
 OLAP, or Online Analytical Processing, is a category of software tools that provide analysis of data for business decisions. It is characterized by relatively low volume of transactions but complex queries involving aggregations, which need to be executed relatively quickly.
 
----
+
 
 > --- ***Here are the key characteristics of OLAP systems***
 
@@ -137,21 +107,21 @@ OLAP, or Online Analytical Processing, is a category of software tools that prov
 5. Data Discovery - They support data discovery by providing flexible, ad-hoc querying and multi-dimensional analysis.
 6. Read-Optimized - Unlike OLTP, which is write-optimized, OLAP is optimized for a high volume of read operations with fewer write operations.
 
----
+
 
 > --- ***OLAP Systems***
 
 There are several databases and systems that are designed to work as OLAP systems, providing multi-dimensional analysis of data. 
 
-1. Microsoft Analysis Services - Also known as SSAS (SQL Server Analysis Services), it provides data mining and multi-dimensional analysis.
-2. SAP BW (Business Warehouse) - SAP's data warehousing solution that includes OLAP capabilities.
-3. Amazon Redshift - A fully managed, petabyte-scale data warehouse service in the cloud from Amazon Web Services.
-4. Google BigQuery - A fully managed, serverless data warehouse that enables super-fast SQL queries and interactive analysis of massive datasets.
-5. Snowflake - A cloud-based data warehousing platform that supports multi-dimensional analysis of large volumes of data.
+1. Microsoft Analysis Services
+2. SAP BW (Business Warehouse)
+3. Amazon Redshift 
+4. Google BigQuery 
+5. Snowflake 
 
----
 
-> --- **OLTP vs OLAP**
+
+## **OLTP vs OLAP**
 
 | Aspect                         | OLTP (Online Transaction Processing)                     | OLAP (Online Analytical Processing)                       |
 | ------------------------------ | -------------------------------------------------------- | --------------------------------------------------------- |
@@ -167,17 +137,13 @@ There are several databases and systems that are designed to work as OLAP system
 | Consistency Requirement    | High concurrency control and transaction consistency     | Lower consistency needs, data loaded in batches           |
 | Examples                   | Online banking, airline ticket booking, order processing | Sales trend analysis, financial reporting, BI dashboards  |
 
-**------------------------------------------------------------------------------------------------------------**
-
 ## **Normalized data**
 
 Data Normalization is a process in database design that organizes data to minimize redundancy and improve data integrity. It involves structuring data in accordance with a series of so-called normal forms, each with an increasing level of strictness.
 
 ![Steps](normalize.svg)
 
----
-
-> --- ***The primary advantages of normalization are***
+> --- **The primary advantages of normalization are**
 
 1. Minimize Redundancy - By ensuring that each piece of data is stored in only one place, normalization reduces the redundancy of data within the database.
 2. Data Consistency - Normalization improves data consistency as each data item is stored in only one place. Any update needs to be performed only in one place, reducing the chances of inconsistent data.
@@ -189,8 +155,6 @@ Normalized Data Systems, such as OLTP (Online Transaction Processing) systems, u
 !!! Example
     Databases for managing sales transactions, customer relationship management (CRM) systems, airline reservation systems, and banking systems. These systems rely on data normalization to ensure data consistency and efficiency in processing a high volume of transactions.
 
----
-
 ## **Denormalized Data**
 
 Data Denormalization is the process of combining data from several normalized tables into one, for the purpose of improving read performance, simplifying queries, or preparing the data for specific analytical requirements. This is the opposite of normalization, where data is separated into multiple tables to minimize redundancy and improve data integrity.
@@ -201,9 +165,9 @@ Denormalized Data Systems, such as OLAP (Online Analytical Processing) systems o
 
 ![Steps](denormalize.svg)
 
----
 
-> --- ***Here are some key characteristics of denormalized data systems***
+
+> --- **Here are some key characteristics of denormalized data systems**
 
 1. Data Redundancy - Since data is combined into fewer tables, some data can be repeated or redundant.
 2. Read Optimization - Denormalized databases can retrieve data faster because they often need fewer joins to answer a query.
@@ -214,9 +178,9 @@ Denormalized Data Systems, such as OLAP (Online Analytical Processing) systems o
 !!! Note
 	 It's important to note that denormalization doesn't mean that normalization principles are entirely abandoned. Rather, it's a strategic optimization for specific read-heavy use cases.
 
----
 
-> --- ***Normalized vs Denormalized***
+
+> --- **Normalized vs Denormalized**
 
 | Aspect             | Normalized Data                                                                                      | Denormalized Data                                                                                |
 | ------------------ | ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
@@ -226,9 +190,9 @@ Denormalized Data Systems, such as OLAP (Online Analytical Processing) systems o
 | Data Integrity | Higher, as redundancy is eliminated                                                                  | Lower, as redundancy can lead to inconsistencies                                                 |
 | Use Case       | Optimized for transactional systems like OLTP, where write operations are common                 | Optimized for analytical and reporting systems like OLAP, where read operations are common   |
 
----
 
-> --- ***Which is better depends on your use case***
+
+> --- **Which is better depends on your use case**
 
 1. Choose Normalized Data when - You are dealing with transactional systems (like OLTP), where write operations (insert, update, delete) are common and the data integrity is crucial. This includes applications like online retail websites, banking systems, CRM, etc.
 2. Choose Denormalized Data when - You are dealing with analytical systems (like OLAP), where read operations and speed of data retrieval are more important than write operations. This is common in reporting, data mining, and decision support systems.
@@ -236,51 +200,6 @@ Denormalized Data Systems, such as OLAP (Online Analytical Processing) systems o
 It's important to remember that this is not an either/or situation. Often, in a single system, a part of the database might be normalized (to support transactional operations) and another part might be denormalized (to support analytical operations). It's all 
 about choosing the right tool for the right job based on your specific needs.
 
----
-
-## **Data Warehouse Internals**
-
-While a business user might view the Data Warehouse as a single entity, it internally consists of two primary layers:
-
-This is where data first arrives from source systems. It acts as a temporary or permanent holding area before transformation.
-
-This is the layer that business users and Business Intelligence (BI) tools interact with. It contains the finalized, modeled data
-
-> --- **The Staging Layer (Extract Phase)**
-
-The primary goal of this layer is to pull data from source systems as quickly as possible without worrying about complex transformations or modeling.
-
-Data is usually moved from the source table to a corresponding staging table with the same structure.
-
-No dimensional modeling is applied at this stage; the focus is purely on extraction
-
-> --- **Types of Staging layer**
-
-- Non-Persistent Staging Layer
-
-   Data is loaded into staging, processed into the User Access Layer, and then immediately deleted or truncated.
-
-   Extract → Load to Stage → Transform to Access Layer → Truncate Stage.
-
-   Requires significantly less storage space and has lower security/governance risks since the layer is usually empty.
-
-   If the DWH becomes corrupt, you must go back to the original source systems to rebuild it.
-
-- Persistent Staging Layer
-
-   Data is kept in the staging layer even after it has been loaded into the User Access Layer.
-
-   Extract → Load to Stage → Transform to Access Layer → Retain Data in Stage.
-
-   You can rebuild the User Access Layer without hitting the source systems again. It also makes Quality Assurance (QA) easier because you can compare the final data directly against the landed raw data.
-
-   Higher storage costs and increased security risks, as sensitive data remains in multiple locations
-
-> --- **The User Access Layer (Modeling Phase)**
-
-In this layer, data from various staging tables is consolidated into Master Tables using Dimensional Modeling. This is where inconsistencies (like different column names for "city" or "location") are resolved
-
----
 
 ## **Data Warehouse Transformations**
 

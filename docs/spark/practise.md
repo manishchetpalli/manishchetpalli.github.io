@@ -42,6 +42,94 @@
   - `spark.sql.shuffle.partitions`
 - Use dynamic allocation
 
+>--- **Resource Allocation (General Formula)**
+
+- Reserve: 1 core + 1GB per node (OS + daemons)
+- Executors:
+   Prefer 2–5 cores/executor
+   Avoid too many cores (GC issues)
+- Memory:
+   ~90% of node memory
+- Parallelism:
+   2–3 tasks per core
+- Driver:
+   5–10% cluster memory
+
+
+>--- **OutOfMemoryError (Java Heap Space)**
+
+- Increase:
+   `spark.executor.memory`
+   `spark.driver.memory`
+- Use:
+   `MEMORY_AND_DISK`
+- Optimize:
+   Remove unnecessary columns (`select`)
+- Check:
+   Data skew → repartition
+- Use:
+   Kryo serialization
+
+>--- **GC Overhead / High Garbage Collection**
+
+- Increase executor memory
+- Tune:
+   `spark.memory.fraction`
+- Use:
+  Serialized caching (`MEMORY_ONLY_SER`)
+  Reduce data in memory
+  Increase partitions
+
+>--- **Slow Spark Job (General Debug)**
+
+- Check Spark UI:
+  CPU / Memory / GC
+- Identify:
+  Data skew
+  Shuffle-heavy stages
+- Optimize:
+  Increase partitions
+  Cache reused data
+- Use Kryo serialization
+
+>--- **Too Many Small Tasks (Scheduling Delay)**
+
+- Use:
+  `coalesce()` (reduce partitions)
+- Tune:
+  `spark.default.parallelism`
+- Increase partition size
+
+>--- **Slow Write to DB**
+
+- Reduce partitions:
+  `coalesce()`
+- Use:
+  Batch writes / bulk inserts
+- Limit concurrent writes
+- Fix skew
+
+
+>--- **Stage Taking Too Long**
+ 
+- Reduce data early (`filter`)
+- Fix skew
+- Optimize shuffle
+- Cache intermediate results
+
+>--- **Key Configs to Remember**
+
+| Config                         | Purpose            |
+| ------------------------------ | ------------------ |
+| `spark.executor.memory`        | Executor memory    |
+| `spark.executor.cores`         | Cores per executor |
+| `spark.driver.memory`          | Driver memory      |
+| `spark.sql.shuffle.partitions` | Shuffle partitions |
+| `spark.default.parallelism`    | Default partitions |
+| `spark.memory.fraction`        | Memory split       |
+| `spark.serializer`             | Serialization      |
+
+
 ## **Deciding the configuration**
 
 The configuration of Spark executors, cores, and memory for processing large datasets like 100GB.

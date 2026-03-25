@@ -74,34 +74,50 @@ nav:
       - DE Architecture & Design: DataEngineering/DesigningGDA.md
       - File Formats: DataEngineering/fileformat.md
   - Data Warehousing: 
-    - Overview: datawarehousing/overview.md
-    - DE data modeling: systemdesign/finance.md
-    - Social Media Platform ER: systemdesign/socialmediaer.md
-  - Data Orchestration: airflow/dataorchestration.md
+    - Fundamentals: datawarehousing/overview.md
+    - Apache Hadoop: 
+      - BigData: hadoop/Bigdata.md
+      - HDFS: hadoop/HDFS.md
+      - Kerberos: hadoop/kerberos.md
+    - Apache Hive:
+      - Hive: hive/overview.md
+    - MongoDB: 
+      - Overview: datawarehousing/Mongo.md
+    - Apache Ignite: 
+      - Overview: ignite/ignite.md
+    - Data modeling: 
+      - DE data modeling: systemdesign/finance.md
+      - Social Media Platform ER: systemdesign/socialmediaer.md
+  - Data Orchestration: 
+    - Overview: airflow/dataorchestration.md
+    - Apache Yarn: hadoop/yarn.md
+    - Apache Airflow: airflow/airflow.md
   - Data Processing:
+    - Apache MapReduce: 
+      - Overview: hadoop/mapreduce.md
+    - Apache Kafka: kafka/overview.md
     - Apache Spark: 
       - Fundamentals: spark/sparkbasics.md
       - Performance Optimizations: spark/optimzations.md
       - Advanced: spark/resource.md
       - Streaming: spark/streaming.md 
       - Best Practises: spark/practise.md
+      - Interview prep: spark/iq.md
   - Cloud computing:
     - Overview: cloud/overview.md
     - AWS: cloud/aws.md
     - Databricks:
       - Overview: cloud/databricks.md
+  - Devops:
+    - Docker: devops/docker.md
+    - Git: devops/git.md
+    - Kubernetes: devops/kubernetesarchitecture.md
   - SetupDocs:
     - Airflow Setup: tooling/airflow_install_onpremise.md
     - Ignite Multi Node Setup: tooling/igniteinstall.md
     - Kafka Multi Node Setup: tooling/kafka_install_zookeeper.md
     - Kubernetes Setup: tooling/kubernetes_install.md
     - Sparkstandalone Multi Node Setup: tooling/spark3standalone.md
-  - Interview Prep:
-    - Hadoop : hadoop/hadoopiq.md
-    - Kafka : kafka/iq.md
-    - Airflow : airflow/airflowiq.md
-    - Flink  : flink/iq.md
-    - MongoDB : sql/mongoiq.md
   - About Me: about.md
   
 # Extensions

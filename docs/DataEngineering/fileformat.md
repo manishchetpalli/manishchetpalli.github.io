@@ -7,20 +7,21 @@
 Data for an entire row is stored contiguously on disk.
 
 
-Advantage for OLTP: When you need all the details of a specific record (e.g., a customer's entire banking transaction), a row-based format allows you to access all its columns continuously. If you need to update multiple columns for a single transaction, the data is already together.
+When you need all the details of a specific record (e.g., a customer's entire banking transaction), a row-based format allows you to access all its columns continuously. If you need to update multiple columns for a single transaction, the data is already together.
 
-Disadvantage for OLAP: If you only need a few columns (e.g., "Title" and "Chart") from a large dataset, a row-based system still has to read through all the interleaved data (including "Date") for every row. This leads to excessive I/O operations and slower performance because the system has to "jump" across the disk to pick out the desired columns from different rows.
+If you only need a few columns (e.g., "Title" and "Chart") from a large dataset, a row-based system still has to read through all the interleaved data (including "Date") for every row. This leads to excessive I/O operations and slower performance because the system has to "jump" across the disk to pick out the desired columns from different rows.
 
 **Column-based File Formats (e.g., Parquet for OLAP)**:
 
 Data for each column is stored contiguously on disk, independent of other columns.
 
-Advantage for OLAP: This format shines in "read-many" scenarios prevalent in Big Data analytics. If you only need "Title" and "Chart" columns, the system can go directly to the contiguous "Title" block and "Chart" block, skipping the "Date" column entirely. This significantly reduces I/O, leading to faster query performance and lower computational cost.
+This format shines in "read-many" scenarios prevalent in Big Data analytics. If you only need "Title" and "Chart" columns, the system can go directly to the contiguous "Title" block and "Chart" block, skipping the "Date" column entirely. This significantly reduces I/O, leading to faster query performance and lower computational cost.
 
-Disadvantage for OLTP: If you need to retrieve or update an entire row, the system has to jump between different column blocks to gather all the data for that single row
+If you need to retrieve or update an entire row, the system has to jump between different column blocks to gather all the data for that single row
 
 
 ## **Parquet**
+
 Columnar storage format, available to any project in the Hadoop ecosystem.
 It's designed to bring efficient columnar storage of data compared to row-based like CSV or TSV files.
 
@@ -32,17 +33,17 @@ It supports all data types, including nested ones, and integrates well with flat
 
 Parquet is considered a de-facto standard for storing data nowadays
 
-Data compression - by applying various encoding and compression algorithms, Parquet file provides reduced memory consumption
+By applying various encoding and compression algorithms, Parquet file provides reduced memory consumption
 
-Columnar storage - this is of paramount importance in analytic workloads, where fast data read operation is the key requirement. But, more on that later in the article…
+In traditional, row-based storage, the data is stored as a sequence of rows. Something like this:
 
-Language agnostic - as already mentioned previously, developers may use different programming languages to manipulate the data in the Parquet file
-
-Open-source format - meaning, you are not locked with a specific vendor
+Parquet is a columnar format that stores the data in row groups!
 
 **Why is this additional structure super important?**
  
-In OLAP scenarios, we are mainly concerned with two concepts: projection and predicate(s). Projection refers to a SELECT statement in SQL language – which columns are needed by the query. 
+In OLAP scenarios, we are mainly concerned with two concepts: projection and predicate(s).
+
+Projection refers to a SELECT statement in SQL language – which columns are needed by the query. 
 
 Predicate(s) refer to the WHERE clause in SQL language – which rows satisfy criteria defined in the query. In our case, we are interested in T-Shirts only, so the engine can completely skip scanning Row group 2, where all the values in the Product column equal socks!
 
@@ -129,7 +130,9 @@ This technique uses the row group-level metadata (min/max values for each column
     This optimization also works with equality checks (e.g., WHERE age = 18) by checking if 18 exists in the row group's dictionary (if dictionary encoding is used) or falls within its min/max range.
 
 2. **Projection Pruning**:
-This technique capitalizes on Parquet's columnar storage by only reading the columns that are explicitly required by the query.Example: If a query is SELECT name, age FROM users, Parquet will only read the name and age column data from disk and completely skip reading any other columns like address, phone_number, etc.. Since columns are stored separately, this is highly efficient as it avoids bringing unnecessary data into memory, reducing I/O and processing load
+This technique capitalizes on Parquet's columnar storage by only reading the columns that are explicitly required by the query.
+
+    Example: If a query is SELECT name, age FROM users, Parquet will only read the name and age column data from disk and completely skip reading any other columns like address, phone_number, etc.. Since columns are stored separately, this is highly efficient as it avoids bringing unnecessary data into memory, reducing I/O and processing load
 
 
 
@@ -157,83 +160,35 @@ As shown in the diagram, each stripe in an ORC file holds index data, row data, 
     Row data is used in table scans.
     Index data includes min and max values for each column and the row positions within each column. Row index entries provide offsets that enable seeking to the right compression block and byte within a decompressed block.  Note that ORC indexes are used only for the selection of stripes and row groups and not for answering queries.
 
-
-- Parquet
-
-    Columnar storage format, available to any project in the Hadoop ecosystem.
-    It's designed to bring efficient columnar storage of data compared to row-based like CSV or TSV files.
-
-    It is columnar in nature and designed to bring efficient columnar storage of data.
-    Provides efficient data compression and encoding schemes with enhanced performance to handle complex data in comparison to row-based files like CSV.
-
-    Schema evolution is handled in the file metadata allowing compatible schema evolution.
-    It supports all data types, including nested ones, and integrates well with flat data, semi-structured data, and nested data sources.
-
-    Parquet is considered a de-facto standard for storing data nowadays
-
-    Data compression – by applying various encoding and compression algorithms, Parquet file provides reduced memory consumption
-
-    Columnar storage – this is of paramount importance in analytic workloads, where fast data read operation is the key requirement. But, more on that later in the article…
-
-    Language agnostic – as already mentioned previously, developers may use different programming languages to manipulate the data in the Parquet file
-
-    Open-source format – meaning, you are not locked with a specific vendor
-
-    Support for complex data types
-
-
-    In traditional, row-based storage, the data is stored as a sequence of rows. Something like this:
-
-    ![Steps](parquetnew.svg)
-
-
-    Parquet is a columnar format that stores the data in row groups!
-    Wait, what?! Wasn’t it enough complicated even before this? Don’t worry, it’s much easier than it sounds:)
-    Let’s go back to our previous example and depict how Parquet will store this same chunk of data:
-
-
-    Let’s stop for a moment and understand above diagram, as this is exactly the structure of the Parquet file (some additional things were intentionally omitted, but we will come soon to explain that as well). Columns are still stored as separate units, but Parquet introduces additional structures, called Row group.
-
-    Why is this additional structure super important?
-    
-    In OLAP scenarios, we are mainly concerned with two concepts: projection and predicate(s). Projection refers to a SELECT statement in SQL language – which columns are needed by the query. Back to our previous example, we need only the Product and Country columns, so the engine can skip scanning the remaining ones.
-
-    Predicate(s) refer to the WHERE clause in SQL language – which rows satisfy criteria defined in the query. In our case, we are interested in T-Shirts only, so the engine can completely skip scanning Row group 2, where all the values in the Product column equal socks!
-
-    This means, every Parquet file contains “data about data” – information such as minimum and maximum values in the specific column within the certain row group. Furthermore, every Parquet file contains a footer, which keeps the information about the format version, schema information, column metadata, and so on.
-
-    ![Steps](parformat.svg)
-
-
-
 ## **AVRO**
 
-    It's a row-oriented format that is highly splittable.
-    It also supports schema evolution - you can have Avro data files where each file has a different schema but all are part of the same table.
+It's a row-oriented format that is highly splittable.
 
-    - Schema-Based: 
-        Avro uses a schema to define the structure of the data. The schema is written in JSON and is included in the serialized data, allowing data to be self-describing and ensuring that the reader can understand the data structure without external information.
+It also supports schema evolution - you can have Avro data files where each file has a different schema but all are part of the same table.
 
-    - Compact and Fast: 
-        Avro data is serialized in a compact binary format, which makes it highly efficient in terms of both storage and transmission.
+- Schema-Based: 
+Avro uses a schema to define the structure of the data. The schema is written in JSON and is included in the serialized data, allowing data to be self-describing and ensuring that the reader can understand the data structure without external information.
 
-    - Compression: 
-        Avro supports various compression codes such as Snappy, Deflate, Bzip2, Xz
-        
-    - Schema Evolution: 
-        Avro supports schema evolution, allowing the schema to change over time without breaking compatibility with old data. This is particularly useful in big data environments where data structures might evolve.
+- Compact and Fast: 
+Avro data is serialized in a compact binary format, which makes it highly efficient in terms of both storage and transmission.
 
-    - Rich Data Structures: 
-        Avro supports complex data types, including nested records, arrays, maps, and unions, allowing for flexible and powerful data modelling.
+- Compression: 
+Avro supports various compression codes such as Snappy, Deflate, Bzip2, Xz
 
-    - Interoperability: 
-        Avro is designed to work seamlessly with other big data tools and frameworks, especially within the Hadoop ecosystem, such as Apache Hive, Apache Pig, and Apache Spark.
+- Schema Evolution: 
+Avro supports schema evolution, allowing the schema to change over time without breaking compatibility with old data. This is particularly useful in big data environments where data structures might evolve.
 
-    - Language Agnostic: 
-        Avro has libraries for many programming languages, including Java, C, C++, Python, and more, enabling cross-language data exchange.
+- Rich Data Structures: 
+Avro supports complex data types, including nested records, arrays, maps, and unions, allowing for flexible and powerful data modelling.
+
+- Interoperability: 
+Avro is designed to work seamlessly with other big data tools and frameworks, especially within the Hadoop ecosystem, such as Apache Hive, Apache Pig, and Apache Spark.
+
+- Language Agnostic: 
+Avro has libraries for many programming languages, including Java, C, C++, Python, and more, enabling cross-language data exchange.
 
 
-    ![Steps](avro.svg)
+![Steps](avro.svg)
 
 
 ## **ORC vs Parquet vs AVRO**
