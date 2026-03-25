@@ -79,6 +79,7 @@ nav:
       - BigData: hadoop/Bigdata.md
       - HDFS: hadoop/HDFS.md
       - Kerberos: hadoop/kerberos.md
+      - Interview prep: hadoop/hadoopiq.md
     - Apache Hive:
       - Hive: hive/overview.md
     - MongoDB: 
