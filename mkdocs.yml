@@ -38,7 +38,6 @@ theme:
     - navigation.instant.preview
     - navigation.tracking
     - navigation.path
-    - navigation.expand
     - navigation.sections
     - navigation.instant
     - search.highlight
@@ -47,7 +46,8 @@ theme:
     - navigation.footer  
     - content.action.feedback 
     - toc.follow
-    - toc.extend
+    
+    
   palette:
     - scheme: default
       primary: custom
@@ -67,48 +67,27 @@ nav:
   - Projects:
     - Flink Ignite Custom Dialect: projects/flink-ignite.md
     - FastAPI Kafka Producer: projects/kafkaapi.md
-  - Data Engineering:
+  - Fundamentals:
       - Overview: DataEngineering/DE.md
       - DE Lifecycle: DataEngineering/DEcycle.md
       - DE UnderCurrents: DataEngineering/DEundercurrent.md
       - DE Architecture & Design: DataEngineering/DesigningGDA.md
+      - Data Orchestration: airflow/dataorchestration.md
+      - Data Warehousing: datawarehousing/overview.md
       - File Formats: DataEngineering/fileformat.md
-  - Data Warehousing: 
-    - Fundamentals: datawarehousing/overview.md
-    - Apache Hadoop: 
-      - BigData: hadoop/Bigdata.md
-      - HDFS: hadoop/HDFS.md
-      - Kerberos: hadoop/kerberos.md
-      - Interview prep: hadoop/hadoopiq.md
-    - Apache Hive:
-      - Hive: hive/overview.md
-    - MongoDB: 
-      - Overview: datawarehousing/Mongo.md
-    - Apache Ignite: 
-      - Overview: ignite/ignite.md
-    - Data modeling: 
-      - DE data modeling: systemdesign/finance.md
-      - Social Media Platform ER: systemdesign/socialmediaer.md
-  - Data Orchestration: 
-    - Overview: airflow/dataorchestration.md
+  - Big Data: 
+    - Apache Hadoop: hadoop/HDFS.md
+    - Apache MapReduce: hadoop/mapreduce.md
     - Apache Yarn: hadoop/yarn.md
-    - Apache Airflow: airflow/airflow.md
-  - Data Processing:
-    - Apache MapReduce: 
-      - Overview: hadoop/mapreduce.md
+    - Kerberos: hadoop/kerberos.md
+    - Apache Hive: hive/overview.md
+    - Apache Airflow: airflow/airflow.md 
+    - Apache Spark: spark/intro.md
     - Apache Kafka: kafka/overview.md
-    - Apache Spark: 
-      - Fundamentals: spark/sparkbasics.md
-      - Performance Optimizations: spark/optimzations.md
-      - Advanced: spark/resource.md
-      - Streaming: spark/streaming.md 
-      - Best Practises: spark/practise.md
-      - Interview prep: spark/iq.md
+    - Apache Ignite: ignite/ignite.md
   - Cloud computing:
-    - Overview: cloud/overview.md
     - AWS: cloud/aws.md
-    - Databricks:
-      - Overview: cloud/databricks.md
+    - Databricks: cloud/databricks.md
   - Devops:
     - Docker: devops/docker.md
     - Git: devops/git.md
