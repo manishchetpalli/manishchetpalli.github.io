@@ -1013,3 +1013,486 @@ This crucial Kafka property determines which of the two options (durability or a
       The partition will be unavailable for a period, blocking producers from publishing messages until an in-sync leader is established.
 
       Essential for scenarios where data loss is absolutely unacceptable, such as: Transaction-related information in banking or financial sectors. Any system where monetary transactions are involved
+
+## KAFKA_IQ
+
+!!!- info "What ensures load balancing of the server in Kafka?"
+    As the main role of the Leader is to perform the task of all read and write requests for the partition, whereas Followers passively replicate the leader. Hence, at the time of Leader failing, one of the Followers takeover the role of the Leader. Basically, this entire process ensures load balancing of the servers.
+
+!!!- info "What roles do Replicas and the ISR play?"
+    Basically, a list of nodes that replicate the log is Replicas. Especially, for a particular partition. However, they are irrespective of whether they play the role of the Leader. In addition, ISR refers to In-Sync Replicas. On defining ISR, it is a set of message replicas that are synced to the leaders.
+
+!!!- info "In the Producer, when does QueueFullException occur?"
+    Whenever the Kafka Producer attempts to send messages at a pace that the Broker cannot handle at that time QueueFullException typically occurs. However, to collaboratively handle the increased load, users will need to add enough brokers(servers, nodes), since the Producer doesn't block.
+
+!!!- info "13. What is Geo-Replication in Kafka?"
+    For our cluster, Kafka MirrorMaker offers geo-replication. Basically, messages are replicated across multiple data centers or cloud regions, with MirrorMaker. So, it can be used in active/passive scenarios for backup and recovery; or also to place data closer to our users, or support data locality requirements.
+
+!!!- info "Compare: RabbitMQ vs Apache Kafka"
+    One of the Apache Kafka's alternative is RabbitMQ. So, let's compare both:
+    Features
+    - Apache Kafka– Kafka is distributed, durable and highly available, here the data is shared as well as replicated.
+    - RabbitMQ– There are no such features in RabbitMQ.
+    Performance rate
+    - Apache Kafka– To the tune of 100,000 messages/second.
+    - RabbitMQ- In case of RabbitMQ, the performance rate is around 20,000 messages/second.
+
+!!!- info "What is the benefits of Apache Kafka over the traditional technique?"
+    - Scalability: Kafka is designed for horizontal scalability. It can scale out by adding more brokers (servers) to the Kafka cluster to handle more partitions and thereby increase throughput. This scalability is seamless and can handle petabytes of data without downtime.
+    - Performance: Kafka provides high throughput for both publishing and subscribing to messages, even with very large volumes of data. It uses a disk structure that optimizes for batched writes and reads, significantly outperforming traditional databases in scenarios that involve high-volume, high-velocity data.
+    - Durability and Reliability: Kafka replicates data across multiple nodes, ensuring that data is not lost even if some brokers fail. This replication is configurable, allowing users to balance between redundancy and performance based on their requirements.
+    - Fault Tolerance: Kafka is designed to be fault-tolerant. The distributed nature of Kafka, combined with its replication mechanisms, ensures that the system continues to operate even when individual components .
+    - Real-time Processing: Kafka enables real-time data processing by allowing producers to write data into Kafka topics and consumers to read data from these topics with minimal latency. This capability is critical for applications that require real-time analytics, monitoring, and response.
+    - Decoupling of Data Streams: Kafka allows producers and consumers to operate independently. Producers can write data to Kafka topics without being concerned about how the data will be processed. Similarly, consumers can read data from topics without needing to coordinate with producers. This decoupling simplifies system architecture and enhances flexibility.
+    - Replayability: Kafka stores data for a configurable period, enabling applications to replay historical data. This is valuable for new applications that need access to historical data or for recovering from errors by reprocessing data.
+    - High Availability: Kafka's distributed nature and replication model ensure high availability. Even if some brokers or partitions become unavailable, the system can continue to function, ensuring continuous operation of critical applications.
+
+!!!- info "What is the maximum size of a message that kafka can receive?"
+    The maximum size of a message that Kafka can receive is determined by the message.max.bytes configuration parameter for the broker and the max.message.bytes parameter for the topic. By default, Kafka allows messages up to 1 MB (1,048,576 bytes) in size, but both parameters can be adjusted to allow larger messages if needed.
+
+!!!- info "How can you improve the throughput of a remote consumer?"
+    - Increase Bandwidth: Ensure the network connection has sufficient bandwidth to handle the data being consumed.
+    - Optimize Data Serialization: Use efficient data serialization formats to reduce the size of the data being transmitted.
+    - Concurrency: Implement concurrency in the consumer to process data in parallel, if possible.
+    - Batch Processing: Where applicable, batch data together to reduce the number of roundtrip times needed.
+    - Caching: Cache frequently accessed data on the consumer side to reduce data retrieval times.
+    - Compression: Compress data before transmission to reduce the amount of data being sent over the network.
+    - Optimize Network Routes: Use optimized network paths or CDN services to reduce latency.
+    - Adjust Timeouts and Buffer Sizes: Fine-tune network settings, including timeouts and buffer sizes, for optimal data transfer rates.
+
+!!!- info "How can get Exactly-Once Messaging from Kafka during data production?"
+    During data production to get exactly once messaging from Kafka you have to follow two things: avoiding duplicates during data consumption and avoiding duplication during data production. Here are the two ways to get exactly one semantics while data production: Avail a single writer per partition, every time you get a network error checks the last message in that partition to see if your last write succeeded In the message include a primary key (UUID or something) and de-duplicate on the consumer
+    1. Enable Idempotence: Configure the producer for idempotence by setting `enable.idempotence` to `true`. This ensures that messages are not duplicated during network errors.
+    2. Transactional API: Use Kafka's Transactional API by initiating transactions on the producer. This involves setting the `transactional.id` configuration and managing transactions with `beginTransaction()`, `commitTransaction()`, and `abortTransaction()` methods. It ensures that either all messages in a transaction are successfully published, or none are in case of failure, thereby achieving exactly-once semantics.
+    3. Proper Configuration: Alongside enabling idempotence, adjust `acks` to `all` (or `-1`) to ensure all replicas acknowledge the messages, and set an appropriate `retries` and `max.in.flight.requests.per.connection` (should be 1 when transactions are used) to handle retries without message duplication.
+    4. Consistent Partitioning: Ensure that messages are partitioned consistently if the order matters. This might involve custom partitioning strategies to avoid shuffling messages among partitions upon retries.
+
+!!!- info "What is In-Sync Messages(ISR) in Apache Kafka?"
+    In Apache Kafka, ISR stands for In-Sync Replicas. It's a concept related to Kafka's high availability and fault tolerance mechanisms.
+    For each partition, Kafka maintains a list of replicas that are considered "in-sync" with the leader replica. The leader replica is the one that handles all read and write requests for a specific partition, while the follower replicas replicate the leader's log. Followers that have fully caught up with the leader log are considered in-sync. This means they have replicated all messages up to the last message acknowledged by the leader.
+    The ISR ensures data durability and availability. If the leader fails, Kafka can elect a new leader from the in-sync replicas, minimizing data loss and downtime.
+
+!!!- info "How can we reduce churn (frequent changes) in ISR?"
+    ISR is a set of message replicas that are completely synced up with the leaders, in other word ISR has all messages that are committed. ISR should always include all replicas until there is a real failure. A replica will be dropped out of ISR if it deviates from the leader.
+    - Optimize Network Configuration: Ensure that the network connections between brokers are stable and have sufficient bandwidth. Network issues can cause followers to fall behind and drop out of the ISR.
+    - Adjust Replica Lag Configuration: Kafka allows configuration of parameters like `replica.lag.time.max.ms` which defines how long a replica can be behind the leader before it is considered out of sync. Adjusting this value can help manage ISR churn by allowing replicas more or less time to catch up.
+    - Monitor and Scale Resources Appropriately: Ensure that all brokers have sufficient resources (CPU, memory, disk I/O) to handle their workload. Overloaded brokers may struggle to keep up, leading to replicas falling out of the ISR.
+    - Use Dedicated Networks for Replication Traffic: If possible, use a dedicated network for replication traffic. This can help prevent replication traffic from being impacted by other network loads.
+
+!!!- info "When does a broker leave ISR?"
+    A broker may leave the ISR for a few reasons:
+    - Falling Behind: If a replica falls behind the leader by more than the configured thresholds (`replica.lag.time.max.ms` or `replica.lag.max.messages`), it is removed from the ISR.
+    - Broker Failure: If a broker crashes or is otherwise disconnected from the cluster, its replicas are removed from the ISR.
+    - Manual Intervention: An administrator can manually remove a replica from the ISR, although this is not common practice and should be done with caution.
+
+!!!- info "What does it indicate if replica stays out of Isr for a long time?"
+    If a replica stays out of the ISR (In-Sync Replicas) for a long time, it indicates that the replica is not able to keep up with the leader's log updates. This can be due to network issues, hardware failure, or high load on the broker. As a result, the replica might become a bottleneck for partition availability and durability, since it cannot participate in acknowledging writes or be elected as a leader if the current leader fails.
+
+!!!- info "What happens if the preferred replica is not in the ISR list?"
+    If the preferred replica is not in the In-Sync Replicas (ISR) for a Kafka topic, the producer will either wait for the preferred replica to become available (if configured with certain ack settings) or send messages to another available broker that is part of the ISR. This ensures data integrity by only using replicas that are fully up-to-date with the leader. Consumers might experience a delay in data availability if they are set to consume only from the preferred replica and it is not available
+
+!!!- info "Is it possible to get the message offset after producing to a topic?"
+    You cannot do that from a class that behaves as a producer like in most queue systems, its role is to fire and forget the messages. The broker will do the rest of the work like appropriate metadata handling with id’s, offsets, etc. As a consumer of the message, you can get the offset from a Kafka broker. If you look in the
+    SimpleConsumer class, you will notice it fetches MultiFetchResponse objects that include offsets as a list. In addition to that, when you iterate the Kafka Message, you will have MessageAndOffset objects that include both, the offset and the message sent.
+    Yes, it is possible to get the message offset after producing a message in Kafka. When you send a message to a Kafka topic, the producer API can return metadata about the message, including the offset of the message in the topic partition
+
+!!!- info "Can you explain the concept of leader and follower in kafka ecosystem?"
+    In Apache Kafka, the concepts of "leader" and "follower" refer to roles that brokers play within a Kafka cluster to manage partitions of a topic.
+    - Leader: For each partition of a topic, there is one broker that acts as the leader. The leader is responsible for handling all read and write requests for that partition. When messages are produced to a partition, they are sent to the leader broker, which then writes the messages to its local storage. The leader broker ensures that messages are stored in the order they are received.
+    - Follower: Followers are other brokers in the cluster that replicate the data of the leader for fault tolerance. Each follower continuously pulls messages from the leader to stay up-to-date, ensuring that it has an exact copy of the leader's data. In case the leader broker fails, one of the followers can be elected as the new leader, ensuring high availability.
+
+!!!- info "What do you mean by Kafka schema registry?"
+    A Schema Registry is present for both producers and consumers in a Kafka cluster, and it holds Avro schemas. For easy serialization and de-serialization, Avro schemas enable the configuration of compatibility parameters between producers and consumers. The Kafka Schema Registry is used to ensure that the schema used by the consumer and the schema used by the producer are identical. The producers just need to submit the schema ID and not the whole schema when using the Confluent schema registry in Kafka. The consumer looks up the matching schema in the Schema Registry using the schema ID.
+
+!!!- info "Tell me about some of the use cases where Kafka is not suitable."
+    Following are some of the use cases where Kafka is not suitable
+    - Kafka is designed to manage large amounts of data. Traditional messaging systems would be more appropriate if only a small number of messages need to be processed every day.
+    - Although Kafka includes a streaming API, it is insufficient for executing data transformations. For ETL (extract, transform, load) jobs, Kafka should be avoided.
+    - There are superior options, such as RabbitMQ, for scenarios when a simple task queue is required.
+    - If long-term storage is necessary, Kafka is not a good choice. It simply allows you to save data for a specific retention period and no longer.
+
+!!!- info "What do you understand about Kafka MirrorMaker?"
+    The MirrorMaker is a standalone utility for copying data from one Apache Kafka cluster to another. The MirrorMaker reads data from original cluster topics and writes it to a destination cluster with the same topic name. The source and destination clusters are separate entities that can have various partition counts and offset values.
+
+!!!- info "Describe message compression in Kafka. What is the need of message compression in Kafka? Also mention if there are any disadvantages of it."
+    Producers transmit data to brokers in JSON format in Kafka. The JSON format stores data in string form, which can result in several duplicate records being stored in the Kafka topic. As a result, the amount of disc space used increases. As a result, before delivering messages to Kafka, compression or delaying of data is performed to save disk space. Because message compression is performed on the producer side, no changes to the consumer or broker setup are required.
+
+    Advantages:
+    - It decreases the latency of messages transmitted to Kafka by reducing their size.
+    - Producers can send more net messages to the broker with less bandwidth.
+    - When data is saved in Kafka using cloud platforms, it can save money in circumstances where cloud services are paid.
+    - Message compression reduces the amount of data stored on disk, allowing for faster read and write operations.
+    
+    Disadvantages:
+    - Producers must use some CPU cycles to compress their work.
+    - Decompression takes up several CPU cycles for consumers.
+    - Compression and decompression place a higher burden on the CPU.
+
+!!!- info "What do you understand about log compaction and quotas in Kafka?"
+    Log compaction is a way through which Kafka assures that for each topic partition, at least the last known value for each message key within the log of data is kept. This allows for the restoration of state following an application crash or a system failure. During any operational maintenance, it allows refreshing caches after an application restarts. Any consumer processing the log from the beginning will be able to see at least the final state of all records in the order in which they were written, because of the log compaction.
+
+    A Kafka cluster can apply quotas on producers and fetch requests as of Kafka 0.9. Quotas are byte-rate limits that are set for each client-id. A client-id is a logical identifier for a request-making application. A single client-id can therefore link to numerous producers and client instances. The quota will be applied to them all as a single unit. Quotas prevent a single application from monopolizing broker resources and causing network saturation by consuming extremely large amounts of data.
+
+!!!- info "What do you mean by an unbalanced cluster in Kafka? How can you balance it?"
+    It's as simple as assigning a unique broker id, listeners, and log directory to the server.properties file to add new brokers to an existing Kafka cluster. However, these brokers will not be allocated any data partitions from the cluster's existing topics, so they won't be performing much work unless the partitions are moved or new topics are formed.
+    
+    A cluster is referred to as unbalanced if it has any of the following problems :
+    - Leader Skew
+    - Broker Skew
+
+!!!- info "What do you mean by BufferExhaustedException and OutOfMemoryException in Kafka?"
+    When the producer can't assign memory to a record because the buffer is full, a BufferExhaustedException is thrown. If the producer is in non-blocking mode, and the rate of production exceeds the rate at which data is transferred from the buffer for long enough, the allocated buffer will be depleted, the exception will be thrown.
+    
+    If the consumers are sending huge messages or if there is a spike in the number of messages sent at a rate quicker than the rate of downstream processing, an OutOfMemoryException may arise. As a result, the message queue fills up, consuming memory space.
+
+!!!- info "What are Znodes in Kafka Zookeeper? How many types of Znodes are there?"
+    The nodes in a ZooKeeper tree are called znodes. Version numbers for data modifications, ACL changes, and timestamps are kept by Znodes in a structure. ZooKeeper uses the version number and timestamp to verify the cache and guarantee that updates are coordinated. Each time the data on Znode changes, the version number connected with it grows.
+    
+    There are three different types of Znodes:
+    - Persistence Znode: These are znodes that continue to function even after the client who created them has been disconnected. Unless otherwise specified, all znodes are persistent by default.
+    - Ephemeral Znode: Ephemeral znodes are only active while the client is still alive. When the client who produced them disconnects from the ZooKeeper ensemble, the ephemeral Znodes are automatically removed. They have a significant part in the election of the leader.
+    - Sequential Znode: When znodes are constructed, the ZooKeeper can be asked to append an increasing counter to the path's end. The parent znode's counter is unique. Sequential nodes can be either persistent or ephemeral.
+
+!!!- info "What is meant by the Replication Tool?"
+    The Replication Tool in Kafka is used for a high-level design to maintain Kafka replicas. Some of the replication tools available are
+
+    - Preferred Replica Leader Election Tool: Partitions are distributed to multiple brokers in a cluster, each copy known as a replica. The preferred replica usually refers to the leader. The brokers distribute the leader role evenly across the cluster for various partitions. Still, an imbalance can occur over time due to failures, planned shutdowns, etc. in such cases, you can use the replication tool to maintain the load balancing by reassigning the preferred replicas and hence, the leaders.
+    - Topics tool: Kafka topics tool is responsible for handling all management operations related to topics, which include Listing and describing topics, Creating topics, Changing topics, Adding partitions to a topic, Deleting topics
+    - Reassign partitions tool: This tool changes the replicas assigned to a partition. This means adding or removing followers associated with a partition.
+    - StateChangeLogMerger tool: This tool is used to collect data from the brokers in a particular cluster, formats it into a central log, and help to troubleshoot issues with state changes. Often, problems may arise with the leader election for a particular partition. This tool can be used to determine what caused the problem.
+    - Change topic configuration tool: used to Add new config options, Change existing config options, and Remove config options
+
+!!!- info "How can Kafka be tuned for optimal performance?"
+    Tuning for optimal performance involves consideration of two key measures: latency measures, which denote the amount of time taken to process one event, and throughput measures, which refer to how many events can be processed in a specific time. Most systems are optimized for either latency or throughput, while Kafka can balance both.
+
+    Tuning Kafka for optimal performance involves the following steps:
+    - Tuning Kafka producers: Data that the producers have to send to brokers is stored in a batch. When the batch is ready, the producer sends it to the broker. For latency and throughput, to tune the producers, two parameters must be taken care of: batch size and linger time. The batch size has to be selected very carefully. If the producer is sending messages all the time, a larger batch size is preferable to maximize throughput. However, if the batch size is chosen to be very large, then it may never get full or take a long time to fill up and, in turn, affect the latency. Batch size will have to be determined, taking into account the nature of the volume of messages sent from the producer. The linger time is added to create a delay to wait for more records to get filled up in the batch so that larger records are sent. A longer linger time will allow more messages to be sent in one batch, but this could compromise latency. On the other hand, a shorter linger time will result in fewer messages getting sent faster - reduced latency but reduced throughput as well.
+    - Tuning Kafka broker: Each partition in a topic is associated with a leader, which will further have 0 or more followers. It is important that the leaders are balanced properly and ensure that some nodes are not overworked compared to others.
+    - Tuning Kafka Consumers: It is recommended that the number of partitions for a topic is equal to the number of consumers so that the consumers can keep up with the producers. In the same consumer group, the partitions are split up among the consumers.
+
+!!!- info "How can all brokers available in a cluster be listed?"
+    Two ways to get the list of available brokers in an Apache Kafka cluster are as follows:
+    - Using zookeeper-shell.sh
+      ```bash
+      zookeeper-shell.sh <zookeeper_host>:2181 ls /brokers/ids
+      ```
+      Which will give an output like:
+      ```
+     WATCHER:: WatchedEvent state:SyncConnected type:None path:null [0, 1, 2, 3]
+      ```
+      This indicates that there are four alive brokers - 0,1,2 and 3
+    - Using zkCli.sh
+      First, you have to log in to the ZooKeeper client
+      ```bash
+      zkCli.sh -server <zookeeper_host>:2181
+      ls /brokers/ids
+      ```
+      Both the methods used above make use of the ZooKeeper to find out the list of available brokers
+
+!!!- info "What is meant by Kafka Connect?"
+    Kafka Connect is a tool provided by Apache Kafka to allow scalable and reliable streaming data to move between Kafka and other systems. It makes it easier to define connectors that are responsible for moving large collections of data in and out of Kafka. Kafka Connect is able to process entire databases as input. It can also collect metrics from application servers into Kafka topics so that this data can be available for Kafka stream processing.
+
+!!!- info "What is the need for message compression in Apache Kafka?"
+    Message compression in Kafka does not require any changes in the configuration of the broker or the consumer. It is beneficial for the following reasons:
+    - Due to reduced size, it reduces the latency in which messages are sent to Kafka.
+    - Reduced bandwidth allows the producers to send more net messages to the broker.
+    - When the data is stored in Kafka via cloud platforms, it can reduce the cost in cases where the cloud services are paid.
+    - Message compression leads to reduced disk load, which will lead to faster read and write requests.
+
+
+!!!- info "What causes OutOfMemoryException?"
+    OutOfMemoryException can occur if the consumers are sending large messages or if there is a spike in the number of messages wherein the consumer is sending messages at a rate faster than the rate of downstream processing. This causes the message queue to fill up, taking up memory.
+
+!!!- info "Explain the graceful shutdown in Kafka."
+    Any broker shutdown or failure will automatically be detected by the Apache cluster. In such a case, new leaders will be elected for partitions that were previously handled by that machine. This can occur due to server failure and even if it is intentionally brought down for maintenance or any configuration changes. In cases where the server is intentionally brought down, Kafka supports a graceful mechanism for stopping the server rather than just killing it.
+    
+    Whenever a server is stopped:
+    - Kafka ensures that all of its logs are synced onto a disk to avoid needing any log recovery when it is restarted. Since log recovery takes time, this can speed up intentional restarts.
+    - Any partitions for which the server is the leader will be migrated to the replicas prior to shutting down. This ensures that the leadership transfer is faster, and the time during which each partition is unavailable will be reduced to a few milliseconds.
+
+!!!- info "Suppose you are sending messages to a Kafka topic using kafkaTemplate. You come across a requirement that states that if a failure occurs while delivering messages to a Kafka topic, you must retry sending the messages on the same partition with the same offset. How can you achieve this using kafkatemplate?"
+    If you give the key while delivering the message, it will be stored in the same partition regardless of how many times you send it. The hashed key is used by Kafka to decide which partition needs to be updated.
+    The only way to ensure that a failed message has the same offset when retried is to ensure that nothing is put into the topic before retrying it.
+
+!!!- info "Assume your brokers are hosted on AWS EC2. If you're a producer or consumer outside of the Kafka cluster network, you will only be capable of reaching the brokers over their public DNS, not their private DNS. Now, assume your client (producer or consumer) is outside your Kafka cluster's network, and you can only reach the brokers via their public DNS. The private DNS of the brokers hosting the leader partitions, not the public DNS, will be returned by the broker. Unfortunately, since your client is not present on your Kafka cluster's network, they will be unable to resolve the private DNS, resulting in the LEADER NOT AVAILABLE error. How will you resolve this network error?"
+    When you first start using Kafka brokers, you might have many listeners. Listeners are just a combination of hostname or IP, port, and protocol.
+    Each Kafka broker's server.properties file contains the properties listed below. The important property that will enable you to resolve this network error is advertised.listeners.
+    - listeners – a list of comma-separated hostnames and ports that Kafka brokers listen to.
+    - advertised.listeners – a list of comma-separated hostnames and ports that will be returned to clients. Only include hostnames that will be resolved at the client (producer or consumer) level, such as public DNS.
+    - inter.broker.listener.name – listeners used for internal traffic across brokers. These hostnames do not need to be resolved on the client side, but all of the cluster's brokers must resolve them.
+    - listener.security.protocol.map – lists the supported protocols for each listener.
+
+!!!- info "Let's suppose a producer writes records to a Kafka topic at a rate of 10000 messages per second, but the consumer can only read 2500 messages per second. What are the various strategies for expanding your consumer group?"
+    The solution to this question has two parts: topic partitions and consumer groups.
+    Partitions are used to split a Kafka topic. The producer's message is divided among the topic's partitions based on the message key. You can suppose that the key is chosen in such a way that messages are spread evenly between the partitions.
+    Consumer groups are a method of grouping consumers together to maximize a consumer application's throughput. Each consumer in a consumer group holds on to a topic partition. If the Kafka topic has four partitions and the consumer group has four consumers, each consumer will read from a single partition. If there are six partitions and four consumers, the data will be read in parallel from only four partitions. As a result, maintaining a 1-to-1 mapping of partition to the consumer in the consumer group is preferable.
+    Now, you can do two things to increase processing on the consumer side:
+    - You can increase the topic's partition count (say from existing 1 to 4).
+    - You can build a Kafka consumer group with four consumer instances tied to it.
+    This would enable the consumers to read data from the topic in parallel, allowing it to expand from 2500 to 10000 messages per second.
+
+!!!- info "What is Kafka's producer acknowledgment? What are the various types of acknowledgment settings that Kafka provides?"
+    A broker sends an ack or acknowledgment to the producer to verify the reception of the message. Ack level is a configuration parameter in the Producer that specifies how many acknowledgments the producer must receive from the leader before a request is considered successful. The following types of acknowledgment are available:
+    - acks=0: In this setting, the producer does not wait for the broker's acknowledgment. There is no way to know if the broker has received the record.
+    - acks=1: In this situation, the leader logs the record to its local log file and answers without waiting for all of its followers to acknowledge it. The message can only be lost in this instance if the leader fails shortly after accepting the record but before the followers have copied it; otherwise, the record would be lost.
+    - acks=all: A set leader in this situation waits for all in-sync replica sets to acknowledge the record. As long as one replica is alive, the record will not be lost, and the best possible guarantee will be provided. However, because a leader must wait for all followers to acknowledge before replying, the throughput is significantly lower.
+
+!!!- info "How do you get Kafka to perform in a FIFO manner?"
+    Kafka organizes messages into topics, which are then divided into partitions. The partition is an immutable list of ordered messages that is updated regularly. A message in the partition is uniquely recognized by a sequential number called offset. FIFO behavior is possible only within the partitions. Following the methods below will help you achieve FIFO behavior:
+    - To begin, we first set the enable the auto-commit property to be false:
+      `Set enable.auto.commit=false`
+    - We should not call the `consumer.commitSync();` method after the messages have been processed.
+    - Then we may "subscribe" to the topic and ensure that the consumer system's register is updated.
+    - You should use Listener consumerRebalance, and call a consumer inside a listener.
+      `seek(topicPartition, offset)`.
+    - The offset related to the message should be kept together with the processed message once it has been processed.
+
+
+!!!- info "What authentication mechanisms can you use in Kafka?"
+    Kafka supports:
+    - SSL/TLS for encrypting data and optionally authenticating clients using certificates
+    - SASL (Simple Authentication and Security Layer) which supports mechanisms like GSSAPI (Kerberos), PLAIN, and SCRAM to secure Kafka brokers against unauthorized access
+    - Integration with enterprise authentication systems like LDAP
+
+!!!- info "Describe an instance where Kafka might lose data and how you would prevent it."
+    A good response will mention cases such as unclean leader elections, broker failures, or configuration errors that lead to data loss.
+    Candidates should explain how they'd configure Kafka's replication factors, min.insync.replicas, and acknowledgment settings to prevent data loss. They should also mention they'd do regular backups and set up consistent monitoring to prevent issues.
+
+!!!- info "What is linger.ms in Kafka producers?"
+    Definition: linger.ms is a producer configuration that specifies the time (in milliseconds) the producer waits before sending a batch of messages.
+    
+    Behavior:
+    - If the batch is full (batch.size reached), it is sent immediately.
+    - If the batch is not full, the producer waits for the linger.ms time before sending the batch, hoping more records will arrive.
+    
+    Purpose:
+    - To improve throughput by batching more records into a single request.
+    - Reduces the number of network calls but may slightly increase latency.
+    
+    | Aspect      | commitSync() | commitAsync() |
+    |-------------|--------------|---------------|
+    | Type        | Synchronous  | Asynchronous  |
+    | Blocking    | Blocks until the broker acknowledges the commit | Does not block; continues processing |
+    | Reliability | Highly reliable; throws exception on failure | Less reliable; errors may be ignored |
+    | Performance | Slower due to waiting for acknowledgment | Faster due to non-blocking behavior |
+    | Use Case    | Critical systems (e.g., financial transactions) | High-throughput systems (e.g., analytics) |
+    
+    Default Value: 0 , meaning no waiting and the producer sends records as soon as possible.
+    
+    Example Scenario: If linger.ms = 10 and batch.size isn't reached, the producer will wait 10ms before sending the batch, potentially grouping more messages together.
+
+!!!- info "How does Kafka manage backpressure?"
+    Kafka handles backpressure by controlling the flow of data between producers, brokers, and consumers through these mechanisms:
+
+    Producer-Side:
+    - Buffering: Producers buffer records up to buffer.memory . If the buffer is full, the producer blocks or throws an exception (based on max.block.ms ).
+    - Batching: Producers optimize sending data in batches ( batch.size ) to handle high-throughput workloads efficiently.
+    
+    Broker-Side:
+    - Replication Quotas: Kafka enforces quotas for replication to ensure brokers aren't overwhelmed.
+    - I/O Throttling: Limits disk and network I/O rates to maintain cluster stability.
+    
+    Consumer-Side:
+    - Pause and Resume: Consumers can pause fetching records if they can't process fast enough, avoiding memory overload.
+    - Fetch Min/Max Bytes: Controls how much data is fetched at a time to prevent excessive resource usage.
+
+!!!- info "CommitSync() vs CommitAsync() in Kafka consumers"
+    | Aspect         | commitSync()                                   | commitAsync()                        |
+    |---------------|-----------------------------------------------|--------------------------------------|
+    | Type          | Synchronous                                   | Asynchronous                         |
+    | Blocking      | Blocks until the broker acknowledges the commit| Does not block; continues processing |
+    | Error Handling| Direct exception handling                      | Handle via a callback function       |
+    | Reliability   | Highly reliable; throws exception on failure   | Less reliable; errors may be ignored |
+    | Performance   | Slower due to waiting for acknowledgment       | Faster due to non-blocking behavior  |
+    | Use Case      | Critical systems (e.g., financial transactions)| High-throughput systems (e.g., analytics) |
+
+!!!- "You have 5 million events coming in every minute. How would you handle topic design?"
+    I'd design the topic with enough partitions to match or slightly exceed the number of consumers for parallelism. For high-throughput, I’d consider 50+ partitions, ensure keys are well distributed to avoid skew, and enable compression like Snappy to optimize throughput. Also, monitor consumer lag constantly.
+
+!!!- "Impact of having high partitions"
+    While more partitions improve parallelism and throughput, they increase overhead: more open file handles, longer leader election, and slower controller operations. It also makes topic-level operations more resource-intensive. I’ve seen degraded performance during broker restarts in such setups.
+
+!!!- "What happens if a producer sends data to a topic that doesn’t exist?"
+
+    If auto.create.topics.enable is true, Kafka creates the topic with default partition/replication settings — which might be misaligned with SLAs. I prefer keeping that disabled and using infrastructure-as-code to define topics explicitly.
+
+!!!- "Scenario: One consumer in a group is significantly slower. What happens?"
+    Kafka doesn’t automatically rebalance based on speed. The slow consumer may lag behind while others finish quickly. We handle this by scaling out with more instances or increasing max.poll.interval.ms for slower consumers to avoid rebalancing.
+
+!!!- "In which scenario would you prefer compacted over delete-based retention?"
+    For reference data (like configs, latest sensor readings), log compaction keeps the latest snapshot. I used this for maintaining user preferences without full history
+
+!!!- "Can you give a small Python snippet to consume from a topic with manual offset management?"
+    from kafka import KafkaConsumer
+    consumer = KafkaConsumer(
+    'orders',
+    bootstrap_servers='localhost:9092',
+    enable_auto_commit=False,
+    group_id='order-processors'
+    )
+    for message in consumer:
+    process_order(message.value)
+    consumer.commit()
+
+!!!- "You’re receiving late-arriving messages in out-of-order fashion. How do you process them correctly?"
+    I buffer events by timestamp in Kafka Streams using windowing (grace period). Also, we use event-time based sorting in the sink (e.g., time-series DB or Flink for richer semantics.
+
+!!!- "Scenario: Consumer not receiving data even though producer is publishing. What would you check in the architecture?"
+    • Check topic partition assignment
+    • Verify consumer group rebalance success
+    • Look for ISR shrinkage or partition leader issues
+    • Confirm retention hasn’t expired messages
+    We debugged a case where leader was stuck and unclean.leader.election.enable=false prevented failover — caused silence until manual intervention
+
+!!!- "How does Kafka handle backpressure and what architectural decisions support it?"
+    Kafka itself is resilient — it keeps writing to disk. Backpressure is mainly handled at the consumer side. We tune max.poll.records, fetch.min.bytes, and consumer lag thresholds to throttle or scale out. On the producer side, we control flow using buffer.memory and max.in.flight.requests
+
+!!!- "Whats the purpose of replica.lag.max.messages vs replica.lag.time.max.ms?"
+    replica.lag.max.messages checks how many messages behind a replica is
+    •replica.lag.time.max.ms checks how long it has been lagging
+    In practice, I rely more on time-based thresholds for consistent ISR tracking
+
+!!!- "What internal thread pools does Kafka broker use and how can thread tuning affect throughput?"
+    Kafka brokers use:
+    • Network threads (accept requests)
+    • I/O threads (read/write from disk)
+    • Replica fetcher threads (replication)
+    Increasing these improves concurrency but hits CPU and I/O bottlenecks fast. For high-throughput clusters, we tune num.io.threads and num.network.threads based on partition count and I/O load.
+
+!!!- "Why is Kafka’s write-path “zero-copy” and how does it improve performance?"
+    Kafka uses sendfile syscall to transfer data from page cache to network socket without copying to user space — reducing CPU usage and speeding up throughput. This architecture makes Kafka great for high-volume use cases.
+
+!!!- "script to list partitions with under-replicated replicas using Kafka Admin API in Python."
+    from kafka.admin import KafkaAdminClient
+    admin = KafkaAdminClient(bootstrap_servers='localhost:9092')
+    partitions = admin.describe_cluster()
+    # Use a monitoring tool or script to fetch metrics like:
+    # kafka.server:type=ReplicaManager,name=UnderReplicatedPartitions
+    # Or query JMX directly or use Prometheus+Exporter
+    print("Check metrics: kafka.server:type=ReplicaManager,name=Underreplicatedpartitions)
+
+!!!- "How do you decide between synchronous vs asynchronous producers in a high-throughput system?"
+    For latency-sensitive or failure-critical paths, I use synchronous sends producer.send().get(). For batch-heavy or fire-and-forget pipelines, asynchronous sending with callbacks is better — it avoids blocking and boosts throughput. I also combine async send with Future.get(timeout) when I want time-bound retries.
+
+!!!- "What are key configurations in a KafkaConsumer to handle high throughput?"
+    • fetch.max.bytes – Maximum data fetched per request
+    • max.poll.records – Number of records returned per poll
+    • fetch.min.bytes + fetch.max.wait.ms – Control batching
+    • session.timeout.ms + heartbeat.interval.ms – Consumer liveness
+    I tune these based on latency vs throughput trade-offs.
+
+!!!- "Scenario: You notice that your consumer is reprocessing the same message multiple times. Why?"
+    Likely causes include:
+    • Auto-commit enabled before processing finishes
+    • Offsets not committed after processing
+    • Consumer crashing before committing offsets
+    Fix: Move consumer.commitSync() after successful processing logic.
+
+!!!- "Kafka stream different from other streaming frameworks"
+    Kafka Streams is a client-side, library-based stream processing framework and does not require a separate cluster, unlike Spark or Flink, which depend on distributed infrastructure. Kafka Streams is well-suited for lightweight, microservice-style event processing directly over Kafka. I typically use Kafka Streams for low-latency enrichment and filtering before pushing data to a data lake.
+
+!!!- "How does windowing work in Kafka Streams? Give a use-case."
+    Windowing groups events based on event-time.
+    I’ve used:
+    ● Tumbling windows for 5-minute aggregations of user clicks
+    ● Sliding windows for real-time fraud detection (e.g., a 10-second sliding window to track
+    login attempts)
+
+!!!- "What are the most critical Kafka metrics you monitor in production and why?"
+    I prioritize the following metrics:
+    ● UnderReplicatedPartitions — Indicates replication lag and signals potential data loss risk
+    ● ConsumerLag — Helps detect slow, stuck, or failing consumers
+    ● RequestHandlerAvgIdlePercent — Reflects broker health (low value indicates CPU saturation)
+    ● MessagesInPerSec and BytesIn/OutPerSec — Used to track throughput trends
+    All of these metrics are visualized in Grafana dashboards and wired to PagerDuty alerts to detect anomalies early.
+
+!!!- "Scenario: Your Kafka consumer lag alert fired at 2 AM. How do you troubleshoot it?"
+    I follow a structured approach:
+    1. Check if producer throughput has spiked unexpectedly
+    2. Verify consumer health (logs, CPU usage, memory pressure, GC pauses)
+    3. Review consumer tuning parameters such as max.poll.records and
+    max.poll.interval.ms
+    4. Inspect downstream bottlenecks (for example, database write latency or API
+    timeouts)
+    In one incident, the consumer was blocked due to database lock contention. The lag only resolved after implementing retry logic and a circuit breaker.
+
+!!!- "What’s your approach to logging in a high-throughput Kafka producer?"
+    ● Set Kafka client logs to WARN in production to prevent log storms
+    ● Log critical events such as metadata refresh failures, buffer.exhausted, and RecordTooLargeException at WARN or ERROR
+    ● Instrument producer metrics using Micrometer or OpenTelemetry
+    In one case, excessive INFO-level logging generated nearly 5GB/day of logs. We resolved it by switching to structured JSON logging and rate-limiting repeated exceptions
+
+!!!- "How do you track if consumers are rebalancing too frequently?"
+    ● Monitor the metric:
+    kafka.consumer:type=consumer-coordinator-metrics,metric=rebalance -rate-per-hour
+    ● Track ConsumerGroupState transitions
+    ● Look for frequent log patterns such as
+    “Revoking assignment” followed by “Assigned partitions” in short intervals
+    Frequent rebalances usually indicate unstable consumers or misconfigured session timeouts. We fixed this by enabling cooperative rebalancing and tuning heartbeat.interval.ms
+
+!!!- "Scenario: You see spikes in UnderReplicatedPartitions every few hours. What’s your next move?"
+    Possible causes include:
+    ● GC pauses or disk I/O bottlenecks on follower brokers
+    ● Intermittent network issues
+    ● CPU saturation on leader brokers
+    I correlate Kafka broker logs (especially replica fetcher threads) with OS-level metrics like I/O wait and CPU steal time. In one case, the root cause was a cron job running a disk scan every three hours.
+
+!!!- "What log patterns or exceptions are red flags for Kafka producers?"
+    ● TimeoutException — Indicates network issues or broker overload
+    ● BufferExhaustedException — Producer cannot keep up with send rate
+    ● RecordTooLargeException — Configuration issue or abnormal data payload
+    ● NotLeaderForPartitionException — Frequent leader elections or broker churn
+    I wrap producer sends in a custom retry-logging handler that logs correlation IDs and timestamps when retry thresholds are exceeded.
+
+!!!- "How do you alert on consumer lag without triggering false positives?"
+    ● Use a moving average of consumer lag over 5–10 minutes
+    ● Set lag thresholds per topic based on historical baselines
+    ● Include rate of lag increase in alert logic
+
+!!!- "Scenario: Kafka consumers are slow despite zero lag. What would you check?"
+    ● Measure actual processing throughput inside consumer logic
+    ● Profile downstream dependencies (databases, REST APIs)
+    ● Validate max.poll.records isn’t too low
+    ● Decouple polling from processing using async or batch execution
+    In our case, synchronous JDBC writes were the bottleneck. Switching to async writes with connection pooling drastically improved performance
+
+!!!- "How do you tune Kafka for large message sizes (e.g.,10 MB payloads)?"
+    Increase size-related limits:
+    message.max.bytes=10485760
+    replica.fetch.max.bytes=10485760
+    fetch.message.max.bytes=10485760
+    Additional optimizations:
+    ● Enable Snappy compression
+    ● Split large payloads into chunks if possible
+
+!!!- "Scenario: Your producer is throwing BufferExhaustedException. What tuning would you apply?"
+    ● Increase buffer.memory (e.g., 32MB → 128MB)
+    ● Check if batch.size is too large
+    ● Reduce max.in.flight.requests.per.connection if retries pile up
+    ● Apply producer throttling or scale broker throughput
+    This occurred when traffic spiked to 20K TPS. Increasing buffer memory and introducing
+    backpressure resolved it.
+
+!!!- "What metrics do you track to optimize broker performance?"
+    ● BytesInPerSec, BytesOutPerSec
+    ● RequestHandlerAvgIdlePercent (healthy if >30%)
+    ● UnderReplicatedPartitions
+    ● LogFlushRateAndTimeMs
+    We observed broker overload when RequestHandlerAvgIdlePercent dropped below 5%,
+    prompting us to add brokers and rebalance partitions
+
+!!!- "How do you reduce consumer lag in near real-time analytics pipelines?"
+    ● Increase max.poll.records
+    ● Tune fetch.min.bytes and fetch.max.wait.ms
+    ● Optimize sink latency
+    ● Horizontally scale consumer groups
+
+!!!- "Scenario: Producer throughput is fine but consumers are randomly stuck. What could cause it?"
+    Possible causes:
+    ● GC pauses in consumers
+    ● Missed heartbeats causing rebalances
+    ● Unhandled deserialization exceptions
+    Fixes we applied:
+    ● Watchdog for stuck consumers
+    ● Try/catch with logging around deserialization
+    ● Switched to cooperative-sticky assignor

@@ -1,4 +1,3 @@
-
 Hey there! I'm Manish Chetpalli
 
 Data Engineer with 4+ years of experience in Data & Analytics, hands-on expertise in Hadoop and Kafka administration, and a strong background in building real-time, scalable data platforms that drive business-critical insights.
@@ -17,7 +16,4 @@ Feel free to reach out — let's build something amazing together!
 
 ---
 
-✨ “Build systems that work. Then build systems that last.”  
-
-
-
+✨ “Build systems that work. Then build systems that last.”

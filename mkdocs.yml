@@ -1,6 +1,6 @@
 site_name: DEwithManish
 site_description: Documentation for Data Engineering and Big Data Technologies
-site_author: AnalyticsWithManish
+site_author: Manishkumar Chetpalli
 site_url: https://manishchetpalli.github.io/
 
 repo_url: https://github.com/manishchetpalli/DataEngineeringNotes
@@ -75,23 +75,22 @@ nav:
       - Data Orchestration: airflow/dataorchestration.md
       - Data Warehousing: datawarehousing/overview.md
       - File Formats: DataEngineering/fileformat.md
+      - Kerberos: hadoop/kerberos.md
   - Big Data: 
     - Apache Hadoop: hadoop/HDFS.md
     - Apache MapReduce: hadoop/mapreduce.md
     - Apache Yarn: hadoop/yarn.md
-    - Kerberos: hadoop/kerberos.md
     - Apache Hive: hive/overview.md
     - Apache Airflow: airflow/airflow.md 
     - Apache Spark: spark/intro.md
     - Apache Kafka: kafka/overview.md
+    - Apache Flink: flink/flink.md
     - Apache Ignite: ignite/ignite.md
+    - Apache Iceberg: iceberg/iceberg.md
+    - Delta Tables: delta/deltalake.md
   - Cloud computing:
     - AWS: cloud/aws.md
     - Databricks: cloud/databricks.md
-  - Devops:
-    - Docker: devops/docker.md
-    - Git: devops/git.md
-    - Kubernetes: devops/kubernetesarchitecture.md
   - SetupDocs:
     - Airflow Setup: tooling/airflow_install_onpremise.md
     - Ignite Multi Node Setup: tooling/igniteinstall.md
