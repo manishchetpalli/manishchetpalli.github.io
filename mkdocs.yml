@@ -87,7 +87,6 @@ nav:
     - Apache Flink: flink/flink.md
     - Apache Ignite: ignite/ignite.md
     - Apache Iceberg: iceberg/iceberg.md
-    - Delta Tables: delta/deltalake.md
   - Cloud computing:
     - AWS: cloud/aws.md
     - Databricks: cloud/databricks.md
