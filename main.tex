@@ -1,0 +1,160 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Resume in LaTeX
+% Author : Manishkumar Chetpalli
+% Based off: https://github.com/sb2nov/resume
+% License : MIT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[letterpaper,11pt]{article}
+
+% Packages
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\input{glyphtounicode} % For ATS parsing support
+
+% Page settings
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Margin settings
+\addtolength{\oddsidemargin}{-0.5in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1in}
+\addtolength{\topmargin}{-.7in}
+\addtolength{\textheight}{1.0in}
+
+\urlstyle{same}
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Section formatting
+\titleformat{\section}{
+  \vspace{-4pt}\bfseries\raggedright\large
+}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
+
+% Ensure PDF is machine-readable
+\pdfgentounicode=1
+
+% Custom Commands
+\newcommand{\resumeItem}[1]{
+  \item[{\tiny$\bullet$}] \small{#1 \vspace{-2pt}}
+}
+
+
+\newcommand{\resumeSubheading}[2]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & \textbf{#2} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+  \item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \small#1 \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeEducationheading}[2]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      {#1} & {#2} \\
+    \end{tabular*}\vspace{-15pt}
+}
+
+% List environment macros
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}]} 
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}[leftmargin=0.25in]}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% RESUME STARTS HERE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+%----- HEADER -----
+\begin{center}
+  \textbf{\Huge \scshape Manish Kumar Chetpalli} \\ \vspace{4pt}
+  \small +91 8691902040 $|$ \href{mailto:chetpallimanishkumar@gmail.com}{chetpallimanishkumar@gmail.com} $|$
+  \href{https://www.linkedin.com/in/manishkumarchetpalli}{linkedin.com/in/manishkumarchetpalli} $|$
+      \href{https://github.com/manishchetpalli}{manishchetpalli.github.io} 
+\end{center}
+
+%----- SUMMARY -----
+\section{Summary}
+\begin{itemize}[leftmargin=0.15in, label={}]
+  \item{Big Data Engineer with \textbf{4+ years} of experience in Data Engineering and Big Data Administration. Proficient in \textbf{Python, SQL, PySpark, Kafka, Hadoop HDFS, and Airflow}, delivering secure, high-performance, multi-terabyte data processing solutions.}
+\end{itemize}
+
+
+%----- SKILLS -----
+\section{Skills}
+
+\begin{tabular}{ l l }
+\textbf{Big Data: } & Hadoop HDFS, YARN, Hive, Iceberg, Delta Lake, Trino, Flink, Airflow \\
+\textbf{Programming Skills: } & Python, SQL, PySpark \\
+\textbf{Cloud Computing: } & Azure (Databricks, ADLS, ADF), AWS (S3, Lambda, Glue, Redshift ) \\
+\textbf{Databases: } & MySQL, SAP HANA, Oracle, Apache Ignite \\
+\textbf{DevOps: } & Jenkins (CI/CD), Git, Docker Swarm, Kubernetes, Linux, Grafana, Prometheus \\
+\end{tabular}
+
+%----- EXPERIENCE -----
+\section{Experience}
+\resumeSubHeadingListStart
+  \resumeSubheading{Jio Platforms Ltd $|$ Big Data Engineer $|$ Reliance Retail }{January 2022 \textbf{--} Present}
+  \resumeItemListStart
+    \resumeItem{Designed and deployed robust \textbf{ETL/ELT} pipelines using Hadoop, PySpark, Hive, and Iceberg to ingest, transform, and load data from multiple sources into the \textbf{data lake and data warehouse}, enabling high-throughput processing and scalable storage}
+    \resumeItem{Implemented \textbf{Medallion Architecture} (Bronze, Silver, Gold) to design high-performance data lake solutions for Reliance Retail, strengthening governance and improving query efficiency.}
+    \resumeItem{Optimized Spark workloads through advanced partitioning, caching strategies, spark dashboard and cluster tuning, reducing processing time by 30\%.}
+    % \resumeItem{Architected and led migration of on-premise Spark batch workflows to \textbf{Azure Databricks and ADLS Gen2}, reducing job runtime by 25\% and improving pipeline scalability for multi-terabyte workloads.}
+    \resumeItem{Designed and deployed end-to-end data pipelines in \textbf{Azure Databricks}, transitioning legacy on-prem workflows to a cloud-native architecture with Stage–Bronze–Silver–Gold layers, improving scalability, maintainability, and data quality.}
+    \resumeItem{Led the migration of Sales, Orders, and Returns data marts from SAP HANA to Hive, scaling to 800K+ daily orders with zero downtime and strong data integrity.}
+    % \resumeItem{Developed reconciliation frameworks and automated monitoring with alerting mechanisms, achieving 99\% data accuracy}
+    \resumeItem{Streamlined Google Analytics data using \textbf{BigQuery} client on a DMZ server, automating secure data transfer from GCP to on-premise HDFS and reducing manual data handling effort by 30\%.}
+    % \resumeItem {Migrated a Fast API based microservice on Kubernetes to publish real-time processing status (success/failure) to Kafka, improving operational visibility for business stakeholders}
+    \resumeItem{Administered and managed a \textbf{52-node HDP(Apache Ambari)} cluster, enhancing large-scale data processing and analytics capabilities.}
+    \resumeItem{Developed robust DAGs in \textbf{Apache Airflow} to orchestrate Spark jobs and automate data pipelines with integrated monitoring, ensuring high availability and reducing operational overhead by 80\%.}
+    % \resumeItem{Deployed a secure \textbf{5-node Apache Airflow cluster} with advanced scheduling capabilities to orchestrate Spark jobs, perform server health checks, and automate data pipelines, reducing manual intervention by 80\% while ensuring reliable workflow execution.}
+    % \resumeItem{Engineered and managed a \textbf{10-node Apache Kafka cluster} for the Reliance Retail Analytics team, secured with SASL-SCRAM-SHA-512 authentication, enabling fault-tolerant and scalable data pipelines across multiple systems, and supporting over 3,350+ Kafka topics for real-time analytics use cases.}
+    % \resumeItem{Built a real-time monitoring and alerting system using PyFlink to consume Kafka streams and persist processed state into Apache Ignite to detect Spark jobs and application failures in near real-time.}
+    \resumeItem{Led \textbf{Apache Iceberg} implementation (POC to production) in an on-prem data lake, eliminating legacy SCD-2 complexity while enabling partition evolution and time travel, resulting in 60\% faster reporting for retail order lifecycle analytics.}
+    \resumeItem{Designed a \textbf{real-time streaming pipeline (Kafka → Flink → Apache Ignite)} to enable instant detection of service/component failures, improving operational response time.}
+    % \resumeItem{Deployed \textbf{Apache Flink on Kubernetes} to build a scalable streaming pipeline, ingesting CDC data from Oracle GoldenGate via Kafka and processing it in real time before loading into SAP HANA, ensuring fault tolerance, auto-scaling, and low-latency data delivery.}
+    % \resumeItem{Engineered a hybrid cloud architecture using private link connectivity between cloud platforms and on-prem Kafka infrastructure, ensuring secure and efficient real-time data movement.}
+    % \resumeItem{Installed a 3-node Apache Ignite cluster, improving live order dashboard performance by 45\% with real-time updates.}
+    % \resumeItem{Deployed Trino query engine using Docker Swarm, improving Tableau query performance by 55\%.}
+    \resumeItem{Partnered with cross-functional teams to enhance pipeline reliability and ensure high data availability aligned with business objectives.}
+  \resumeItemListEnd
+\resumeSubHeadingListEnd
+
+%----- Certification -----
+\section{Certifications}
+\resumeSubHeadingListStart
+  \resumeEducationheading{Databricks Certified Data Engineer Associate $|$ Databricks }{2026}
+  \resumeEducationheading{Astronomer Certification for Apache Airflow Fundamentals \& DAG Authoring $|$ Astronomer }{2025}
+\resumeSubHeadingListEnd
+\vspace{3pt}
+
+%----- EDUCATION -----
+\section{Education}
+\resumeSubHeadingListStart
+  \resumeEducationheading{University of Mumbai $|$ Bachelor of Engineering in Electronics and Telecommunication}{2014 \textbf{--} 2018}
+  \resumeEducationheading{GreyAtom School of Data Science $|$ Data Science Master's Program}{2018 \textbf{--} 2019}
+\resumeSubHeadingListEnd
+\end{document}
+
