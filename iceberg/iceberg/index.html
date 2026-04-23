@@ -1,0 +1,2562 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for Data Engineering and Big Data Technologies">
+      
+      
+        <meta name="author" content="Manishkumar Chetpalli">
+      
+      
+        <link rel="canonical" href="https://manishchetpalli.github.io/iceberg/iceberg/">
+      
+      
+        <link rel="prev" href="../../ignite/ignite/">
+      
+      
+        <link rel="next" href="../../cloud/aws/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/sqldeveloper-original.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Apache Iceberg - DEwithManish</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="pink">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#challenges-with-traditional-data-lake-storages" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="DEwithManish" class="md-header__button md-logo" aria-label="DEwithManish" data-md-component="logo">
+      
+  <img src="../../assets/images/sqldeveloper-original.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            DEwithManish
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Apache Iceberg
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="pink"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="light-green"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/manishchetpalli/DataEngineeringNotes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    AnalyticsWithManish
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../projects/flink-ignite/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Projects/Setup
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../DataEngineering/DE/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Fundamentals
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../hadoop/HDFS/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Big Data
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../cloud/aws/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Cloud computing
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../about/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  About Me
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="DEwithManish" class="md-nav__button md-logo" aria-label="DEwithManish" data-md-component="logo">
+      
+  <img src="../../assets/images/sqldeveloper-original.svg" alt="logo">
+
+    </a>
+    DEwithManish
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/manishchetpalli/DataEngineeringNotes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    AnalyticsWithManish
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Projects/Setup
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Projects/Setup
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../projects/flink-ignite/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flink Ignite Custom Dialect
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../projects/kafkaapi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FastAPI Kafka Producer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tooling/airflow_install_onpremise/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Airflow Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tooling/igniteinstall/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ignite Multi Node Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tooling/kafka_install_zookeeper/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kafka Multi Node Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tooling/kubernetes_install/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kubernetes Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tooling/spark3standalone/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sparkstandalone Multi Node
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tooling/sparkkube/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Spark on Kubernetes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tooling/flinkonk8/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flink on Kubernetes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tooling/spark23yarn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multiple Spark version on YARN
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fundamentals
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Fundamentals
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DataEngineering/DE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DataEngineering/DEcycle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DE Lifecycle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DataEngineering/DEundercurrent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DE UnderCurrents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DataEngineering/DesigningGDA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DE Architecture & Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../airflow/dataorchestration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Orchestration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../datawarehousing/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Warehousing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DataEngineering/fileformat/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File Formats
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hadoop/kerberos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kerberos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Big Data
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Big Data
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hadoop/HDFS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache Hadoop
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hadoop/mapreduce/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache MapReduce
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hadoop/yarn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache Yarn
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hive/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache Hive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../airflow/airflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache Airflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../spark/intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache Spark
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kafka/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache Kafka
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../flink/flink/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache Flink
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ignite/ignite/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache Ignite
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache Iceberg
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache Iceberg
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#challenges-with-traditional-data-lake-storages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Challenges with traditional data lake storages
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#iceberg" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Iceberg
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#copy-on-write-cow-and-merge-on-read-mor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Copy-On-Write (CoW) and Merge-On-Read (MoR)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-look-under-the-covers-when-cruding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A Look Under the Covers When CRUDing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#iceberg_iq" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ICEBERG_IQ
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cloud computing
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Cloud computing
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/aws/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AWS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/databricks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Databricks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About Me
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#challenges-with-traditional-data-lake-storages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Challenges with traditional data lake storages
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#iceberg" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Iceberg
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#copy-on-write-cow-and-merge-on-read-mor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Copy-On-Write (CoW) and Merge-On-Read (MoR)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-look-under-the-covers-when-cruding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A Look Under the Covers When CRUDing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#iceberg_iq" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ICEBERG_IQ
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../../hadoop/HDFS/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Big Data
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+  <h1>Apache Iceberg</h1>
+
+<h2 id="challenges-with-traditional-data-lake-storages"><strong>Challenges with traditional data lake storages</strong><a class="headerlink" href="#challenges-with-traditional-data-lake-storages" title="Permanent link">#</a></h2>
+<p>Data lakes, while revolutionary, brought several challenges in practice:</p>
+<ul>
+<li>
+<p>Lack of Schema Enforcement</p>
+<p>Traditional data lakes often store raw data in formats like CSV, JSON, or Parquet without enforcing a schema.
+This leads to data quality issues, schema inconsistencies, and difficulties in integrating data.</p>
+</li>
+<li>
+<p>Data Update Challenges</p>
+<p>Data lakes are inherently append-only systems. Updating or deleting data (e.g., GDPR compliance) is cumbersome and requires complex workflows.
+Managing Slowly Changing Dimensions (SCDs) in traditional lakes is inefficient. </p>
+</li>
+<li>
+<p>Lack of ACID Transactions</p>
+<p>Traditional data lakes lack atomicity, consistency, isolation, and durability (ACID properties).
+Concurrent reads/writes lead to dirty reads, partial updates, or data corruption. </p>
+</li>
+<li>
+<p>Query Performance Issues</p>
+<p>Large datasets require full scans for most queries, leading to slow performance.
+Lack of data indexing further deteriorates query speed.</p>
+</li>
+<li>
+<p>Data Management Complexity</p>
+<p>Managing metadata and tracking file locations manually or through third-party tools increases operational overhead.
+Fragmented files (small file problem) lead to inefficient storage and degraded performance.</p>
+</li>
+</ul>
+<blockquote>
+<p>--- <strong>What is open table format?</strong></p>
+</blockquote>
+<p>An open table format is a set of standards and technologies designed to manage large-scale datasets in data lakes by organizing and tracking files and their metadata as a logical “table.” These formats build on open file formats like Parquet, ORC, or Avro, adding transactional capabilities, metadata management, and data versioning.</p>
+<p>Examples of open table formats include:
+• Apache Iceberg
+• Apache Hudi
+• Delta Lake</p>
+<p>These formats transform data lakes into transactional data platforms, enabling features like schema evolution, time travel, and incremental updates.</p>
+<blockquote>
+<p>--- <strong>Challenges solved by open table formats?</strong></p>
+</blockquote>
+<p>• Implements ACID transactions, ensuring reliable concurrent operations without data corruption.</p>
+<p>• Enables consistent reads and writes, even in multi-user or distributed environments.</p>
+<p>• Enables row-level updates and deletes without rewriting the entire dataset.</p>
+<p>• Uses merge-on-read or copy-on-write mechanisms for efficient data modifications.</p>
+<p>• Maintain rich metadata layers that track data files, versions, and partitions directly within the system.</p>
+<p>• Improve query performance by minimizing file scans through metadata indexing.</p>
+<p>• Support schema evolution, allowing changes like adding/removing fields without breaking queries.</p>
+<p>• Enforce schema validation to ensure data quality and compatibility.</p>
+<p>• Use partition pruning, file pruning, and metadata caching to avoid unnecessary scans.</p>
+<p>• Optimize storage by compacting small files and leveraging indexing.</p>
+<p>• Enable time travel, allowing users to query data at specific points in time.</p>
+<p>• Maintain data versioning, making it easy to recover from errors or audit historical changes.</p>
+<p>• Support incremental processing, so only changed or new data is read and processed.</p>
+<p>• Provide upsert and merge operations for efficient data workflows.</p>
+<blockquote>
+<p>--- <strong>What is small file problem?</strong></p>
+</blockquote>
+<p>The small file problem arises when a data lake contains a large number of small files instead of fewer large, well-organized files. This issue is common in systems that ingest data incrementally or in real-time, leading to fragmented and inefficient storage.</p>
+<ul>
+<li>
+<p>Inefficient Query Performance:
+ Query engines like Spark, Hive, or Presto must scan a large number of small files, increasing I/O
+operations and query runtime.
+ Metadata overhead increases as each file has associated metadata (e.g., file paths, schema).</p>
+</li>
+<li>
+<p>High Storage Overhead:
+ Each file, no matter how small, incurs additional storage metadata, leading to inefficient storage utilization.</p>
+</li>
+<li>
+<p>Resource Wastage:
+ Distributed processing frameworks like Spark schedule tasks per file. Too many small files result in
+numerous tasks, leading to executor inefficiencies and increased resource usage. </p>
+</li>
+<li>
+<p>Data Fragmentation:
+ Managing fragmented files across partitions or directories becomes cumbersome, especially in systems relying on consistent partition structures.</p>
+</li>
+</ul>
+<blockquote>
+<p>--- <strong>How open table formats solved small file problem?</strong></p>
+</blockquote>
+<ul>
+<li>
+<p>File Compaction
+Automatically merge small files into larger files during write operations or scheduled compaction jobs.</p>
+<p>Types of Compaction:</p>
+<p>Delta Lake: Background optimize commands for merging files.</p>
+<p>Hudi: Offers merge-on-read for combining files during reads.</p>
+<p>Iceberg: Supports rewrite data files to compact small files.</p>
+</li>
+<li>
+<p>Metadata Management
+Maintain metadata layers that track file locations and sizes, reducing the need for full directory scans.
+Efficient metadata querying enables file pruning, so only relevant files are accessed during queries.</p>
+</li>
+<li>
+<p>Partition Optimization
+Dynamically reorganize partitions to ensure balanced file sizes across partitions.</p>
+<p>Iceberg: Supports partition evolution, enabling adjustments to partitioning schemes without rewriting the
+entire table.</p>
+<p>Hudi: Allows partition pruning for better management of file sizes in directories.</p>
+</li>
+<li>
+<p>Data Skipping
+Use statistics-based filtering (e.g., min/max values, bloom filters) to avoid scanning unnecessary files.
+Reduces the performance impact of small files by ensuring only relevant files are processed</p>
+</li>
+<li>
+<p>Automatic File Management
+Automatically detect and consolidate fragmented files during ingestion or query execution.
+Periodic maintenance jobs (e.g., optimize in Delta Lake or compaction jobs in Hudi) keep file sizes under control.</p>
+</li>
+<li>
+<p>Query Optimization
+Enable file pruning and lazy loading to process only required files instead of scanning all small files.
+Improves query performance by bypassing irrelevant files.</p>
+</li>
+<li>
+<p>Incremental Processing
+Write only incremental changes, reducing the creation of unnecessary files.
+ Hudi: Supports incremental writes using merge-on-read, minimizing small file creation.</p>
+</li>
+<li>
+<p>ACID Transactions
+Ensure atomic writes to avoid creating partial files during concurrent operations.
+Allows retries or rollbacks without leaving behind orphaned small files.</p>
+</li>
+<li>
+<p>Efficient Data Writing
+Use advanced algorithms to determine optimal file sizes during write operations:
+ Iceberg: Writes data in large, contiguous files with support for customizable file size thresholds.
+ Delta Lake: Allows configurations for the desired file size during compaction.</p>
+</li>
+</ul>
+<h2 id="iceberg"><strong>Iceberg</strong><a class="headerlink" href="#iceberg" title="Permanent link">#</a></h2>
+<p>Apache Iceberg is an open-source table format designed to bring reliability, performance, and scalability to large-scale datasets in data lakes. It was developed by Netflix to address challenges in traditional data lake systems, such as lack of ACID transactions, inefficient metadata handling, and schema evolution issues.</p>
+<p>Iceberg organizes data into a logical table abstraction while maintaining underlying files in open formats like Parquet, ORC, or Avro. It is optimized for analytics workloads and integrates seamlessly with modern data processing engines like Apache Spark, Trino, Hive, Flink, and more.</p>
+<p><img alt="Steps" src="../1.svg" /></p>
+<h2 id="architecture"><strong>Architecture</strong><a class="headerlink" href="#architecture" title="Permanent link">#</a></h2>
+<p><img alt="Steps" src="../2.svg" /></p>
+<p>There are 3 layers in the architecture of an Iceberg table:</p>
+<ul>
+<li>The Iceberg catalog</li>
+<li>The metadata layer - which contains metadata files, manifest lists, and manifest files</li>
+<li>The data layer</li>
+</ul>
+<p><img alt="Steps" src="../3.svg" /></p>
+<blockquote>
+<p>--- <strong>Iceberg catalog</strong>  </p>
+</blockquote>
+<p>Anyone reading from a table (let alone 10s, 100s, or 1,000s) needs to know where to go first — somewhere they can go to find out where to read/write data for a given table. The first step for anyone looking to read the table is to find the location of the current metadata pointer (note the term “current metadata pointer” is not an official term, but rather a descriptive term because there is no official term at this point and there hasn’t been push-back in the community on it).</p>
+<p>This central place where you go to find the current location of the current metadata pointer is the Iceberg catalog.</p>
+<p>The primary requirement for an Iceberg catalog is that it must support atomic operations for updating the current metadata pointer (e.g., HDFS, Hive Metastore, Nessie). This is what allows transactions on Iceberg tables to be atomic and provide correctness guarantees.</p>
+<p>Within the catalog, there is a reference or pointer for each table to that table’s current metadata file. For example, in the diagram shown, there are 2 metadata files. The value for the table’s current metadata pointer in the catalog is the location of the metadata file on the right.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>What this data looks like is dependent on what Iceberg catalog is being used. Here is the example:
+- With Hive metastore as the catalog, the table entry in the metastore has a table property which stores the location of the current metadata file.</p>
+</div>
+<p>So, when a SELECT query is reading an Iceberg table, the query engine first goes to the Iceberg catalog, then retrieves the entry of the location of the current metadata file for the table it’s looking to read, then opens that file.</p>
+<blockquote>
+<p>--- <strong>Metadata File</strong> </p>
+</blockquote>
+<p><img alt="Steps" src="../4.svg" /></p>
+<p>As the name implies, metadata files store metadata about a table. This includes information about the table’s schema, partition information, snapshots, and which snapshot is the current one.</p>
+<p>When a SELECT query is reading an Iceberg table and has its current metadata file open after getting its location from the table’s entry in the catalog, the query engine then reads the value of current-snapshot-id. It then uses this value to find that snapshot’s entry in the snapshots array, then retrieves the value of that snapshot’s manifest-list entry, and opens the manifest list that location points to.</p>
+<blockquote>
+<p>--- <strong>Manifest List</strong> </p>
+</blockquote>
+<p><img alt="Steps" src="../5.svg" /></p>
+<p>Another aptly named file, the manifest list is a list of manifest files. The manifest list has information about each manifest file that makes up that snapshot, such as the location of the manifest file, what snapshot it was added as part of, and information about the partitions it belongs to and the lower and upper bounds for partition columns for the data files it tracks.</p>
+<p>When a SELECT query is reading an Iceberg table and has the manifest list open for the snapshot after getting its location from the metadata file, the query engine then reads the value of the manifest-path entries, and opens the manifest files. It could also do some optimizations at this stage like using row counts or filtering of data using the partition information.</p>
+<blockquote>
+<p>--- <strong>Manifest File</strong> </p>
+</blockquote>
+<p>Manifest files track data files as well as additional details and statistics about each file. As mentioned earlier, the primary difference that allows Iceberg to address the problems of the Hive table format is tracking data at the file level — manifest files are the boots on the ground that do that.</p>
+<p>Each manifest file keeps track of a subset of the data files for parallelism and reuse efficiency at scale. They contain a lot of useful information that is used to improve efficiency and performance while reading the data from these data files, such as details about partition membership, record count, and lower and upper bounds of columns. These statistics are written for each manifest’s subset of data files during write operation, and are therefore more likely to exist, be accurate, and be up to date than statistics in Hive.</p>
+<p>As to not throw the baby out with the bathwater, Iceberg is file-format agnostic, so the manifest files also specify the file format of the data file, such as Parquet, ORC, or Avro.</p>
+<p>When a SELECT query is reading an Iceberg table and has a manifest file open after getting its location from the manifest list, the query engine then reads the value of the file-path entries for each data-file object, and opens the data files. It could also do some optimizations at this stage like using row counts or filtering of data using the partition or column statistic information.</p>
+<blockquote>
+<p>--- <strong>Data Layer</strong> </p>
+</blockquote>
+<p><img alt="Steps" src="../6.svg" /></p>
+<p>Each file in the data layer represents a leaf node in the Iceberg table’s tree structure, providing scalable and low-cost storage by utilizing distributed filesystems like Hadoop Distributed File System (HDFS) or cloud object storage solutions such as Amazon S3, Azure Data Lake Storage (ADLS), and Google Cloud Storage (GCS).</p>
+<p>Datafiles in Iceberg can use various file formats, such as Apache Parquet, Apache ORC, and Apache Avro. Iceberg’s format-agnostic nature provides flexibility, allowing organizations to choose the format that best fits their specific workloads. Parquet, with its columnar structure, is commonly used for its performance benefits in analytical workloads. Parquet files allow engines to read columns and even row groups independently, improving parallelism, compression, and query efficiency by leveraging statistics like minimum and maximum values for each column.</p>
+<blockquote>
+<p>--- <strong>CREATE TABLE</strong> </p>
+</blockquote>
+<p>First, let’s create a table in our environment.</p>
+<p><img alt="Steps" src="../7.svg" /></p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="w">    </span><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">table1</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="n">order_id</span><span class="w"> </span><span class="nb">BIGINT</span><span class="p">,</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="n">customer_id</span><span class="w"> </span><span class="nb">BIGINT</span><span class="p">,</span><span class="w"> </span><span class="n">order_amount</span><span class="w"> </span><span class="nb">DECIMAL</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">order_ts</span><span class="w"> </span><span class="k">TIMESTAMP</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="p">)</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="k">USING</span><span class="w"> </span><span class="n">iceberg</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="n">PARTITIONED</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">HOUR</span><span class="p">(</span><span class="n">order_ts</span><span class="p">)</span><span class="w"> </span><span class="p">);</span>
+</span></code></pre></div>
+<blockquote>
+<p>--- <strong>INSERT</strong> </p>
+</blockquote>
+<p>Now, let’s add some data to the table (albeit, literal values).</p>
+<p><img alt="Steps" src="../8.svg" /></p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="w">    </span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">table1</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="mi">123</span><span class="p">,</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="mi">456</span><span class="p">,</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="mi">36</span><span class="p">.</span><span class="mi">17</span><span class="p">,</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="s1">&#39;2021-01-26 08:10:23&#39;</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="p">);</span>
+</span></code></pre></div>
+<blockquote>
+<p>--- <strong>MERGE INTO / UPSERT</strong> </p>
+</blockquote>
+<p>Now, let’s step through a MERGE INTO / UPSERT operation.</p>
+<p><img alt="Steps" src="../9.svg" /></p>
+<p>Let’s assume we’ve landed some data into a staging table we created in the background. In this simple example, information is logged each time there’s a change to the order, and we want to keep this table showing the most recent details of each order, so we update the order amount if the order ID is already in the table. If we don’t have a record of that order yet, we want to insert a record for this new order.</p>
+<p>In this example, the stage table includes an update for the order that’s already in the table (order_id=123) and a new order that isn’t in the table yet, which occurred on January 27, 2021 at 10:21:46.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="w">    </span><span class="n">MERGE</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">table1</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="k">USING</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">table1_stage</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="n">s</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="k">ON</span><span class="w"> </span><span class="n">table1</span><span class="p">.</span><span class="n">order_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">order_id</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">MATCHED</span><span class="w"> </span><span class="k">THEN</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="k">UPDATE</span><span class="w"> </span><span class="n">table1</span><span class="p">.</span><span class="n">order_amount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">order_amount</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="n">MATCHED</span><span class="w"> </span><span class="k">THEN</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="k">INSERT</span><span class="w"> </span><span class="o">*</span>
+</span></code></pre></div>
+<h2 id="copy-on-write-cow-and-merge-on-read-mor"><strong>Copy-On-Write (CoW) and Merge-On-Read (MoR)</strong><a class="headerlink" href="#copy-on-write-cow-and-merge-on-read-mor" title="Permanent link">#</a></h2>
+<p>In Copy-On-Write approach, if even a single row in a data file is updated or deleted, the associated data file is rewritten with the updated or deleted records.</p>
+<p><img alt="Steps" src="../10.svg" /></p>
+<p>The new snapshot of the table created because of these operations will point to this newer version of the data file. This is the default approach.</p>
+<p>Before we dive into MOR, it's important to understand the Delete Files and what information these files have.</p>
+<blockquote>
+<p>--- <strong>Delete Files</strong></p>
+</blockquote>
+<p>Delete files track which records in the dataset have been logically deleted and need to be ignored when a query engine tries to read the data from an Iceberg Table.</p>
+<p>Delete files are created within each partition depending on the data file from where the record is logically deleted or updated. There are 2 types of delete files based on how these delete files store delete records information.</p>
+<blockquote>
+<p>--- <strong>Positional Delete Files</strong> </p>
+</blockquote>
+<p><img alt="Steps" src="../11.svg" /></p>
+<p>Positional Delete files store the exact position of the deleted records in the dataset. It keeps track of the file path of the data file along with the position of the deleted records in that file.</p>
+<blockquote>
+<p>--- <strong>Equality Delete Files</strong> </p>
+</blockquote>
+<p><img alt="Steps" src="../12.svg" /></p>
+<p>Equality Delete Files stores the value of one or more columns of the deleted records. These column values are stored based on the condition used while deleting these records.</p>
+<p><img alt="Steps" src="../13.svg" /></p>
+<p>In Merge-on-Read approach, update or delete operations on the Iceberg Table, the existing data files are not rewritten. Instead, a delete file is generated that keeps track of which records need to be ignored.
+In case of deleting records, the record entries are listed in a Delete File.</p>
+<p>In case of updating records:</p>
+<p>The records to be updated are listed in a delete file.</p>
+<p>A new data file is created that contains only the updated records.</p>
+<p><img alt="Steps" src="../14.svg" /></p>
+<blockquote>
+<p>--- <strong>How to choose between COW and MOR?</strong></p>
+</blockquote>
+<p><img alt="Steps" src="../15.svg" /></p>
+<ul>
+<li>COW:</li>
+</ul>
+<p>In case of row-level deletes/updates, it rewrites the entire file even if there is a single record is impacted.</p>
+<p>More data needs to be written that causes slower row-level Updates/Deletes.</p>
+<p>Data is read without reconciling. It writes any deleted or updated files, resulting in faster reads.</p>
+<ul>
+<li>MOR:</li>
+</ul>
+<p>In case of row-level deletes/updates, it avoids rewriting the entire data file.</p>
+<p>It writes only the Delete File along with the updated data file in case of Updates i.e. basically writing less data and hence faster writes.</p>
+<p>Data is read along with reconciling any deleted or updated files, resulting in slower reads.</p>
+<h2 id="a-look-under-the-covers-when-cruding"><strong>A Look Under the Covers When CRUDing</strong><a class="headerlink" href="#a-look-under-the-covers-when-cruding" title="Permanent link">#</a></h2>
+<blockquote>
+<p>--- <strong>SELECT</strong></p>
+</blockquote>
+<p>Let’s review the SELECT path again, but this time on the Iceberg table we’ve been working on. SELECT * FROM db1.table1</p>
+<p>When this SELECT statement is executed, the following process happens:</p>
+<ul>
+<li>The query engine goes to the Iceberg catalog</li>
+<li>It then retrieves the current metadata file location entry for db1.table1</li>
+<li>It then opens this metadata file and retrieves the entry for the manifest list location for the current snapshot, s2</li>
+<li>It then opens this manifest list, retrieving the location of the only manifest file</li>
+<li>It then opens this manifest file, retrieving the location of the two data files</li>
+<li>It then reads these data files, and since it’s a SELECT *, returns the data back to the client</li>
+</ul>
+<p><img alt="Steps" src="../16.svg" /></p>
+<blockquote>
+<p>--- <strong>Create Table</strong></p>
+</blockquote>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">ecommerce</span><span class="p">.</span><span class="n">transactions</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">transaction_id</span><span class="w"> </span><span class="nb">BIGINT</span><span class="w"> </span><span class="k">COMMENT</span><span class="w"> </span><span class="s1">&#39;Unique identifier for the transaction&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">customer_id</span><span class="w"> </span><span class="nb">BIGINT</span><span class="w"> </span><span class="k">COMMENT</span><span class="w"> </span><span class="s1">&#39;Unique identifier for the customeproduct_id BIGINT COMMENT &#39;</span><span class="k">Unique</span><span class="w"> </span><span class="n">identifier</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">product</span><span class="s1">&#39;,</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="s1">quantity INT COMMENT &#39;</span><span class="n">Quantity</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">product</span><span class="w"> </span><span class="n">purchased</span><span class="s1">&#39;,</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="s1">total_amount DECIMAL(10, 2) COMMENT &#39;</span><span class="n">Total</span><span class="w"> </span><span class="n">amount</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="k">transaction</span><span class="s1">&#39;, transaction_date TIMESTAMP COMMENT &#39;</span><span class="k">Timestamp</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="k">transaction</span><span class="s1">&#39;,</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="s1">)</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="s1">USING iceberg PARTITIONED BY (country, transaction_date) WITH TBLPROPERTIES (</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="s1">-- General Table Properties</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="s1">&#39;</span><span class="n">format</span><span class="o">-</span><span class="k">version</span><span class="s1">&#39; = &#39;</span><span class="mi">2</span><span class="s1">&#39;, -- Use Iceberg format version 2 &#39;</span><span class="k">write</span><span class="p">.</span><span class="n">format</span><span class="p">.</span><span class="k">default</span><span class="s1">&#39; = &#39;</span><span class="n">parquet</span><span class="s1">&#39;, -- Default file format is Parq&#39;</span><span class="k">write</span><span class="p">.</span><span class="n">target</span><span class="o">-</span><span class="n">file</span><span class="o">-</span><span class="k">size</span><span class="o">-</span><span class="n">bytes</span><span class="s1">&#39; = &#39;</span><span class="mi">536870912</span><span class="s1">&#39;, -- Target file size of 512 MB</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="s1">&#39;</span><span class="k">write</span><span class="p">.</span><span class="n">upsert</span><span class="p">.</span><span class="n">enabled</span><span class="s1">&#39; = &#39;</span><span class="k">true</span><span class="s1">&#39;, &#39;</span><span class="k">write</span><span class="p">.</span><span class="k">update</span><span class="p">.</span><span class="k">mode</span><span class="s1">&#39; = &#39;</span><span class="n">merge</span><span class="o">-</span><span class="k">on</span><span class="o">-</span><span class="k">read</span><span class="s1">&#39;, &#39;</span><span class="k">write</span><span class="p">.</span><span class="k">delete</span><span class="p">.</span><span class="k">mode</span><span class="s1">&#39;=&#39;</span><span class="k">copy</span><span class="o">-</span><span class="k">on</span><span class="o">-</span><span class="n">writ</span><span class="s1">&#39;write.merge.mode&#39;</span><span class="o">=</span><span class="s1">&#39;merge-on-read&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;write.distribution-mode&#39;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;hash&#39;</span><span class="p">,</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="c1">-- Enable upserts for the table</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="c1">-- Use merge-on-read for delete operations</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="c1">-- Use hash-based distribution for writes</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="c1">-- Snapshot and Metadata Management</span>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="s1">&#39;commit.manifest.min-count-to-merge&#39;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;5&#39;</span><span class="p">,</span><span class="w"> </span><span class="c1">-- Minimum number of manifests to trigger a merge &#39;commit.manifest.target-size-bytes&#39;104857600&#39;, -- Target size for each manifest (100 MB) &#39;snapshot-id-inheritance.enabled&#39; = &#39;true&#39;, -- Optimize snapshot managem&#39;metadata.delete-after-commit.enabled&#39; = &#39;true&#39;, -- Clean up old metadata files after commits</span>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="c1">-- Data Compaction and Optimization</span>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="s1">&#39;write.merge.small-files&#39;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;true&#39;</span><span class="p">,</span><span class="w"> </span><span class="c1">-- Merge small files automatically &#39;write.merge.file-size-threshold&#39; = &#39;134217728&#39;, -- Threshold merging small files (128 MB) &#39;write.compaction.file-count-threshold&#39; = &#39;50&#39;, -- Trigger compaction when there are &gt; 50 small files</span>
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="c1">-- Query Optimization</span>
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="s1">&#39;read.split.target-size&#39;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;268435456&#39;</span><span class="p">,</span><span class="w"> </span><span class="c1">-- Split size for parallel reads (256 MB)</span>
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="c1">-- Garbage Collection</span>
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="s1">&#39;gc.enabled&#39;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;true&#39;</span><span class="p">,</span><span class="w"> </span><span class="c1">-- Enable garbage collection for orphaned files &#39;gc.file-threshold&#39; = &#39;10485760&#39;, -- Minimum size of orphan fifor GC (10 MB)</span>
+</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="c1">-- Performance Settings</span>
+</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a><span class="s1">&#39;parquet.row-group-size-bytes&#39;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;134217728&#39;</span><span class="w"> </span><span class="c1">-- Parquet row group size (128 MB) );</span>
+</span></code></pre></div>
+<blockquote>
+<p>--- <strong>Insert command</strong></p>
+</blockquote>
+<p>– Normal insert where data will be placed automatically inside partitions</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">ecommerce</span><span class="p">.</span><span class="n">transactions</span><span class="w"> </span><span class="k">VALUES</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="p">(</span><span class="mi">1001</span><span class="p">,</span><span class="w"> </span><span class="mi">12345</span><span class="p">,</span><span class="w"> </span><span class="mi">56789</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">49</span><span class="p">.</span><span class="mi">99</span><span class="p">,</span><span class="w"> </span><span class="mi">99</span><span class="p">.</span><span class="mi">98</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2025-01-13 12:30:45&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;United States&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Credit Card&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Completed&#39;</span><span class="p">),</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="p">(</span><span class="mi">1002</span><span class="p">,</span><span class="w"> </span><span class="mi">12346</span><span class="p">,</span><span class="w"> </span><span class="mi">56780</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">19</span><span class="p">.</span><span class="mi">99</span><span class="p">,</span><span class="w"> </span><span class="mi">19</span><span class="p">.</span><span class="mi">99</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2025-01-13 13:15:20&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Canada&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;PayPal&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Completed&#39;</span><span class="p">);</span>
+</span></code></pre></div>
+<p>– Static overwrite of partitions</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">INSERT</span><span class="w"> </span><span class="n">OVERWRITE</span><span class="w"> </span><span class="n">ecommerce</span><span class="p">.</span><span class="n">transactions</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">PARTITION</span><span class="w"> </span><span class="p">(</span><span class="n">country</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;United States&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">transaction_date</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;2025-01-13&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">VALUES</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="p">(</span><span class="mi">1003</span><span class="p">,</span><span class="w"> </span><span class="mi">12347</span><span class="p">,</span><span class="w"> </span><span class="mi">56781</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">29</span><span class="p">.</span><span class="mi">99</span><span class="p">,</span><span class="w"> </span><span class="mi">89</span><span class="p">.</span><span class="mi">97</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2025-01-13 14:00:00&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;United States&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Debit Card&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Pending&#39;</span><span class="p">),</span><span class="w"> </span><span class="p">(</span><span class="mi">1004</span><span class="p">,</span><span class="w"> </span><span class="mi">12348</span><span class="p">,</span><span class="w"> </span><span class="mi">56782</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="p">.</span><span class="mi">99</span><span class="p">,</span><span class="w"> </span><span class="mi">49</span><span class="p">.</span><span class="mi">95</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2025-01-13 15:20:10&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;United States&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Credit Card&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Completed&#39;</span><span class="p">);</span>
+</span></code></pre></div>
+<p>– Dynamic overwrite of partitions</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">INSERT</span><span class="w"> </span><span class="n">OVERWRITE</span><span class="w"> </span><span class="n">ecommerce</span><span class="p">.</span><span class="n">transactions</span><span class="w"> </span><span class="k">VALUES</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="p">(</span><span class="mi">1003</span><span class="p">,</span><span class="w"> </span><span class="mi">12347</span><span class="p">,</span><span class="w"> </span><span class="mi">56781</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">29</span><span class="p">.</span><span class="mi">99</span><span class="p">,</span><span class="w"> </span><span class="mi">89</span><span class="p">.</span><span class="mi">97</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2025-01-13 14:00:00&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;United States&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Debit Card&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Pending&#39;</span><span class="p">),</span><span class="w"> </span><span class="p">(</span><span class="mi">1004</span><span class="p">,</span><span class="w"> </span><span class="mi">12348</span><span class="p">,</span><span class="w"> </span><span class="mi">56782</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="p">.</span><span class="mi">99</span><span class="p">,</span><span class="w"> </span><span class="mi">49</span><span class="p">.</span><span class="mi">95</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2025-01-13 15:20:10&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;United States&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Credit Card&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Completed&#39;</span><span class="p">),</span><span class="w"> </span><span class="p">(</span><span class="mi">1005</span><span class="p">,</span><span class="w"> </span><span class="mi">12349</span><span class="p">,</span><span class="w"> </span><span class="mi">56783</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">99</span><span class="p">.</span><span class="mi">99</span><span class="p">,</span><span class="w"> </span><span class="mi">99</span><span class="p">.</span><span class="mi">99</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2025-01-14 09:00:00&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Canada&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Credit Card&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Completed&#39;</span><span class="p">);</span>
+</span></code></pre></div>
+<blockquote>
+<p>--- <strong>Delete command</strong></p>
+</blockquote>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">ecommerce</span><span class="p">.</span><span class="n">transactions</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">transaction_date</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;2025-01-13&#39;</span><span class="p">;</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="k">UPDATE</span><span class="w"> </span><span class="n">ecommerce</span><span class="p">.</span><span class="n">transactions</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Completed&#39;</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">transaction_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1003</span><span class="p">;</span>
+</span></code></pre></div>
+<blockquote>
+<p>--- <strong>Alter Command</strong></p>
+</blockquote>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">catalog</span><span class="p">.</span><span class="n">db</span><span class="p">.</span><span class="n">sample_table</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">TBLPROPERTIES</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="s1">&#39;write.delete.mode&#39;</span><span class="o">=</span><span class="s1">&#39;merge-on-read&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;write.update.mode&#39;</span><span class="o">=</span><span class="s1">&#39;copy-on-write&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;write.merge.mode&#39;</span><span class="o">=</span><span class="s1">&#39;copy-on-write&#39;</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="p">);</span>
+</span></code></pre></div>
+<blockquote>
+<p>--- <strong>Merge Query</strong></p>
+</blockquote>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">MERGE</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">ecommerce</span><span class="p">.</span><span class="n">transactions</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">target</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="k">USING</span><span class="w"> </span><span class="n">incoming_updates</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="k">source</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="k">ON</span><span class="w"> </span><span class="n">target</span><span class="p">.</span><span class="n">transaction_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">source</span><span class="p">.</span><span class="n">transaction_id</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="k">WHEN</span><span class="w"> </span><span class="n">MATCHED</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="k">source</span><span class="p">.</span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Cancelled&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="k">DELETE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">MATCHED</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="k">UPDATE</span><span class="w"> </span><span class="k">SET</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="n">target</span><span class="p">.</span><span class="n">quantity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">source</span><span class="p">.</span><span class="n">quantity</span><span class="p">,</span><span class="w"> </span><span class="n">target</span><span class="p">.</span><span class="n">total_amount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">source</span><span class="p">.</span><span class="n">total_amount</span><span class="p">,</span><span class="w"> </span><span class="n">target</span><span class="p">.</span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">source</span><span class="p">.</span><span class="n">status</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="k">WHEN</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="n">MATCHED</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="k">INSERT</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="n">transaction_id</span><span class="p">,</span><span class="w"> </span><span class="n">customer_id</span><span class="p">,</span><span class="w"> </span><span class="n">product_id</span><span class="p">,</span><span class="w"> </span><span class="n">quantity</span><span class="p">,</span><span class="w"> </span><span class="n">price</span><span class="p">,</span><span class="w"> </span><span class="n">total_amount</span><span class="p">,</span><span class="w"> </span><span class="n">transaction_date</span><span class="p">,</span><span class="w"> </span><span class="n">country</span><span class="p">,</span>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="n">payment_method</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="k">source</span><span class="p">.</span><span class="n">transaction_id</span><span class="p">,</span><span class="w"> </span><span class="k">source</span><span class="p">.</span><span class="n">customer_id</span><span class="p">,</span><span class="w"> </span><span class="k">source</span><span class="p">.</span><span class="n">product_id</span><span class="p">,</span><span class="w"> </span><span class="k">source</span><span class="p">.</span><span class="n">quantity</span><span class="p">,</span><span class="w"> </span><span class="k">source</span><span class="p">.</span><span class="n">price</span><span class="p">,</span><span class="w"> </span><span class="k">source</span><span class="p">.</span><span class="n">total_amount</span><span class="p">,</span><span class="w"> </span><span class="k">source</span><span class="p">.</span><span class="n">transaction_date</span><span class="p">,</span><span class="w"> </span><span class="k">source</span><span class="p">.</span><span class="n">country</span><span class="p">,</span><span class="w"> </span><span class="k">source</span><span class="p">.</span><span class="n">payment_method</span><span class="p">,</span><span class="w"> </span><span class="k">source</span><span class="p">.</span><span class="n">status</span><span class="w"> </span><span class="p">);</span>
+</span></code></pre></div>
+<blockquote>
+<p>--- <strong>TimeTravel</strong></p>
+</blockquote>
+<p>-- To list down all snapshots of a Iceberg table </p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">ecommerce</span><span class="p">.</span><span class="n">transactions</span><span class="p">.</span><span class="n">snapshots</span><span class="p">;</span>
+</span></code></pre></div>
+<p>-- Read from timestamp</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">ecommerce</span><span class="p">.</span><span class="n">transactions</span><span class="w"> </span><span class="k">FOR</span><span class="w"> </span><span class="k">TIMESTAMP</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="k">OF</span><span class="w"> </span><span class="k">TIMESTAMP</span><span class="w"> </span><span class="s1">&#39;2025-01-01 00:00:00&#39;</span><span class="p">;</span>
+</span></code></pre></div>
+<p>-- Read from snapshot</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">ecommerce</span><span class="p">.</span><span class="n">transactions</span><span class="w"> </span><span class="k">FOR</span><span class="w"> </span><span class="n">SNAPSHOT</span><span class="w"> </span><span class="mi">1234567890123456789</span><span class="p">;</span>
+</span></code></pre></div>
+<blockquote>
+<p>--- <strong>Compaction</strong></p>
+</blockquote>
+<p>Compaction is a technique and a recommended ( yet, mandatory ) maintenance that needs to happen on Iceberg table periodically. It will help in combining smaller files into fewer larger files.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="k">CALL</span><span class="w"> </span><span class="n">iceberg</span><span class="p">.</span><span class="k">system</span><span class="p">.</span><span class="n">rewrite_data_files</span><span class="p">(</span><span class="w"> </span><span class="k">table</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s1">&#39;database_name.table_name&#39;</span><span class="p">,</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="k">options</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="k">map</span><span class="p">(</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="s1">&#39;target-file-size-bytes&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;524288000&#39;</span><span class="p">,</span><span class="w"> </span><span class="c1">-- Target size of each compacted file (500MB) &#39;split-size&#39;, &#39;268435456&#39;, -- Size of each data split (256MB) for parallel processing &#39;max-file-size&#39;, &#39;1073741824&#39; -- Maximum allowable size of a single file (1GB)</span>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="p">)</span><span class="w"> </span><span class="p">);</span>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="k">CALL</span><span class="w"> </span><span class="n">iceberg</span><span class="p">.</span><span class="k">system</span><span class="p">.</span><span class="n">rewrite_manifests</span><span class="p">(</span><span class="w"> </span><span class="k">table</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s1">&#39;database_name.table_name&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">options</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="k">map</span><span class="p">(</span>
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="s1">&#39;max-manifest-file-size&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;104857600&#39;</span><span class="p">,</span><span class="w"> </span><span class="c1">-- Maximum size of each manifest file (100MB) &#39;min-manifest-file-size&#39;, &#39;5242880&#39;, -- Minimum size to consider for compaction (5MB) &#39;manifest-target-count&#39;, &#39;10&#39; -- Target number of compacted manifests</span>
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="p">)</span><span class="w"> </span><span class="p">);</span>
+</span></code></pre></div>
+<ul>
+<li>make old new </li>
+</ul>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="k">CALL</span><span class="w"> </span><span class="n">lake</span><span class="p">.</span><span class="k">system</span><span class="p">.</span><span class="n">rollback_to_snapshot</span><span class="p">(</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">    </span><span class="s1">&#39;raw&#39;</span><span class="p">,</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">    </span><span class="s1">&#39;ref_txn_details&#39;</span><span class="p">,</span>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="w">    </span><span class="mi">123456789</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="p">);</span>
+</span></code></pre></div>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;CALL lake.system.remove_orphan_files(table =&gt; &#39;lake.raw.trinologs&#39;)&quot;</span><span class="p">)</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;CALL lake.system.rewrite_manifests(&#39;lake.raw.trinologs&#39;)&quot;</span><span class="p">)</span>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;CALL lake.system.rewrite_data_files(table =&gt; &#39;lake.raw.trinologs&#39;,options =&gt; map(&#39;min-input-files&#39;,&#39;2&#39;,&#39;target-file-size-bytes&#39;,&#39;524288000&#39;))&quot;</span><span class="p">)</span>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;CALL lake.system.expire_snapshots(&#39;lake.raw.trinologs&#39;, TIMESTAMP &#39;&quot;</span><span class="o">+</span><span class="n">refreshDate</span><span class="o">+</span><span class="s2">&quot;&#39;, 5)&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<h2 id="iceberg_iq"><strong>ICEBERG_IQ</strong><a class="headerlink" href="#iceberg_iq" title="Permanent link">#</a></h2>
+<div class="admonition - info">
+<p class="admonition-title">1. What is a data lakehouse?</p>
+<p>A data lakehouse is an architectural pattern where most workloads often associated with a data warehouse run on the data lake. That reduces duplication of data and pipeline complexity for better regulatory compliance, consistency of data, and self-service delivery.</p>
+</div>
+<div class="admonition - info">
+<p class="admonition-title">2. What is a data lakehouse table format?</p>
+<p>A table format lets tools look at files in data lake storage and treat groups of those files as a single table so you can query and transform data performantly on the lake—enabling warehouse-like workloads (and more) on the lake (the lakehouse idea).</p>
+<p>Table formats are not new or specific to data lakes; they go back to early relational systems. A lakehouse table format differs because multiple engines must interact with the same table safely and consistently.</p>
+<p>Reference: <a href="https://www.dremio.com/resources/guides/apache-iceberg-an-architectural-look-under-the-covers/">Apache Iceberg — an architectural look under the covers</a></p>
+</div>
+<div class="admonition - info">
+<p class="admonition-title">3. What are metadata files in Iceberg?</p>
+<p>Whenever a table is created or data is inserted, updated, or deleted, Iceberg can produce new metadata. Metadata files capture the high-level definition of the table: current and past snapshots, schemas, partition specs, and related state.</p>
+<p>Reference: <a href="https://www.dremio.com/blog/a-hands-on-look-at-the-structure-of-an-apache-iceberg-table/#metadatafile">Hands-on look at Iceberg table structure — metadata file</a></p>
+</div>
+<div class="admonition - info">
+<p class="admonition-title">4. What are manifest lists?</p>
+<p>Each table snapshot is tracked in a manifest list file. It records which manifest files belong to that snapshot and carries metadata about those manifests so engines can prune work (for example via partition pruning) without scanning everything.</p>
+<p>Reference: <a href="https://www.dremio.com/blog/a-hands-on-look-at-the-structure-of-an-apache-iceberg-table/#manifestlist">Hands-on look at Iceberg table structure — manifest list</a></p>
+</div>
+<div class="admonition - info">
+<p class="admonition-title">5. What are delete files?</p>
+<p>Delete files record rows that were deleted and should be ignored when reading certain data files. They matter when row-level operations (update, delete, merge) use Merge-on-Read (MOR). Styles include position deletes (file + position of removed rows) and equality deletes (match by column values).</p>
+<p>Reference: <a href="https://www.dremio.com/blog/row-level-changes-on-the-lakehouse-copy-on-write-vs-merge-on-read-in-apache-iceberg/">Copy-on-write vs merge-on-read in Apache Iceberg</a></p>
+</div>
+<div class="admonition - info">
+<p class="admonition-title">6. What is partition evolution?</p>
+<p>In many formats, changing partitioning forces a full table rewrite, which is expensive at scale. Iceberg supports partition evolution: you can change how new data is partitioned without rewriting all existing data that used the old spec.</p>
+<p>Reference: <a href="https://www.dremio.com/blog/future-proof-partitioning-and-fewer-table-rewrites-with-apache-iceberg/">Future-proof partitioning and fewer table rewrites</a></p>
+</div>
+<div class="admonition - info">
+<p class="admonition-title">7. What is hidden partitioning?</p>
+<p>Iceberg tracks partitions using a column plus a transform, not only raw partition columns. That enables hidden partitioning: consumers can benefit from pruning without manually mirroring partition columns in every filter, unlike many Hive-style layouts.</p>
+<p>Reference: <a href="https://www.dremio.com/blog/fewer-accidental-full-table-scans-brought-to-you-by-apache-icebergs-hidden-partitioning/">Hidden partitioning in Apache Iceberg</a></p>
+</div>
+<div class="admonition - info">
+<p class="admonition-title">8. What is time travel in Iceberg?</p>
+<p>Because metadata tracks snapshots, you can query the table as it was at a point in time—time travel. Useful for reproducible ML evaluation, audits, and historical analytics.</p>
+<p>Reference: <a href="https://www.dremio.com/blog/time-travel-with-dremio-and-apache-iceberg/">Time travel with Dremio and Apache Iceberg</a></p>
+</div>
+<div class="admonition - info">
+<p class="admonition-title">9. What is schema evolution in Iceberg?</p>
+<p>Schema evolution is changing the table schema without necessarily rewriting all data. Iceberg supports adding columns, evolving types where allowed, renaming, and dropping columns through metadata and read-time projection, avoiding full rewrites in many cases.</p>
+<p>Reference: <a href="https://iceberg.apache.org/docs/latest/evolution/#schema-evolution">Iceberg docs — schema evolution</a></p>
+</div>
+<div class="admonition - info">
+<p class="admonition-title">10. How does Iceberg handle multiple concurrent writes?</p>
+<p>Iceberg uses optimistic concurrency for transactional commits. Writers plan the next snapshot (often including a unique metadata path or identifier), then commit atomically. If another writer committed first, the writer refreshes metadata and retries (until success or retry limits). Coordinating on immutable metadata files avoids in-place corruption.</p>
+<p>References: <a href="https://iceberg.apache.org/docs/latest/reliability/#concurrent-write-operations">Concurrent write operations</a>, <a href="https://iceberg.apache.org/spec/#file-system-tables">Iceberg spec — file-system tables</a></p>
+</div>
+<div class="admonition - info">
+<p class="admonition-title">11. What are Copy-on-Write (CoW) and Merge-on-Read (MoR), and when would you choose each?</p>
+<p>Both address row-level changes (update, delete, merge). CoW rewrites data files that contain changed rows—better read performance, heavier writes. MoR keeps data files and adds delete (and related) files merged at read time—faster writes, more read-time work.</p>
+<p>Reference: <a href="https://www.dremio.com/blog/row-level-changes-on-the-lakehouse-copy-on-write-vs-merge-on-read-in-apache-iceberg/">CoW vs MoR in Apache Iceberg</a></p>
+</div>
+<div class="admonition - info">
+<p class="admonition-title">12. How do you hard-delete records for compliance (for example GDPR)?</p>
+<p>Data files disappear when no snapshot references them anymore (after snapshot expiration and garbage collection of orphans, per your tooling and policies).</p>
+<p>With CoW, changed data is rewritten; expiring snapshots from before the delete can remove files that held the deleted rows.</p>
+<p>With MoR, old files may still be referenced across snapshots, so you typically compact, then expire snapshots before the compaction so files containing deleted rows can be dropped.</p>
+<p>Reference: <a href="https://www.dremio.com/blog/apache-iceberg-and-the-right-to-be-forgotten/">Iceberg and the right to be forgotten</a></p>
+</div>
+<div class="admonition - info">
+<p class="admonition-title">13. What is compaction, and how do you run it?</p>
+<p>Compaction rewrites many small files into fewer, larger files to cut metadata overhead and improve scan efficiency. In Spark, the common entry point is the <code>rewrite_data_files</code> procedure (or equivalent in other engines).</p>
+<p>Reference: <a href="https://iceberg.apache.org/docs/latest/spark-procedures/#rewrite_data_files">Spark procedures — rewrite_data_files</a></p>
+</div>
+<div class="admonition - info">
+<p class="admonition-title">14. What rewrite or clustering strategies exist for compacting data files?</p>
+<p>The <code>rewrite_data_files</code> procedure supports strategies such as bin-pack (default) and sort-based rewrites to cluster on one or more columns; z-order clustering is also supported for multi-column locality.</p>
+<p>References: <a href="https://www.dremio.com/blog/compaction-in-apache-iceberg-fine-tuning-your-iceberg-tables-data-files/">Compaction in Iceberg</a>, <a href="https://www.dremio.com/blog/how-z-ordering-in-apache-iceberg-helps-improve-performance/">Z-ordering in Iceberg</a></p>
+</div>
+<div class="admonition - info">
+<p class="admonition-title">15. Do you need to retain every metadata file forever?</p>
+<p>No. A new metadata file can be created on DDL/DML, so files accumulate. You can cap how many previous metadata files are kept and expire older ones as part of maintenance.</p>
+<p>Reference: <a href="https://iceberg.apache.org/docs/latest/maintenance/#remove-old-metadata-files">Maintenance — remove old metadata files</a></p>
+</div>
+<div class="admonition - info">
+<p class="admonition-title">16. How do you automatically clean up old metadata files?</p>
+<p>Set table properties such as <code>write.metadata.delete-after-commit.enabled=true</code> so that after each commit, older metadata files are pruned according to <code>write.metadata.previous-versions-max</code> (and related settings).</p>
+</div>
+<div class="admonition - info">
+<p class="admonition-title">17. Explain Iceberg’s core metadata layout and how it enables atomic commits and snapshot isolation.</p>
+<p>Iceberg keeps a clear split between table metadata and data files. The current table state is reached through a metadata tree: metadata JSON points at a snapshot; snapshots reference manifest lists; manifest lists point to manifests; manifests list data files with metrics (partition values, bounds, counts, etc.).</p>
+<p>Commits are atomic because writers add new metadata files and swap the table pointer (for example via atomic rename) instead of editing files in place. Readers always resolve from the current metadata pointer, so they see a full old snapshot or a full new one—snapshot isolation. Time travel is reading an older snapshot via the same metadata chain.</p>
+</div>
+<div class="admonition - info">
+<p class="admonition-title">18. How does Iceberg support schema and partition evolution without rewriting all existing data files?</p>
+<p>Schema changes are recorded in metadata history. Readers project columns present in each file, fill new columns with null/default as needed, and ignore dropped columns where appropriate—so Parquet/ORC files need not all be rewritten for many evolutions.</p>
+<p>Partition evolution updates the partition spec in metadata with a new spec id. Existing files keep the partition values recorded for the spec that wrote them; planners use the correct spec per file. Hidden partitioning follows the same idea (transform + source column). Full physical reorganization is optional and done via explicit rewrite jobs.</p>
+</div>
+<div class="admonition - info">
+<p class="admonition-title">19. How does Iceberg use file-level statistics for partition pruning and predicate pushdown?</p>
+<p>Manifest entries store per-file partition values and column metrics (min/max, null counts, row counts, etc.). Planning typically does manifest-level pruning first (drop files by partition overlap), then metrics-based pruning (skip files whose stats contradict the predicate). That reduces I/O versus opening every data file.</p>
+</div>
+<div class="admonition - info">
+<p class="admonition-title">20. What isolation and concurrency guarantees does Iceberg provide, and how are write conflicts resolved?</p>
+<p>Readers get snapshot isolation: they see a consistent snapshot. Writers use optimistic concurrency: read base snapshot, write new manifests and metadata, attempt atomic commit; on conflict, refresh from the latest metadata, rebase/recompute, and retry. That yields ordered commits without coarse-grained locks, while avoiding torn reads.</p>
+</div>
+<div class="admonition - info">
+<p class="admonition-title">What is snapshot isolation?</p>
+<p>Each write creates a new snapshot, and readers always see a consistent snapshot.</p>
+<p>Readers → no locks
+Writers → optimistic concurrency</p>
+<p>👉 Example:</p>
+<p>Job A writes → snapshot 101
+Job B writes → snapshot 102
+Reader still sees snapshot 100 unless refreshed</p>
+</div>
+<div class="admonition - info">
+<p class="admonition-title">Difference</p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Iceberg</th>
+<th>Delta</th>
+<th>Hudi</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Metadata</td>
+<td>Manifest-based</td>
+<td>Transaction log</td>
+<td>Timeline</td>
+</tr>
+<tr>
+<td>Partitioning</td>
+<td>Hidden</td>
+<td>Explicit</td>
+<td>Explicit</td>
+</tr>
+<tr>
+<td>Streaming</td>
+<td>Moderate</td>
+<td>Strong</td>
+<td>Strong</td>
+</tr>
+<tr>
+<td>Engine support</td>
+<td>Multi-engine</td>
+<td>Spark-heavy</td>
+<td>Spark-heavy</td>
+</tr>
+<tr>
+<td>Schema evolution</td>
+<td>Strong</td>
+<td>Moderate</td>
+<td>Complex</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>!!!- info"What happens during MERGE internally?"</p>
+<div class="codehilite"><pre><span></span><code>Matching files identified
+Files rewritten (copy-on-write)
+New snapshot created
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../../ignite/ignite/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Apache Ignite">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Apache Ignite
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../../cloud/aws/" class="md-footer__link md-footer__link--next" aria-label="Next: AWS">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                AWS
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 Manishkumar Chetpalli.  This website is maintained for personal learning and documentation purposes. Content is inspired by various public resources and original authors.
+
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://www.linkedin.com/in/manishkumarchetpalli/" target="_blank" rel="noopener" title="www.linkedin.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/manish-chet" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.annotation", "content.code.copy", "content.tooltips", "content.tabs.link", "navigation.tabs", "navigation.tabs.sticky", "navigation.path", "navigation.top", "navigation.footer", "navigation.indexes", "navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.instant.preview", "navigation.tracking", "navigation.path", "navigation.sections", "navigation.instant", "search.highlight", "search.suggest", "search.share", "navigation.footer", "content.action.feedback", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

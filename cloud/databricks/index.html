@@ -1,0 +1,3882 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for Data Engineering and Big Data Technologies">
+      
+      
+        <meta name="author" content="Manishkumar Chetpalli">
+      
+      
+        <link rel="canonical" href="https://manishchetpalli.github.io/cloud/databricks/">
+      
+      
+        <link rel="prev" href="../aws/">
+      
+      
+        <link rel="next" href="../../about/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/sqldeveloper-original.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Databricks - DEwithManish</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="pink">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#challenges-in-a-normal-data-platform" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="DEwithManish" class="md-header__button md-logo" aria-label="DEwithManish" data-md-component="logo">
+      
+  <img src="../../assets/images/sqldeveloper-original.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            DEwithManish
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Databricks
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="pink"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="light-green"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/manishchetpalli/DataEngineeringNotes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    AnalyticsWithManish
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../projects/flink-ignite/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Projects/Setup
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../DataEngineering/DE/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Fundamentals
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../hadoop/HDFS/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Big Data
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../aws/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Cloud computing
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../about/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  About Me
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="DEwithManish" class="md-nav__button md-logo" aria-label="DEwithManish" data-md-component="logo">
+      
+  <img src="../../assets/images/sqldeveloper-original.svg" alt="logo">
+
+    </a>
+    DEwithManish
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/manishchetpalli/DataEngineeringNotes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    AnalyticsWithManish
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Projects/Setup
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Projects/Setup
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../projects/flink-ignite/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flink Ignite Custom Dialect
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../projects/kafkaapi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FastAPI Kafka Producer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tooling/airflow_install_onpremise/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Airflow Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tooling/igniteinstall/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ignite Multi Node Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tooling/kafka_install_zookeeper/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kafka Multi Node Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tooling/kubernetes_install/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kubernetes Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tooling/spark3standalone/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sparkstandalone Multi Node
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tooling/sparkkube/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Spark on Kubernetes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tooling/flinkonk8/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flink on Kubernetes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tooling/spark23yarn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multiple Spark version on YARN
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fundamentals
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Fundamentals
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DataEngineering/DE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DataEngineering/DEcycle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DE Lifecycle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DataEngineering/DEundercurrent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DE UnderCurrents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DataEngineering/DesigningGDA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DE Architecture & Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../airflow/dataorchestration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Orchestration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../datawarehousing/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Warehousing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DataEngineering/fileformat/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File Formats
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hadoop/kerberos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kerberos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Big Data
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Big Data
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hadoop/HDFS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache Hadoop
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hadoop/mapreduce/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache MapReduce
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hadoop/yarn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache Yarn
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hive/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache Hive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../airflow/airflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache Airflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../spark/intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache Spark
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kafka/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache Kafka
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../flink/flink/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache Flink
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ignite/ignite/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache Ignite
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../iceberg/iceberg/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache Iceberg
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cloud computing
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Cloud computing
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../aws/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AWS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Databricks
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Databricks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#challenges-in-a-normal-data-platform" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Challenges in a Normal Data Platform
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-data-lakehouse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Data Lakehouse
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lakehouse-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lakehouse Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#workspace-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Workspace Components
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#unity-catalog" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Unity Catalog
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stream-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stream Processing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#compute-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Compute Selection
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#auto-loader" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Auto Loader
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#databricks-git-foldersrepos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Databricks Git Folders/repos
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#databricks-asset-bundles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Databricks Asset Bundles
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#delta-lake" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Delta Lake
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vacuum" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vacuum
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#z-ordering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Z-ordering
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#liquid-clustering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Liquid Clustering
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#workflowsjobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Workflows/Jobs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#delta-live-tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Delta Live Tables
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#delta-sharing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Delta Sharing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lakehouse-federation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lakehouse Federation
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About Me
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#challenges-in-a-normal-data-platform" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Challenges in a Normal Data Platform
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-data-lakehouse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Data Lakehouse
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lakehouse-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lakehouse Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#workspace-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Workspace Components
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#unity-catalog" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Unity Catalog
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stream-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stream Processing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#compute-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Compute Selection
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#auto-loader" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Auto Loader
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#databricks-git-foldersrepos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Databricks Git Folders/repos
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#databricks-asset-bundles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Databricks Asset Bundles
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#delta-lake" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Delta Lake
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vacuum" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vacuum
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#z-ordering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Z-ordering
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#liquid-clustering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Liquid Clustering
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#workflowsjobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Workflows/Jobs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#delta-live-tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Delta Live Tables
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#delta-sharing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Delta Sharing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lakehouse-federation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lakehouse Federation
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../aws/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Cloud computing
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+  <h1>Databricks</h1>
+
+<h2 id="challenges-in-a-normal-data-platform"><strong>Challenges in a Normal Data Platform</strong><a class="headerlink" href="#challenges-in-a-normal-data-platform" title="Permanent link">#</a></h2>
+<blockquote>
+<p>--- <strong>Too Many Tools and Integration Issues</strong></p>
+</blockquote>
+<p>Organizations often use a multitude of separate tools for different tasks, such as data warehousing, ETL (Extract, Transform, Load), running Spark jobs, saving data to data lakes, orchestration, AI/ML solutions, and BI (Business Intelligence) reporting.</p>
+<p>Each of these tools needs to integrate properly with one another to function effectively. For instance, if a BI dashboard doesn't integrate with a data warehousing solution, proper results cannot be obtained.</p>
+<p>Furthermore, governance (handling security, lineage, and metadata) must work across all these tools; otherwise, data leaks and security issues can arise.
+The complexity and challenges increase significantly when dealing with numerous individual tools.</p>
+<blockquote>
+<p>--- <strong>Proprietary Solutions or Vendor Lock-in</strong></p>
+</blockquote>
+<p>Many data warehousing solutions are proprietary, meaning they require data to be stored in their specific, encoded format.
+This creates a vendor lock-in, preventing direct communication with or extraction of data without using the vendor's data engine.
+If the vendor's solution is not used, accessing and reading the data becomes impossible.</p>
+<p>Databricks addresses this by providing open-source solutions. Data can reside in an organization's data cloud platform in open-source formats like Parquet, CSV, or Avro.</p>
+<p>On top of this, Databricks uses an open-source data engine called Delta Lake, which communicates with the data. This allows users the freedom to switch vendors if desired, as their data remains accessible in an open format within their data lake, ensuring no vendor lock-in.</p>
+<blockquote>
+<p>--- <strong>Data Silos</strong></p>
+</blockquote>
+<p>Traditional platforms often have separate data lakes (used for AI/ML solutions and ETL jobs) and data warehousing solutions (used by BI tools).
+This leads to duplicate copies of data. Data is often moved from the data lake to populate a separate data warehouse, resulting in the same data existing in different places, possibly with different owners.</p>
+<p>Maintaining multiple copies by different owners is a significant challenge. Databricks tackles this by merging the data lake and data warehouse into a Data Lakehouse</p>
+<h2 id="the-data-lakehouse"><strong>The Data Lakehouse</strong><a class="headerlink" href="#the-data-lakehouse" title="Permanent link">#</a></h2>
+<p>A datalakehouse is new, open data management architecture that combines the flexibity, cost efficiency and scale of datalakes with data management and ACID transactions of Data Warehouses, enabling business intelligence and machine learning on all data.</p>
+<blockquote>
+<p>--- <strong>Medallion Architecture beneftis</strong></p>
+</blockquote>
+<ul>
+<li>Data Lineage &amp; Traceability</li>
+<li>Data Governance &amp; Compliance</li>
+<li>Support for Incremental Processing</li>
+<li>Enhanced Performance &amp; Scalability</li>
+<li>Data Security</li>
+</ul>
+<blockquote>
+<p>--- <strong>Databricks Data Intelligence Platform</strong></p>
+</blockquote>
+<p>The Databricks Data Intelligence Platform is defined as Data Lakehouse plus Generative AI.
+Generative AI provides the platform with its power for natural language and allows enterprises to gain insights from their enterprise data.
+Therefore, Databricks is called a data intelligence platform because it combines the benefits of a Data Lakehouse with Generative AI capabilities.</p>
+<blockquote>
+<p>--- <strong><em>Delta Lakehouse features</em></strong></p>
+</blockquote>
+<ol>
+<li>Handles All Types of Data</li>
+<li>Cheap Cloud Object Storage</li>
+<li>Uses Open File Format</li>
+<li>Support for All Workloads</li>
+<li>Direct BI Integration</li>
+<li>ACID Support &amp; Version History</li>
+<li>Improved Performance</li>
+<li>Simple Architecture</li>
+</ol>
+<blockquote>
+<p>--- <strong><em>Disadvantages for datawarehouse</em></strong></p>
+</blockquote>
+<ol>
+<li>Increased Data Volume &amp; Variety</li>
+<li>Longer Time to Ingest New Data</li>
+<li>Proprietary Data Formats /Vendor Lock-in</li>
+<li>Scalability Issues</li>
+<li>High Storage Costs</li>
+<li>Limited Support for Advanced Analytics</li>
+</ol>
+<blockquote>
+<p>--- <strong><em>Disadvantages for datalake</em></strong></p>
+</blockquote>
+<ol>
+<li>No Support for ACID Transactions(Atomicity, Consistency, Isolation, and Durability)</li>
+<li>Partial Data Loads</li>
+<li>Inconsistent Reads</li>
+<li>GDPR Challenges(general data protection regulation)</li>
+<li>Complicated Data Corrections</li>
+<li>No Rollback Capability</li>
+<li>Poor BI Performance and Support</li>
+<li>Complex to set-up</li>
+<li>No Data Versioning</li>
+<li>Streaming vs. Batch Processing</li>
+</ol>
+<h2 id="lakehouse-architecture"><strong>Lakehouse Architecture</strong><a class="headerlink" href="#lakehouse-architecture" title="Permanent link">#</a></h2>
+<p><img alt="Steps" src="../databricksarc.svg" /></p>
+<p>The high-level architecture of Databricks consists of two main parts:</p>
+<blockquote>
+<p>--- <strong><em>Control Plane</em></strong></p>
+</blockquote>
+<p>The control plane is managed by Databricks and resides within the Databricks cloud account. Its primary purpose is to manage Databricks' backend services. It also handles information like notebook configurations, cluster configurations, job information, and logs required to manage the data plane. The main purpose of the control plane is to orchestrate and provide configurations necessary to run jobs, clusters, and code.</p>
+<blockquote>
+<p>--- <strong><em>Data/Compute Plane(Serverless)</em></strong></p>
+</blockquote>
+<p>The data plane resides within the customer's cloud account.
+Client data always resides in the customer's cloud account within the data plane, never at the control plane.
+Clusters created to process this data are also created and run within the customer's cloud account (data plane). These clusters are managed by configurations from the control plane.</p>
+<p>Processed data is saved back to the client's cloud account only. There is no data movement to the control plane; configurations and access are managed by the control plane, but data remains in the data plane. If a cluster needs to connect to external data sources (e.g., MySQL, a different data lake), it will connect and process that data within the data plane.</p>
+<h2 id="workspace-components"><strong>Workspace Components</strong><a class="headerlink" href="#workspace-components" title="Permanent link">#</a></h2>
+<p>Databricks is composed of several main components that work together to provide a comprehensive data analytics and AI platform.</p>
+<blockquote>
+<p>--- <strong><em>Apache Spark</em></strong></p>
+</blockquote>
+<p>At its core, Databricks is built on Apache Spark, a powerful open-source, distributed computing
+system that provides fast data processing and analytics capabilities. Databricks enhances Spark with optimized
+performance and additional features.</p>
+<blockquote>
+<p>--- <strong><em>Databricks Workspace</em></strong></p>
+</blockquote>
+<p>This is a collaborative environment where data scientists, data engineers, and analysts
+can work together. It includes interactive notebooks (supporting languages like Python, Scala, SQL, and R),
+dashboards, and APIs for collaborative development and data exploration.</p>
+<blockquote>
+<p>--- <strong><em>Databricks Runtime</em></strong></p>
+</blockquote>
+<p>A performance-optimized version of Apache Spark with enhancements for reliability and
+performance, including optimizations for cloud environments and additional data sources.</p>
+<blockquote>
+<p>--- <strong><em>Delta Lake</em></strong></p>
+</blockquote>
+<p>An open-source storage layer that brings reliability to Data Lakes. Delta Lake provides ACID
+transactions, scalable metadata handling, and unifies streaming and batch data processing.</p>
+<blockquote>
+<p>--- <strong><em>Workflow</em></strong></p>
+</blockquote>
+<p>Databricks Workflows simplify job orchestration, allowing you to create, schedule, and manage data
+pipelines using a no-code or low-code interface. They support tasks like ETL, machine learning, and batch or
+streaming workflows, ensuring seamless integration with Databricks Jobs and other tools.</p>
+<blockquote>
+<p>--- <strong><em>Databricks SQL</em></strong></p>
+</blockquote>
+<p>A feature for running SQL queries on your data lakes. It provides a simple way for analysts and
+data scientists to query big data using SQL, visualize results, and share insights.</p>
+<blockquote>
+<p>--- <strong><em>SQL Warehouses</em></strong></p>
+</blockquote>
+<p>Databricks SQL Warehouse is a scalable, cloud-native data warehouse that supports
+high-performance SQL queries on your data lake. It enables analytics and BI reporting with integrated tools like
+Power BI and Tableau, ensuring fast, cost-efficient query execution with fully managed infrastructure.</p>
+<blockquote>
+<p>--- <strong><em>Catalog</em></strong></p>
+</blockquote>
+<p>Databricks Catalog provides centralized governance, organizing your data and metadata.</p>
+<blockquote>
+<p>--- <strong><em>Data Integration Tools</em></strong></p>
+</blockquote>
+<p>These allow for easy integration with various data sources, enabling users to import data
+from different storage systems.</p>
+<blockquote>
+<p>--- <strong><em>Databricks compute configuration</em></strong></p>
+</blockquote>
+<ol>
+<li>
+<p>Severless</p>
+<p>reduce cluster start time, increase productivity ,expected lower cost due to reduced ideal time and autoscaling, maintainaing cluster for administration.</p>
+</li>
+<li>
+<p>Classical compute (self managed)</p>
+<p>all purpose cluster -&gt; created manually,persistent,suitable for interactive analytical workloads,shared among many users, expensive to run</p>
+<p>job cluster -&gt; created by jobs, terminated at end of job, suitable for automated workloads, isolated just for the job, cheaper to run</p>
+</li>
+</ol>
+<p>Standard Access Mode clusters do not support Scala UDFs</p>
+<blockquote>
+<p>--- <strong><em>Databricks Cluster configuration</em></strong></p>
+</blockquote>
+<ol>
+<li>
+<p>Node type </p>
+<p>Single node - not suitable for large scale workloads, incompatible with shared usage</p>
+<p>Multi node - shared compute is needed
+2. Access mode  </p>
+<p>dedicated/single user - only single user access</p>
+<p>standard/shared - multiple user access (used for production)</p>
+<p>no isolation shared - multiple user access</p>
+</li>
+<li>
+<p>Datbricks runtime  </p>
+<p>databricks runtime - photon(vectorized query enginer which accelerates apache spark workloads)</p>
+<p>databricks runtime ML</p>
+</li>
+<li>
+<p>Auto termination</p>
+<p>Terminates the cluster after X minutes of inactivity</p>
+<p>Default value for Single Node and Standard clusters is 120 minutes</p>
+<p>Users can specify a value between 10 and 43200 mins as the duration</p>
+</li>
+<li>
+<p>Autoscaling</p>
+<p>User specifies the min and max worker nodes</p>
+<p>Auto scales between min and max based on the workload</p>
+<p>Users can opt for spot instances(unused VM or spare capacity in the cloud) for the work</p>
+</li>
+<li>
+<p>Cluster vm type/size</p>
+<p>Memory Optimized - suitable for memory intensive like ML</p>
+<p>Storage Optimized - high disk throuput IO</p>
+<p>Compute Optimized - ideal for structured streaming where peak time processing are criticial and distributed analytics</p>
+<p>General Purpose - enterprised grade application for analytical workloads in memory caching</p>
+<p>GPU Accelerated - deep learning models</p>
+</li>
+<li>
+<p>Cluster policy</p>
+<p>restricted</p>
+<p>unrestricted</p>
+</li>
+</ol>
+<h2 id="unity-catalog"><strong>Unity Catalog</strong><a class="headerlink" href="#unity-catalog" title="Permanent link">#</a></h2>
+<p>Unity Catalog is a unified governance solution for managing and securing your data assets in Databricks.</p>
+<blockquote>
+<p>--- <strong><em>Key features of Unity Catalog</em></strong></p>
+</blockquote>
+<p>Databricks Catalog provides centralized governance, organizing your data and metadata.</p>
+<p>Unity Catalog’s security model is based on standard ANSI SQL and allows administrators to grant permissions in their existing data lake using familiar syntax, at the level of catalogs, schemas (also called databases), tables, and views.</p>
+<p>Unity Catalog automatically captures user-level audit logs that record access to your data. Unity Catalog also captures lineage data that tracks how data assets are created and used across all languages.</p>
+<p>Unity Catalog lets you easily access and query your account’s operational data, including audit logs, billable usage, and lineage</p>
+<blockquote>
+<p>--- <strong><em>The Unity Catalog object model</em></strong></p>
+<p>--- <strong>Benefits</strong></p>
+</blockquote>
+<ul>
+<li>Ensures data quality</li>
+<li>Strengthens security</li>
+<li>Ensures compliance</li>
+<li>Optimizes decision-making</li>
+<li>Reduces costs &amp; risks</li>
+</ul>
+<blockquote>
+<p>--- <strong>Daata Governance in Databricks</strong></p>
+</blockquote>
+<ul>
+<li>Unity Catalog</li>
+<li>Delta Lake</li>
+<li>Delta Sharing</li>
+<li>Cluster &amp; Workspace Logging</li>
+</ul>
+<p>In Unity Catalog, all metadata is registered in a metastore. The hierarchy of database objects in any Unity Catalog metastore is divided into three levels, represented as a three-level namespace (catalog.schema.table-etc) when you reference tables, views, volumes, models, and functions.</p>
+<p>Metastores: The metastore is the top-level container for metadata in Unity Catalog. It registers metadata about data
+and AI assets and the permissions that govern access to them. For a workspace to use Unity Catalog, it must have a
+Unity Catalog metastore attached.</p>
+<p>DBRuntime requires  - 11.3 onwards to work with unity catalog</p>
+<p>No isolation shared doesnt support unity catalog</p>
+<p>Object hierarchy in the metastore: In a Unity Catalog metastore, the three-level database object hierarchy consists of
+catalogs that contain schemas, which in turn contain data and AI objects, like tables and models.</p>
+<ol>
+<li>
+<p>Level one</p>
+<p>Catalogs are used to organize your data assets and are typically used as the top level in your data isolation scheme. Catalogs often mirror organizational units or software development lifecycle scopes.</p>
+<p>Non-data securable objects, such as storage credentials and external locations, are used to manage your data governance model in Unity Catalog. These also live directly under the metastore.</p>
+</li>
+<li>
+<p>Level two</p>
+<p>Schemas (also known as databases) contain tables, views, volumes, AI models, and functions. Schemas organize data and AI assets into logical categories that are more granular than catalogs. Typically a schema represents a single use case, project, or team sandbox.</p>
+</li>
+<li>
+<p>Level three</p>
+<p>Volumes is essentially a mapping between a cloud storage directory and Databricks’ Unity Catalog. It allows you to securely manage and access data stored in cloud object storage directly within Databricks. Tables are collections of data organized by rows and columns. Views are saved queries against one or more tables. Functions are units of saved logic that return a scalar value or set of rows. Models are AI models packaged with MLflow and registered in Unity Catalog as functions.</p>
+</li>
+</ol>
+<h2 id="stream-processing"><strong>Stream Processing</strong><a class="headerlink" href="#stream-processing" title="Permanent link">#</a></h2>
+<p>Data is processed continuously as it arrives, enabling real-time and near real-time analytics</p>
+<ul>
+<li>Real time fraud detection</li>
+<li>Live monitoring</li>
+<li>Instant product recommendation</li>
+</ul>
+<p><img alt="Steps" src="../stream.svg" /></p>
+<table>
+<thead>
+<tr>
+<th>Trigger Type</th>
+<th>Trigger Syntax</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Default (No Trigger)</td>
+<td>No trigger specified</td>
+<td>Runs micro-batches at a default interval (~500 milliseconds)</td>
+</tr>
+<tr>
+<td>Fixed Interval</td>
+<td><code>.trigger(processingTime="2 minutes")</code></td>
+<td>Runs micro-batches at a user-defined interval</td>
+</tr>
+<tr>
+<td>Triggered Once (Deprecated)</td>
+<td><code>.trigger(once=True)</code></td>
+<td>Processes all available data in a single micro-batch and then stops</td>
+</tr>
+<tr>
+<td>Available Now</td>
+<td><code>.trigger(availableNow=True)</code></td>
+<td>Processes all available data in multiple micro-batches and then stops</td>
+</tr>
+<tr>
+<td>Continuous (Experimental)</td>
+<td><code>.trigger(continuous="2 seconds")</code></td>
+<td>Processes data continuously with checkpointing at the specified interval</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Output Mode</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Append (Default)</td>
+<td>Writes only the new rows that arrived since the last micro-batch</td>
+</tr>
+<tr>
+<td>Complete</td>
+<td>Writes the entire result table to the sink in every micro-batch</td>
+</tr>
+<tr>
+<td>Update</td>
+<td>Writes only the rows that have changed since the last micro-batch</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>--- <strong>Checkpointing</strong></p>
+</blockquote>
+<p>Checkpointing is a fault-tolerance mechanism that allows a query to recover from failures and resume processing from where it left off without data loss or duplication.</p>
+<ul>
+<li>Stores Metadata about streaming query, execution plan</li>
+<li>Tracks processed offsets and committed results</li>
+<li>Write-Ahead Logs (WAL) and Checkpointing helps provide Fault Tolerance</li>
+<li>Idempotent Sinks enables exactly once guarantees</li>
+</ul>
+<h2 id="compute-selection"><strong>Compute Selection</strong><a class="headerlink" href="#compute-selection" title="Permanent link">#</a></h2>
+<table>
+<thead>
+<tr>
+<th><strong>VM Category</strong></th>
+<th><strong>Workload Type / Use Cases</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Memory Optimized</strong></td>
+<td>- Machine Learning (ML) workloads<br>- Workloads with heavy shuffle and disk spills<br>- When Spark caching is required</td>
+</tr>
+<tr>
+<td><strong>Compute Optimized</strong></td>
+<td>- Structured Streaming jobs<br>- ELT workloads with full data scans and no reuse<br>- Running Delta commands like <code>OPTIMIZE</code> and Z-order</td>
+</tr>
+<tr>
+<td><strong>Storage Optimized</strong></td>
+<td>- Leveraging Delta caching<br>- ML and Deep Learning (DL) workloads with data caching<br>- Ad hoc and interactive data analysis</td>
+</tr>
+<tr>
+<td><strong>GPU Optimized</strong></td>
+<td>- ML and DL workloads with exceptionally high memory requirements</td>
+</tr>
+<tr>
+<td><strong>General Purpose</strong></td>
+<td>- Default choice when no specific requirement exists<br>- Running Delta command like <code>VACUUM</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="auto-loader"><strong>Auto Loader</strong><a class="headerlink" href="#auto-loader" title="Permanent link">#</a></h2>
+<blockquote>
+<p>--- <strong>Traditional streaming issues</strong></p>
+</blockquote>
+<ul>
+<li>Inefficient File Listing</li>
+<li>Scalability Issues</li>
+<li>Schema Evolution Problems</li>
+</ul>
+<p>A new structured streaming source designed for large-scale, efficient data ingestion. Incrementally and efficiently processes new data files as they arrive in the cloud storage</p>
+<p>Supports Azure Data Lake Storage, Amazon S3, Google Cloud Storage, Databricks File System. Supports JSON, CSV, XML, PARQUET, AVRO, ORC, TEXT, and BINARYFILE file formats</p>
+<blockquote>
+<p>--- <strong><em>Auto Loader features</em></strong></p>
+</blockquote>
+<ol>
+<li>Efficient File Detection using Cloud Services</li>
+<li>Scalability Improvements</li>
+<li>Schema Evolution &amp; Resiliency</li>
+<li>Recommended in Lakeflow Declarative Pipelines</li>
+</ol>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">customers_df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">readStream</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a> <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="err">”</span><span class="n">cloudFiles</span><span class="s2">&quot;)</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a> <span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;cloudFiles.format&quot;</span><span class="p">,</span> <span class="s2">&quot;json&quot;</span><span class="p">)</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a> <span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;cloudFiles.useNotifications&quot;</span><span class="p">,</span> <span class="s2">&quot;true&quot;</span><span class="p">)</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a> <span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;cloudFiles.schemaLocation&quot;</span><span class="p">,</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a> <span class="err">“</span><span class="o">/</span><span class="n">Volumes</span><span class="o">/</span><span class="n">gizmobox</span><span class="o">/</span><span class="n">landing</span><span class="o">/</span><span class="n">operational_data</span><span class="o">/</span><span class="n">customers_stream</span><span class="o">/</span><span class="n">_schema</span><span class="err">”</span><span class="p">)</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a> <span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;cloudFiles.inferColumnTypes&quot;</span><span class="p">,</span> <span class="s2">&quot;true&quot;</span><span class="p">)</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;cloudFiles.schemaEvolutionMode&quot;</span><span class="p">,</span> <span class="s2">&quot;addNewColumns&quot;</span><span class="p">)</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a> <span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;/Volumes/gizmobox/landing/operational_data/customers_stream&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Auto Loader detects the addition of new columns as it processes your data. When Auto Loader detects a new column, the stream stops with an UnknownFieldException. Before your stream throws this error, Auto Loader performs schema inference on the latest micro-batch of data and updates the schema location with the latest schema by merging new columns to the end of the schema. The data types of existing columns remain unchanged.</p>
+<p>Databricks recommends configuring Auto Loader streams with Lakeflow Jobs to restart automatically after such schema changes.</p>
+<p>Auto Loader supports the following modes for schema evolution, which you set in the cloudFiles.schemaEvolutionMode option:</p>
+<table>
+<thead>
+<tr>
+<th><strong>Mode</strong></th>
+<th><strong>Behavior on Reading New Columns</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>addNewColumns (default)</strong></td>
+<td>Stream fails. New columns are added to the schema. Existing columns do not evolve data types.</td>
+</tr>
+<tr>
+<td><strong>rescue</strong></td>
+<td>Schema is not evolved and the stream does not fail. All new columns are captured in the <em>rescued data</em> column.</td>
+</tr>
+<tr>
+<td><strong>failOnNewColumns</strong></td>
+<td>Stream fails and does not restart unless you update the schema or remove the problematic data file.</td>
+</tr>
+<tr>
+<td><strong>none</strong></td>
+<td>Schema is not evolved. New columns are ignored. Data is not rescued unless <code>rescuedDataColumn</code> is set. Stream does not fail.</td>
+</tr>
+<tr>
+<td><strong>addNewColumnsWithTypeWidening</strong></td>
+<td>Stream fails. New columns are added, and supported data type changes are widened. Unsupported changes (e.g., <code>int</code> → <code>string</code>) are captured in the rescued data column.</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>--- <strong>What is the rescued data column?</strong></p>
+</blockquote>
+<p>When Auto Loader infers the schema, Auto Loader automatically adds a rescued data column to your schema as _rescued_data. You can rename the column or include it when you provide a schema by setting the rescuedDataColumn option.</p>
+<p>The rescued data column ensures that Auto Loader rescues columns that don't match the schema instead of dropping them. The rescued data column contains any data that isn't parsed for the following reasons:</p>
+<p>The column is missing from the schema.</p>
+<ul>
+<li>Type mismatches.</li>
+<li>Case mismatches.</li>
+</ul>
+<p>The rescued data column contains a JSON blob with the rescued columns and the source file path of the record.</p>
+<h2 id="databricks-git-foldersrepos"><strong>Databricks Git Folders/repos</strong><a class="headerlink" href="#databricks-git-foldersrepos" title="Permanent link">#</a></h2>
+<p>Git Folders is a visual Git client made available in the Databricks workspace to enable collaborative development amongst developers.</p>
+<blockquote>
+<p>--- <strong>Limitations of notebook version history</strong></p>
+</blockquote>
+<ul>
+<li>Limited to Single Notebook</li>
+<li>Basic Tracking Only / No Branching</li>
+<li>Lack of integration with CI/CD pipelines</li>
+</ul>
+<blockquote>
+<p>--- <strong>Git Benefits</strong></p>
+</blockquote>
+<ul>
+<li>Holistic Version Control</li>
+<li>Team Collaboration</li>
+<li>Automated CI/CD Pipelines</li>
+</ul>
+<h2 id="databricks-asset-bundles"><strong>Databricks Asset Bundles</strong><a class="headerlink" href="#databricks-asset-bundles" title="Permanent link">#</a></h2>
+<p>Databricks Asset Bundles are a tool to facilitate the adoption of software engineering best practices, including source control, code review, testing, and continuous integration and delivery (CI/CD), for your data and AI projects.</p>
+<p>Collection of:
+    Code (notebooks, Python, SQL)
+    Environment settings (dev, test, prod)
+    Configurations for Databricks resources (jobs, pipelines, clusters, MLflow, etc.)</p>
+<p>Represented in YAML</p>
+<p>Deployed through CI/CD tools like GitHub Actions, Azure DevOps</p>
+<p>Provides a standard, repeatable way to deliver Databricks projects</p>
+<hr />
+<blockquote>
+<p>--- <strong><em>Structure of bundle</em></strong></p>
+</blockquote>
+<ol>
+<li>bundle → project name &amp; metadata</li>
+<li>resources → jobs, pipelines, clusters, MLflow, etc.</li>
+<li>targets → environment specific settings (dev, test, prod)</li>
+<li>variables → define reusable values (like parameters)</li>
+<li>include → pull in configs from other files (for modular bundles)</li>
+<li>run_as → specify the identity (user or service principal) to run jobs</li>
+<li>artifacts → reference libraries, wheels, or other external assets</li>
+<li>sync → control what gets synced between local and workspace</li>
+</ol>
+<hr />
+<blockquote>
+<p>--- <strong><em>Sample YAML</em></strong></p>
+</blockquote>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a># Databricks Asset Bundle for dab_demo_project
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>bundle:
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>  name: dab_demo_project
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>resources:
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>  jobs:
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    dab_demo_project_job:
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>      name: dab_demo_project_job
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>      tasks:
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>        - task_key: dab_demo_notebook
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>          notebook_task:
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>            notebook_path: src/dab_demo_notebook.ipynb
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>          job_cluster_key: job_cluster
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>      job_clusters:
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>        - job_cluster_key: job_cluster
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>          new_cluster:
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>            spark_version: 15.4.x-scala2.12
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>            node_type_id: Standard_D3_v2
+</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>            data_security_mode: SINGLE_USER
+</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>            num_workers: 1
+</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>
+</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>targets:
+</span><span id="__span-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>  dev:
+</span><span id="__span-1-25"><a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>    default: true
+</span><span id="__span-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>    mode: development
+</span><span id="__span-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a>    workspace:
+</span><span id="__span-1-28"><a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a>      host: https://adb-12345.14.azuredatabricks.net
+</span><span id="__span-1-29"><a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a>
+</span><span id="__span-1-30"><a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a>  prod:
+</span><span id="__span-1-31"><a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a>    workspace:
+</span><span id="__span-1-32"><a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a>      host: https://adb-67890.14.azuredatabricks.net
+</span></code></pre></div>
+<hr />
+<blockquote>
+<p>--- <strong><em>Databricks CLI commands</em></strong></p>
+</blockquote>
+<ol>
+<li>databricks bundle init
+Initializes a new Databricks bundle project in your working directory.</li>
+</ol>
+<p>databricks bundle init
+Prompts you for a template (Python, SQL, MLflow, etc.).</p>
+<p>Creates a starter databricks.yml file and project folder structure.</p>
+<ol>
+<li>databricks bundle validate
+Validates the configuration of your bundle before deployment.</li>
+</ol>
+<p>databricks bundle validate
+Ensures your databricks.yml file is correctly structured.</p>
+<p>Catches missing or invalid fields early.</p>
+<p>Always a good practice to run before deploying.</p>
+<ol>
+<li>databricks bundle deploy
+Deploys your bundle to the Databricks workspace.</li>
+</ol>
+<p>databricks bundle deploy -t dev
+-t specifies the target environment (e.g. dev, test, prod).</p>
+<p>Uploads source code and provisions jobs, clusters, pipelines, etc.</p>
+<p>Creates a hidden .bundle folder in the workspace with your files.</p>
+<ol>
+<li>databricks bundle run
+Runs a defined workflow (job) from your bundle.</li>
+</ol>
+<p>databricks bundle run my_job
+Executes a specific job defined in the bundle.</p>
+<p>Useful for testing deployments.</p>
+<ol>
+<li>databricks bundle destroy
+Removes all deployed resources from the specified target environment.</li>
+</ol>
+<p>databricks bundle destroy -t dev
+Cleans up jobs, clusters, and other resources created by the bundle.</p>
+<p>Helpful when resetting environments or avoiding conflicts in shared workspaces.</p>
+<h2 id="delta-lake"><strong>Delta Lake</strong><a class="headerlink" href="#delta-lake" title="Permanent link">#</a></h2>
+<blockquote>
+<p>--- <strong>Data Lake Problems and the Delta Lake Solution</strong></p>
+</blockquote>
+<p>Data lakes offered flexible data storage, allowing ingestion of structured, semi-structured, and unstructured data like audio, video, images, or logs, and storing this high volume data cheaply and scalably on services like S3 or ADLS.</p>
+<p>However, data lakes presented severe challenges that Delta Lake was designed to solve, including a lack of ACID support, lack of support for update, merge, and delete operations, and issues related to data reliability and quality due to the absence of schema enforcement.</p>
+<p>Traditional updates or deletes required reading all the data into memory, applying the changes, and writing it back; if the system failed during this process, it resulted in inconsistent or corrupt data. Delta Lake addresses these issues and provides additional features such as time travel, unified batch and streaming capabilities, schema evolution and enforcement, and audit history</p>
+<blockquote>
+<p>--- <strong>Delta Log Internals and Scaling</strong></p>
+</blockquote>
+<p>The Delta Log acts as the transaction layer on top of Parquet files, recording transactions atomically in JSON files (e.g., 0.json, 1.json). The current state of the table is calculated by "summing" all transaction logs, applying additions and removals to determine the set of active Parquet files.</p>
+<p><img alt="DeltaLog" src="../delta.svg" /></p>
+<p>Delta Lake computes the latest state of a table by reading the Delta Log and performing a summation of all recorded transactions. This approach ensures data consistency and provides features like time travel.</p>
+<blockquote>
+<p>--- <strong><em>Core Components of a Delta Table</em></strong></p>
+</blockquote>
+<p>A Delta Lake table is composed of two main elements</p>
+<ol>
+<li>Data Files (Parquet): The actual data is stored in immutable Parquet files.</li>
+<li>Transaction Layer (Delta Log): A transaction layer, called the Delta Log, resides on top of the data files. This log records every operation performed on the table.</li>
+</ol>
+<blockquote>
+<p>--- <strong>The Delta Log and Transaction Recording</strong></p>
+</blockquote>
+<p>Deltalog jason file containes - {commitinfo,metadata,protocol,operationperformed}</p>
+<p>Each transaction or operation (such as an insert, update, or delete) on a Delta table is treated as an atomic unit of work.</p>
+<p>Recording Transactions: Transactions are recorded as sequential JSON files (e.g., 0.json, 1.json, 2.json) within the hidden _delta_log folder.</p>
+<p>Operation Details: Each JSON file contains details about the operation performed (e.g., create or replace table, write, update, delete) and tracks which Parquet files were added or logically removed. A transaction groups one or more operations together. The commit info section contains details about the operation and the user who performed it. The add section notes a new Parquet file that was added to the table state. The remove section logically marks a Parquet file as no longer part of the current table state (a soft delete).</p>
+<blockquote>
+<p>--- <strong>Computing the Latest State via Summation</strong></p>
+</blockquote>
+<p><img alt="DeltaLog" src="../delta2.svg" /></p>
+<p>When a user executes a query (e.g., SELECT * FROM table), Delta Lake processes the Delta Log to construct the latest valid view of the data:</p>
+<ol>
+<li>
+<p>Applying Transactions in Order: Delta Lake starts from the beginning of the transaction history and sequentially applies each transaction record (JSON file).</p>
+</li>
+<li>
+<p>Summation Principle: The system performs a "summation" of the transactions. It tracks all file additions (+) and removals (-). Files that are added and subsequently removed in later transactions cancel each other out.</p>
+</li>
+<li>
+<p>Handling Updates and Deletes: When an update or delete occurs, the original Parquet file containing the modified data is logically marked as REMOVE, and a new file (or files) containing the revised records is ADDed. For small changes, especially when deletion vectors are enabled, Delta Lake records the changes in the deletion vector file instead of rewriting the entire Parquet file immediately (Merge on Read approach). However, the log still records the necessary file additions and removals to reflect the logical state change.</p>
+</li>
+<li>
+<p>Final State Construction: The final, latest state of the table is computed by reading only the Parquet files that remain after all logical removals have been processed in the summation.</p>
+</li>
+</ol>
+<blockquote>
+<p>--- <strong>Scaling the Delta Log (Compacted JSONs and Checkpoints)</strong></p>
+</blockquote>
+<p>For tables with millions of transactions, reading every JSON file in the Delta Log to compute the latest state would be computationally expensive and slow. </p>
+<p>To optimize this, Delta Lake uses two key scaling mechanisms:</p>
+<ol>
+<li>
+<p>Compacted JSONs: Compacted JSON files are used to reduce the overhead associated with reading many small JSON transaction files. Delta Lake periodically creates a compacted JSON file (e.g., a .compacted.json file). This compacted file picks up and dumps all the information (transactions and details) contained within a set of smaller JSON log files into one larger file, avoiding the need to open and close many individual files. If a transaction is committed, Delta can read the already compacted file plus any subsequent uncompacted files to compute the latest state. It avoids having to read all the historical individual JSON files.</p>
+</li>
+<li>
+<p>Checkpoint Parquet Files: Checkpoint files provide a mechanism to drastically reduce the number of files Delta must scan to determine the latest state of a table, offering a "tremendous amount of optimization". After a predetermined number of JSON files are created (e.g., 36 files in the Databricks environment used in the example), a checkpoint.parquet file is generated. This checkpoint file condenses all the information from the very first transaction (version zero) up to the point of the checkpoint.</p>
+</li>
+</ol>
+<p>To compute the latest state of the table, Delta only needs to find and read the latest checkpoint.parquet file and then apply any subsequent JSON files (or compacted JSONs) that have been created since that checkpoint. This allows Delta to skip reading potentially hundreds or thousands of older historical JSON log files. The gap at which a checkpoint file is created varies; it is 36 transactions in the Databricks version shown, but often 10 in the open-source version. This difference is due to Databricks implementing performance optimizations to relax this gap.</p>
+<blockquote>
+<p>--- <strong>Pessimistic concurrency control</strong> </p>
+</blockquote>
+<ul>
+<li>Core Assumption</li>
+</ul>
+<p>PCC gets its name because the DBMS operates under the assumption that conflicts are bound to happen and are likely to occur. A conflict occurs when two or more transactions attempt to modify the same data simultaneously, resulting in an invalid state.
+It is a strategy used by database management systems (DBMS) to ensure that transactions maintain the correctness and consistency of the database.</p>
+<ul>
+<li>Mechanism: Exclusive Locking</li>
+</ul>
+<p>To prevent these conflicts, PCC uses a locking mechanism:</p>
+<p>• When a transaction attempts to make a change to a database, an exclusive lock is placed on that data.</p>
+<p>• This lock ensures that no other transaction can come in and make changes while the first transaction is running.</p>
+<p><img alt="DeltaLog" src="../delta4.svg" /></p>
+<ul>
+<li>Example Walkthrough (T1 and T2)</li>
+</ul>
+<p>Consider an account with a starting balance of $1,000, and two simultaneous transactions: T1 (withdraw $100) and T2 (deposit $400).</p>
+<ol>
+<li>T1 Starts: Transaction T1 begins first.</li>
+<li>Lock Acquired: The moment T1 starts, it acquires an exclusive lock on the relevant row (the account balance).</li>
+<li>T2 Waits: Because T1 holds the lock, T2 cannot proceed and must wait until T1 completes.</li>
+<li>T1 Processing: T1 reads the balance ($1,000), subtracts $100, and computes the new balance as $900.</li>
+<li>T1 Updates and Releases: T1 updates the account balance to $900 and then releases the exclusive lock.</li>
+<li>T2 Starts: T2 now gets a chance and places its own exclusive lock on the row.</li>
+<li>T2 Processing: T2 reads the latest balance ($900), adds $400, computes the final balance as $1,300, and updates the account.</li>
+<li>
+<p>Consistency Achieved: T2 then releases its lock, and the database is left in the correct state.</p>
+</li>
+<li>
+<p>Major Drawback</p>
+</li>
+</ol>
+<p>While PCC achieves consistency, its major downside is performance when dealing with high concurrency:</p>
+<p>• Waiting: T2 had to wait until T1 was completed.</p>
+<p>• Scalability Issue: If a system handles millions of transactions, the waiting involved means the entire system is going to "come to a halt" because transactions wait endlessly for locks to be released, making the system slow and inefficient.
+This performance issue is why Delta Lake primarily achieves isolation using Optimistic Concurrency Control (OCC), which assumes conflicts are rare and avoids explicit locks</p>
+<blockquote>
+<p>--- <strong>Optimistic concurrency control</strong> </p>
+</blockquote>
+<ul>
+<li>Core Assumption (Optimism)</li>
+</ul>
+<p>The name "Optimistic" comes from its fundamental assumption: conflicts are very unlikely to occur. Conflicts, where two or more transactions try to modify the same data and lead to an invalid state, are assumed to be rare. This assumption allows the system to prioritize speed and concurrency over preemptive conflict avoidance.</p>
+<ul>
+<li>Mechanism: Avoiding Locks</li>
+</ul>
+<p>With OCC, transactions do not obtain locks when they read or write data. This is the "beautiful part" of OCC. Because no locks are used, multiple transactions can read the same row simultaneously.</p>
+<p>When transactions (like T1 and T2) begin, they read the account balance, and crucially, they also read the associated version number and time frame of the data. This version number tracks changes within the table.</p>
+<ul>
+<li>Conflict Resolution and Validation</li>
+</ul>
+<p><img alt="DeltaLog" src="../delta5.svg" /></p>
+<p>When transactions are finished processing and attempt to commit their changes, a validation procedure occurs:</p>
+<ol>
+<li>Concurrent Execution: T1 and T2 perform their calculations independently (e.g., T1 computes $900, T2 computes $1,400).</li>
+<li>First Commit Wins (T1): T1 attempts to commit first. It checks the current version number (let's say V1) against the version number it read (also V1). Since they match, T1 knows no one made changes while it was working. T1 succeeds, updates the balance (to $900), and updates the version number (to V2).</li>
+<li>Second Commit Fails (T2): T2 attempts to commit next. It checks the current version number (now V2) against the version it originally read (V1). Because V2=V1, T2 immediately understands that a person came before it and made changes to the table. T2 was working on stale data.</li>
+<li>The Retry: The conflicting transaction (T2) does not block; instead, it is designed to fail. It must then retry the transaction. It reads the latest state of the table (V2), re-applies its operation (adding $400 to 900),computesthecorrectfinalbalance(1,300), and attempts to commit again.</li>
+<li>
+<p>Successful Second Attempt: T2 checks the version again (V2 = V2), finds it is working on the latest data, and updates the table (to $1,300) and the version number (to V3).</p>
+</li>
+<li>
+<p>High Concurrency Benefits</p>
+</li>
+</ol>
+<p>This approach has significant advantages for modern data systems:</p>
+<p>• No Interference: Multiple simultaneous transactions can proceed "without interfering with each other". Each transaction operates as if it is the only one running. Intermediate or uncommitted changes are not visible to other transactions.</p>
+<p>• High Concurrency: This mechanism allows for a very high level of concurrency, as transactions avoid endless waiting caused by locks.</p>
+<p>• Suitability for Read-Heavy Systems: OCC works best in systems where writes (and therefore conflicts) happen very rarely.
+This efficient conflict resolution is why OCC, and the versioning ledger it relies on, is central to Delta Lake’s architecture.</p>
+<blockquote>
+<p>--- <strong>Time Travel &amp; Versioning</strong> </p>
+</blockquote>
+<ul>
+<li>Versioning</li>
+</ul>
+<p>It is the mechanism that helps Delta Lake track the different states of a table over time.</p>
+<p>• Tracking Changes: Every operation performed on a Delta table (such as a create, delete, update, or insert) results in the creation of a new version of the table.</p>
+<p>• Zero-Indexed: The first operation performed (like a CREATE OR REPLACE TABLE AS SELECT) creates version zero of the table. Subsequent operations increment this version number. For example, after version zero, a delete operation might create version one, an update might create version two, and a write (insert) might create version three.</p>
+<p>• Audit History: This version history allows users to see an audit trail of operations performed, including the timestamp, the user who performed the operation, and the operation details.</p>
+<ul>
+<li>Time Travel (Accessing Past States)</li>
+</ul>
+<p>Time travel is the ability to query or restore a Delta table to any of its previous versions. This is a core feature for data reliability, testing, and compliance.</p>
+<p>• Accessing Specific Versions: Users can select data from a specific historical version using either the version number or the timestamp of that version.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>Using Version Number</strong>: You can use the syntax VERSION AS OF [version_number] </p>
+<p>In a SELECT query (e.g., SELECT * FROM table VERSION AS OF 0).</p>
+<p><strong>Using Timestamp</strong>: You can use the syntax TIMESTAMP AS OF [timestamp] in a SELECT query. The timestamp must be a time at which a version existed.</p>
+</div>
+<p>• Handling Non-Exact Timestamps: If a user specifies a timestamp that doesn't exactly match a version's commit time, Delta Lake finds the latest version that existed before that specified time. For instance, if versions existed at 9:31 and 9:57, querying for 9:35 will return the state of version 9:31.</p>
+<p>• Restoring the Table: Beyond querying, a user can permanently roll the table back to a specific version using the RESTORE TABLE command (e.g., RESTORE TABLE [table_name] TO VERSION AS OF 0). This restoration itself is recorded as a new version in the table's history.</p>
+<ul>
+<li>Impact of Vacuum on Time Travel</li>
+</ul>
+<p>It is crucial to understand that the VACUUM command limits time travel capability.</p>
+<p>• File Deletion: When you run VACUUM, especially with a retention duration of zero, Delta Lake permanently deletes the physical data files that are no longer referenced by the current version (i.e., files that have been "tombstoned" or marked for soft delete by update/delete operations).</p>
+<p>• Version Incompleteness: If a file required to construct an older version is removed by a VACUUM operation, time travel back to that specific version will fail because the data required to fully reconstruct that historical state is incomplete or missing.</p>
+<p>For instance, in a demonstration, attempting to access version one of a table after a vacuum failed because the file written in version one was deleted, but accessing version zero worked because its necessary file was still present</p>
+<blockquote>
+<p>--- <strong>Schema Validation</strong> </p>
+</blockquote>
+<p><img alt="DeltaLog" src="../delta6.svg" /></p>
+<ul>
+<li>Schema-on-Read (Traditional Data Lakes)</li>
+</ul>
+<p>The traditional approach used in standard data lakes is schema-on-read.</p>
+<p>Data is dumped into the lake in any format (structured, semi-structured, unstructured) and resides there. The application of the schema happens later, <em>after</em> the data has been stored, typically when a user runs a query to read the files.</p>
+<p>This flexibility leads to inconsistency. If different files are ingested with varying formats or column structures, writing a query becomes difficult, requiring complex logic to handle different fields and schemas.</p>
+<ul>
+<li>Schema-on-Write (Delta Lake Validation)</li>
+</ul>
+<p>Delta Lake uses a schema-on-write approach, which is essential for ensuring that every transaction brings the database from one valid state to another.</p>
+<p>Incoming data records are checked to validate their schema against the target Delta table's existing schema before ingestion occurs. This is done to prevent "garbage data" from corrupting the table.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Scenario</th>
+<th style="text-align: left;">Description</th>
+<th style="text-align: left;">INSERT Behavior</th>
+<th style="text-align: left;">MERGE Behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">1. Column Order</td>
+<td style="text-align: left;">The source data columns are reordered relative to the target table.</td>
+<td style="text-align: left;">Matches columns by position. If data types are compatible, data corruption occurs as values are mapped incorrectly.</td>
+<td style="text-align: left;">Matches columns by name. It correctly identifies columns even if the physical order is changed.</td>
+</tr>
+<tr>
+<td style="text-align: left;">2. Data Type</td>
+<td style="text-align: left;">Incoming data types do not match the target schema's definitions.</td>
+<td style="text-align: left;">Attempts to cast (convert) the incoming value to the table's data type (e.g., string '99499' to an integer). Fails if the string value cannot be cast (e.g., 'ABC' to integer), preventing data garbage.</td>
+<td style="text-align: left;">Similar automatic casting attempts are made.</td>
+</tr>
+<tr>
+<td style="text-align: left;">3. Column Name</td>
+<td style="text-align: left;">Source data column names differ from the target table column names.</td>
+<td style="text-align: left;">Ignores name differences, as it matches columns by position. The write succeeds if positions align.</td>
+<td style="text-align: left;">Is strictly based on matching column names. If names are mismatched, the operation fails because it cannot resolve the column.</td>
+</tr>
+<tr>
+<td style="text-align: left;">4. Nullability/Constraints</td>
+<td style="text-align: left;">The incoming data violates constraints (e.g., <code>NOT NULL</code> for a primary key).</td>
+<td style="text-align: left;">Fails if a <code>NOT NULL</code> constraint is violated by inserting a <code>NULL</code>. Applies to other rules like ensuring <code>price</code> is greater than zero.</td>
+<td style="text-align: left;">Fails if constraints are violated.</td>
+</tr>
+<tr>
+<td style="text-align: left;">5. Extra Columns</td>
+<td style="text-align: left;">The source data contains more columns than the target table schema.</td>
+<td style="text-align: left;">Fails with a "schema mishmash detected" error.</td>
+<td style="text-align: left;">Is robust; it successfully inserts the data by focusing only on the columns defined in the target schema, ignoring the extra columns.</td>
+</tr>
+</tbody>
+</table>
+<p>Since schema validation is critical for ensuring consistency and preventing corruption, the choice between <code>INSERT</code> and <code>MERGE</code> is often determined by how robustly you need to handle potential schema changes.</p>
+<blockquote>
+<p>--- <strong>Schema Evolution</strong> </p>
+</blockquote>
+<p>Schema evolution is Delta Lake's capability to handle changes to a table's schema, such as adding, reordering, or modifying columns, without having to completely rewrite the underlying table or data. This functionality is crucial for maintaining flexibility in data pipelines.</p>
+<p>The ability to evolve a schema accommodates several common changes:</p>
+<ol>
+<li>Adding new columns.</li>
+<li>Upgrading a data type to a larger, more accommodating type (type widening).</li>
+<li>Handling changes within nested structures.</li>
+<li>
+<p>Changing the physical position of columns.</p>
+</li>
+<li>
+<p>Adding New Columns (Scenario 1)</p>
+</li>
+</ol>
+<p>New columns can be added using two main approaches:</p>
+<p>Manual Approach (<code>ALTER TABLE ADD COLUMN</code>): The user explicitly runs the <code>ALTER TABLE ADD COLUMN</code> statement to update the table's schema. Subsequent <code>INSERT</code> or <code>WRITE</code> operations that include this new column will succeed. Rows that existed before the new column was added will contain <code>NULL</code> values for that column.</p>
+<p>Automatic Schema Evolution: This approach is enabled by setting a specific table property to <code>true</code>. If the incoming data contains a new column that does not exist in the target Delta table, the system automatically accommodates it without requiring a manual <code>ALTER</code> statement.</p>
+<ul>
+<li>Type Widening (Scenario 2)</li>
+</ul>
+<p>Type widening refers to the ability to upgrade a data type to a "bigger type" to handle larger values, such as converting an <code>INT</code> to a <code>BIGINT</code> or a <code>FLOAT</code> to a <code>DOUBLE</code>.</p>
+<p>Enforcement: This capability was introduced in Delta version 3.2 (which corresponds to Databricks Runtime 15.4 used in the demonstration).</p>
+<p>Manual Change Required: Even with automatic schema evolution enabled, type widening often does not happen automatically. If an incoming value exceeds the capacity of the current column type (e.g., a huge number for an <code>INT</code> column), the system fails with an error. The user must manually run an <code>ALTER COLUMN</code> statement to change the type (e.g., <code>ALTER COLUMN customer ID TYPE BIGINT</code>) before the write will succeed.</p>
+<ul>
+<li>Nested Structure Evolution (Scenario 3)</li>
+</ul>
+<p>Delta Lake supports schema changes within nested <code>STRUCT</code> data types.</p>
+<p>Adding Attributes: You can add a new attribute to an existing <code>STRUCT</code> column using <code>ALTER TABLE ADD COLUMN</code> with the dot notation (e.g., <code>ALTER TABLE... ADD COLUMN purchase_details.store_location STRING</code>).</p>
+<p>Changing Nested Types: You can also manually change the data type of an attribute inside a <code>STRUCT</code> (e.g., changing <code>mall_pin_code</code> from <code>INT</code> to <code>BIGINT</code>) using <code>ALTER COLUMN purchase_details.mall_pin_code TYPE BIGINT</code>.</p>
+<p>Automatic Nested Evolution: To automatically add a new attribute to a nested <code>STRUCT</code> during an insert, the user must utilize a named struct. This is necessary because if a simple positional insert is used, the system won't know the key of the new attribute, leading to inconsistencies.</p>
+<ul>
+<li>Column Position Changes (Scenario 4)</li>
+</ul>
+<p>Delta Lake provides methods to control the physical placement of columns:</p>
+<p>Manual Positioning: When manually adding a column, you can specify its exact location using <code>FIRST</code> (to place it as the first column) or <code>AFTER [column_name]</code> (to place it after a specific column).</p>
+<p>Automatic Behavior: When automatic schema evolution is enabled (especially with a <code>MERGE</code> operation), if a new column is encountered in the source, Delta Lake generally appends that column as the last column in the table, even if the user intended a different position.</p>
+<blockquote>
+<p>--- <strong>Parquet to delta</strong> </p>
+</blockquote>
+<p>Converting an existing Parquet file (or a folder containing Parquet files) into a Delta Lake table format is necessary to enable features like ACID transactions, time travel, and schema enforcement.</p>
+<p>The fundamental difference between a standard Parquet file and a Delta table is the presence of the transaction layer, or the Delta Log. When a directory contains Parquet data but no Delta Log folder, it is not yet a Delta table.</p>
+<p>The conversion process essentially creates this transactional layer and registers the existing data. There are two primary methods detailed in the video for converting Parquet to Delta:</p>
+<ul>
+<li>Using SQL / Shell Command</li>
+</ul>
+<p>The first method involves using the <code>CONVERT TO DELTA</code> command directly on the path of the Parquet data.</p>
+<p>This approach is straightforward and typically executed using Spark SQL or a shell command that interacts with the Delta Lake framework.When executed, this command instructs Delta Lake to perform the conversion.</p>
+<ul>
+<li>Using the Delta Table API</li>
+</ul>
+<p>The second method utilizes the Delta Lake API, typically within a Python or Scala environment, using the <code>DeltaTable</code> class.</p>
+<p>This requires importing the necessary library (e.g., <code>from delta.tables import DeltaTable</code>). The function used is <code>convertToDelta</code>. For example: <code>DeltaTable.convertToDelta(path, format='parquet')</code>.</p>
+<ul>
+<li>The Core Conversion Mechanism</li>
+</ul>
+<p>Regardless of the method used, the underlying process to transform the Parquet files into a Delta table is the same:</p>
+<ol>
+<li>Delta Log Creation: A new folder named <code>_delta_log</code> is created in the directory containing the Parquet files.</li>
+<li>Transaction Registration: The Delta Log is populated with its first transaction file, a JSON file (version <code>0.json</code>), which records the initial operation.</li>
+<li>Data Registration (The <code>ADD</code> Operation): This initial JSON file contains an ADD operation, which explicitly registers the existing Parquet file(s) as the contents of the newly created Delta table. This transaction registers the data.</li>
+</ol>
+<p>Once this transaction is recorded, the folder structure officially functions as a Delta Lake table.</p>
+<blockquote>
+<p>--- <strong>Copy on Write</strong></p>
+</blockquote>
+<p>Copy on Write is defined by the underlying architecture of data storage in Delta Lake: Parquet files.</p>
+<p>Immutable Files: Parquet files are immutable, meaning they cannot be modified directly once they are written to disk.</p>
+<p><img alt="DeltaLog" src="../delta7.svg" /></p>
+<ul>
+<li>The Copy on Write Mechanism</li>
+</ul>
+<p>Since files cannot be changed directly, any operation that modifies the data must result in new files being created. Delta Lake follows the Copy on Write approach when deletion vectors are disabled.</p>
+<p>The mechanism involves three steps for any change (update, delete, or merge):</p>
+<ol>
+<li>Read: The system must read the entire existing Parquet file that contains the record(s) intended for modification.</li>
+<li>Apply Operation: The necessary changes (delete or update) are applied in memory.</li>
+<li>Rewrite: The entire file is then rewritten back to storage as a completely new file, either omitting the deleted records or including the updated records.</li>
+</ol>
+<p>For instance, to delete rows 1 and 6 from a file named <code>1.parquet</code>, Copy on Write rewrites the whole file into a new file (e.g., <code>2.parquet</code>) which omits those two rows. This new file (<code>2.parquet</code>) is then the one referenced for the latest version of the data.</p>
+<ul>
+<li>Computational Expense (The Drawback)</li>
+</ul>
+<p>The Copy on Write approach has a significant drawback: it is "tremendously computationally expensive".</p>
+<p>Costly Rewriting: The read and rewrite process is very costly. If a Parquet file contains 10 million rows and you only need to delete a "few couple of rows," you still must read the whole file and rewrite the whole file back.</p>
+<ul>
+<li>Optimal Use Case</li>
+</ul>
+<p>Because Copy on Write involves expensive rewrites for frequent changes, it is not ideal for high-write scenarios.</p>
+<p>Read-Heavy Focus: CoW works best for use cases that are read heavy and where the frequency of writes (updates, deletes) is very low. If rights are high, the system will read and rewrite the whole file repeatedly, making the system slow.</p>
+<p>Copy on Write's performance limitations during frequent writes is the reason Delta Lake later introduced Deletion Vectors to enable the Merge on Read paradigm, which avoids these costly full file rewrites.</p>
+<blockquote>
+<p>--- <strong>Merge on Read</strong></p>
+</blockquote>
+<p>Merge on Read (MoR) is a critical concurrency paradigm in Delta Lake that is enabled when deletion vectors are turned on. It provides a high-performance alternative to the traditional Copy on Write approach.</p>
+<p><img alt="DeltaLog" src="../delta8.svg" /></p>
+<ol>
+<li>The Core Problem Solved by MoR</li>
+</ol>
+<p>The fundamental challenge in data systems using immutable files (like Parquet, which Delta Lake uses under the hood) is how to handle updates and deletes efficiently. In the Copy on Write approach, any change requires reading the entire affected file, applying the change, and then rewriting the entire file back to storage. This rewrite process is "tremendously computationally expensive," even if only a "few couple of rows" are modified in a file containing millions of records.</p>
+<ol>
+<li>The Mechanism: Deletion Vectors</li>
+</ol>
+<p>Merge on Read resolves this expensive rewrite problem by keeping the original Parquet files untouched.</p>
+<p>Recording Changes: Instead of modifying the data file, any changes (such as deletions) are recorded in a separate, much smaller file known as a deletion vector (DV).
+   DV Content: The deletion vector records the row number or index of the records that are intended for deletion.
+   Updates as Two Operations: An update operation is logically treated as a "delete plus insert". The old row is marked for deletion in the DV, and the newly updated row is written as a small, new Parquet file.</p>
+<ol>
+<li>The Read Process (The "Merge" Step)</li>
+</ol>
+<p>When a user runs a query to read the latest state of the table, the system uses the Merge on Read approach to combine the data:</p>
+<ol>
+<li>Read Files: The system reads the underlying Parquet file(s).</li>
+<li>Check DV: For each row read from the Parquet file, the system checks the deletion vector.</li>
+<li>Soft Delete: If the row's index is present in the DV, that row is treated as a soft delete and is skipped from the final output. If the row is not present in the DV, it is displayed.</li>
+<li>
+<p>Final State: The result is the latest state of the table, which is constructed from the original file combined with the information in the small DV bitmap file.</p>
+</li>
+<li>
+<p>Benefits and Optimal Use</p>
+</li>
+</ol>
+<p>Deletion vectors, and thus Merge on Read, bring significant performance advantages:</p>
+<p>Increased Write Performance: MoR avoids the costly process of rewriting the entire Parquet file for small changes. This dramatically reduces write latency.
+   Efficiency: It increases the performance of deletes, updates, and merge operations.
+   Best Use Case: MoR works best for use cases where data is updated frequently.</p>
+<blockquote>
+<p>--- <strong>Deletion Vectors</strong> </p>
+</blockquote>
+<ul>
+<li>The Problem Deletion Vectors Solve</li>
+</ul>
+<p>Underlying Delta Lake, data is stored in Parquet files, which are immutable.</p>
+<p>In the traditional approach, known as Copy on Write: if you want to update or delete just one record in a Parquet file containing millions of rows, the system must:</p>
+<ol>
+<li>Read the entire Parquet file.</li>
+<li>Apply the update or delete operation.</li>
+<li>Rewrite the entire file back, omitting the deleted row or including the updated row.</li>
+</ol>
+<p>This read-and-rewrite process is computationally expensive and is the bottleneck that deletion vectors aim to resolve.</p>
+<ul>
+<li>The Solution: Merge on Read and Deletion Vectors</li>
+</ul>
+<p>Deletion vectors enable Delta Lake to use the Merge on Read approach when they are enabled.</p>
+<p>Mechanism: Instead of rewriting the massive Parquet file, the original file remains untouched. The changes (deletions or updates) are recorded in a separate, small file called the deletion vector (DV).</p>
+<p>Content: The deletion vector acts as a bitmap, recording the row number or index of the records that are supposed to be removed or soft-deleted.</p>
+<ul>
+<li>Operation with Deletion Vectors</li>
+</ul>
+<p>When a transaction occurs, the transaction log is updated, often including the deletion vector:</p>
+<p>Delete Operation: A delete operation simply records the row numbers of the deleted records in the deletion vector file. For example, deleting row 1 and row 6 results in those numbers being recorded in the DV.
+   Update Operation: An update is treated as a "delete plus insert". When updating a row, the old version of the row is marked for deletion in the deletion vector, and the newly updated row is written as a new, small Parquet file.</p>
+<ol>
+<li>Reading the Data</li>
+</ol>
+<p>When a user reads the latest state of the table, the system checks both the Parquet data and the deletion vector:</p>
+<p>The system reads the Parquet file.
+   For each row read, it checks the deletion vector.
+   If the row's index is present in the DV, it is treated as a soft delete and is skipped from the final output, ensuring the file doesn't have to be rewritten for every minor change.</p>
+<ol>
+<li>Benefits and Tradeoffs</li>
+</ol>
+<p>Deletion vectors provide significant advantages:</p>
+<p>Performance: They reduce write latency by avoiding the rewriting of the whole file for small changes.
+   Efficiency: They bring Merge on Read capability to Delta Lake, increasing the performance of deletes, updates, and merge operations.</p>
+<p>However, the Merge on Read approach (with DVs enabled) works best for use cases where data is updated frequently. Conversely, the Copy on Write approach (DVs disabled) is generally better for read-heavy use cases.</p>
+<blockquote>
+<p>--- <strong>Shallow v/s Deep Clone</strong></p>
+</blockquote>
+<p>Cloning is a functionality in Delta Lake that allows you to create a snapshot of your Delta tables at a specific point in time [i, 148]. There are two main approaches or "flavors" to cloning: shallow clone and deep clone.</p>
+<p>Shallow Clone</p>
+<p><img alt="DeltaLog" src="../delta9.svg" /></p>
+<p>A shallow clone involves taking a snapshot primarily of the table's metadata at a specific point in time.</p>
+<p>Mechanism and Data Storage:
+   When a table is shallow cloned, Delta Lake does not copy the underlying data files (such as Parquet files).
+   Instead, the shallow clone table simply references the underlying data files of the source table.
+   The target shallow clone table will start with a fresh history, beginning at version zero.
+   The metadata itself is duplicated, but not via a one-to-one copy of the source JSON transaction files. All information in the source table's delta log is condensed into a <code>0.checkpoint.parquet</code> file, and the latest state of the source table is computed and recorded in <code>0.json</code> in the target table's delta log.</p>
+<p>Performance and Cost:
+   The shallow clone operation is super fast and computationally cheap.
+   It does not use a lot of storage because the data files are only referenced, not copied.</p>
+<p>Independence and Limitations:
+   Once a shallow clone is created, it maintains its own history and set of operations.
+   Any changes, updates, or modifications made to the shallow clone table will not affect the source table, and similarly, changes to the source table will not affect the shallow clone table.
+   You can clone a table using a specific timestamp or version number from the source table, using <code>VERSION AS OF</code> or <code>TIMESTAMP AS OF</code>.
+   Since the shallow clone starts with a fresh version zero representing the latest state of the source, you cannot access the full history of the source table (e.g., versions 1 or 2) through the shallow clone table.
+   If a <code>VACUUM</code> operation is run on the source table after a shallow clone has been created, any underlying data files that are still being referenced by the shallow clone will not be removed from the source storage until those references are deleted in the shallow clone(s) as well.</p>
+<p>Deep Clone (or Copy)</p>
+<p><img alt="DeltaLog" src="../delta10.svg" />
+A deep clone, or deep copy, creates a completely independent copy of both the metadata and the data files.</p>
+<p>Mechanism and Data Storage:
+   A deep clone performs an exact replication of the underlying Parquet files from the source to the target location.
+   The target deep clone table is self-contained and independent.
+   Similar to shallow clones, the metadata starts at version zero in the target table, with the source transaction history being condensed into a checkpoint file (<code>0.checkpoint.parquet</code>) and the latest state computed and placed in <code>0.json</code>.</p>
+<p>Performance and Cost:
+   This operation takes a little bit longer and uses more storage compared to a shallow clone, because it copies the data files instead of referencing them.</p>
+<p>Independence and Advantages:
+   The deep clone is fully independent: changes in the deep clone table will not affect the source table, and changes in the source table will not affect the deep cloned table.
+   Deep clone operations are incremental. If you perform a subsequent deep clone (e.g., for disaster recovery synchronization), it does not copy the entire source table again. Instead, it only copies or syncs the incremental changes (such as updates or deletes) that have occurred since the last clone, making the operation robust and performant.
+   Deep cloning is considered a more robust way to clone than using a <code>CREATE TABLE AS SELECT (CTAS)</code> statement. A CTAS statement only uses the resulting rows to create a new table, often losing table properties, constraints, and partitioning details. A deep clone, however, also clones the metadata and properties of the table.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Feature</th>
+<th style="text-align: left;">Shallow Clone</th>
+<th style="text-align: left;">Deep Clone</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Data Files</td>
+<td style="text-align: left;">Referenced (not copied)</td>
+<td style="text-align: left;">Independent copy (copied one-to-one)</td>
+</tr>
+<tr>
+<td style="text-align: left;">Metadata</td>
+<td style="text-align: left;">Copied/Replicated</td>
+<td style="text-align: left;">Copied/Replicated</td>
+</tr>
+<tr>
+<td style="text-align: left;">Speed</td>
+<td style="text-align: left;">Super fast</td>
+<td style="text-align: left;">Takes a little bit longer</td>
+</tr>
+<tr>
+<td style="text-align: left;">Storage Use</td>
+<td style="text-align: left;">Computationally cheap, low storage</td>
+<td style="text-align: left;">Uses more storage</td>
+</tr>
+<tr>
+<td style="text-align: left;">Independence</td>
+<td style="text-align: left;">Independent history/changes post-clone</td>
+<td style="text-align: left;">Completely self-contained and independent</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>--- <strong>CTAS vs Deep Clone</strong></p>
+</blockquote>
+<p>The distinction between creating a table using a CTAS (CREATE TABLE AS SELECT) statement and performing a Deep Clone lies primarily in how the metadata, properties, and incremental changes are handled.</p>
+<p>Output Similarity</p>
+<p>Initially, if you were to look at the resulting tables at the output level (for example, by running a <code>SELECT</code> query), the table generated using CTAS and the table generated using a deep clone would look exactly identical. They both contain the same underlying rows of data.</p>
+<p>Key Differences (Metadata and Properties)</p>
+<p>The crucial difference is what information is carried over from the source table to the new table:</p>
+<ol>
+<li>Handling of Properties: A CTAS statement creates a table just using the output of a select query. It takes the resulting set of rows and uses those rows to create the new table. Consequently, all of the properties are lost when using CTAS. These lost properties can include partitioning configurations and constraints.</li>
+<li>Robustness of Deep Clone: Deep clone, conversely, is described as a robust way to clone the metadata, the data, and the properties of the table. When you perform a deep clone, you do not need to respecify things like partitioning properties and constraints, because they are automatically cloned along with the data.</li>
+</ol>
+<p>Incremental Feature (Deep Clone Advantage)</p>
+<p>Another significant advantage of deep clone over CTAS is its ability to operate incrementally:</p>
+<p>Incremental Synchronization: Deep cloning is designed to work in an incremental manner. This capability is useful for scenarios like disaster recovery, where you need to maintain a synchronous replica of a source table.
+   Performance on Resync: If you perform a deep clone to create a replica initially, and then later run the deep clone again to bring the tables back in sync (after updates or deletes occurred on the source), Delta Lake does not copy the whole source table again. Instead, it only copies or syncs the incremental changes that have occurred since the last clone. This ensures that the operation is performant and robust because only the necessary operations (updates or deletes) are applied to the replica.</p>
+<p>In summary, while CTAS is good for creating a simple, static snapshot of the rows, Deep Clone is a more sophisticated mechanism that ensures the integrity of the table structure and settings (metadata and properties) is maintained, and it allows for efficient, incremental synchronization.</p>
+<blockquote>
+<p>--- <strong>Small File Problem</strong></p>
+</blockquote>
+<p>The small file problem is a phenomenon that silently kills your Spark performance. It occurs when data intended to be part of a large dataset is scattered over thousands of smaller files.</p>
+<p>What is the Small File Problem?</p>
+<p>The small file problem arises because, although the total volume of data might be reasonable, the large number of small files introduces immense overhead for the processing engine.</p>
+<p>The source uses the analogy of a 300-page novel: instead of being a single 300-page PDF, someone saves each of the 300 pages as a separate PDF. To read the novel, the system would have to perform thousands of time-consuming operations:</p>
+<ol>
+<li>Find/Look up the file.</li>
+<li>Open the file.</li>
+<li>Read the file.</li>
+<li>Close the file.</li>
+</ol>
+<p>When reading a table scattered across thousands of smaller files, the thousands of open, close, and metadata lookup operations lead to wasted compute and poor I/O.</p>
+<p>Root Causes of the Small File Problem</p>
+<p>The video identifies three primary root causes that lead to the creation of excessive small files:</p>
+<ol>
+<li>Repartitioning to a very large number: If you have a file that is 10 GB in size and you use <code>.repartition(10000)</code>, you will end up with 10,000 resulting files, each only about 1 megabyte in size. These undersized files cause the small file problem.</li>
+<li>Partitioning on a high cardinality column: When partitioning data (using <code>partitionBy</code>) on a column that has a large number of distinct values (high cardinality, e.g., thousands of distinct values in a category column), you create many separate folders, each containing very small amounts of data.</li>
+<li>Frequently updated data sets: Data streams that receive continuous updates, perhaps every 5 minutes, write small updates in small chunks. These small chunks manifest as small files, leading to the small file problem.</li>
+</ol>
+<p>Solution: The <code>OPTIMIZE</code> Command</p>
+<p>Delta Lake provides a built-in operation called <code>OPTIMIZE</code> to solve the small file problem.</p>
+<p>The <code>OPTIMIZE</code> command works by compacting all of these small files into larger, more appropriately sized ones.</p>
+<p>Bin Packing Algorithm</p>
+<p>The compaction relies on an algorithm known as bin packing. This algorithm works as follows:</p>
+<ol>
+<li>It collects all file sizes and sorts them from high to low.</li>
+<li>It then places each file into a "bin," where each bin represents a new, large consolidated file.</li>
+<li>The goal is to fill the bins up to a default target file size of 1 GB. This 1 GB target size is considered robust and should not be changed unless there is a compelling reason to do so.</li>
+</ol>
+<p>Post-Optimization Cleanup</p>
+<p>When <code>OPTIMIZE</code> is run, it creates the new, larger files but does not immediately remove the original small files.</p>
+<p>The small files that were compacted are tombstoned (marked for soft delete).
+   To physically remove the tombstoned files and recover storage space, you must run the <code>VACUUM</code> command.</p>
+<p>Incremental Compaction Approaches</p>
+<p>Beyond manual optimization, Delta Lake offers two automatic approaches to address small files generated during writes:</p>
+<ol>
+<li>Optimize Write: This feature combines all small writes intended for a partition into a single write command. It shuffles all the data and executes a single write command, which produces appropriately sized files for every partition. While effective for creating appropriate file sizes, it incurs a shuffle, which can be costly in terms of data transfer and right latency.</li>
+<li>Auto Compaction: This runs a compaction operation (similar to <code>OPTIMIZE</code>) automatically after a write finishes, if the number of small files exceeds a minimum threshold (the default minimum number of files to trigger auto compaction is 50, though this can be configured). This approach combines the small files into appropriately sized files.</li>
+</ol>
+<blockquote>
+<p>--- <strong>Optimize Write</strong></p>
+</blockquote>
+<p>The feature Optimize Write is an automatic optimization technique used in Delta Lake, specifically designed to address one of the root causes of the small file problem.</p>
+<p>Here is a detailed explanation of how Optimize Write works and its implications, as described in the video:</p>
+<p>The Problem it Solves (Traditional Write)</p>
+<p>In a traditional write scenario, multiple processes or executors (e.g., Executor 1, 2, and 3) often try to write data concurrently to the same partition (for example, a date partition like <code>date=2025-05-01</code>). Since these writes happen simultaneously in small chunks, they result in the creation of many small Parquet files (e.g., <code>1.pk</code>, <code>2.pk</code>, <code>3.pk</code>) within that single partition folder. This proliferation of tiny files leads directly to the small file problem, which silently reduces Spark performance due to excessive file opening, closing, and metadata lookups.</p>
+<p>Mechanism of Optimize Write</p>
+<p>Optimize Write operates by transforming multiple intended small writes into a single, cohesive write operation.</p>
+<ol>
+<li>Data Shuffle: When Optimize Write is enabled, all data coming from different processes (Executor 1, 2, and 3) is first shuffled.</li>
+<li>Single Write Command: After the shuffle, the entire dataset intended for the partition is executed as a single write command.</li>
+</ol>
+<p>This process combines all the data together before it is physically written to the storage location.</p>
+<p>Outcome and Benefits</p>
+<p>The key benefit of using Optimize Write is that it produces appropriately sized files for every partition. By consolidating the output, it ensures that instead of scattering data across numerous small files, the data is packaged efficiently into large files (up to the target size, typically 1 GB), effectively avoiding the small file problem right at the source.</p>
+<p>Trade-offs and Costs</p>
+<p>While highly effective at preventing small files, Optimize Write introduces a notable trade-off:</p>
+<p>Shuffle Cost: The operation necessarily incurs a shuffle. Shuffles are costly because they involve data transfer across the network.
+   Write Latency: If your primary concern is optimizing for write latency (the time it takes for data to be written and become available), Optimize Write might not be the best solution because the involved shuffle will add time to the overall writing process.</p>
+<p>Therefore, Optimize Write is generally viewed as a very good solution for optimizing for the small file problem, but users must consider the added shuffle overhead. The source demonstrated this, showing that a query operation ran much quicker (1.82 seconds) on a table created with Optimize Write compared to a table created using traditional, small-file-generating methods (6.97 seconds).</p>
+<p>Always run OPTIMIZE command on a separate job cluster and not as part of the job itself; otherwise, it might impact the corresponding job’s SLA</p>
+<p>Compute-optimized instance family is recommended for the OPTIMIZE command as it’s a compute-intensive operation</p>
+<h2 id="vacuum"><strong>Vacuum</strong><a class="headerlink" href="#vacuum" title="Permanent link">#</a></h2>
+<p>The <code>VACUUM</code> command in Delta Lake is a crucial optimization technique used for managing the physical storage of data files associated with a Delta table.</p>
+<p>Used to remove old, unused files from the Delta Lake to free up storage. Permanently deletes files that are no longer referenced in the transaction log and older than retention threshold (default 7 days)</p>
+<blockquote>
+<p>--- Benefits</p>
+</blockquote>
+<ul>
+<li>Reduces cloud storage costs</li>
+<li>Improves query performance</li>
+<li>Helps comply with privacy regulations</li>
+</ul>
+<blockquote>
+<p>--- Primary Purpose and Mechanism</p>
+</blockquote>
+<p>The core function of <code>VACUUM</code> is to physically remove files from cloud storage or disk. Delta Lake employs a soft delete mechanism for data that is no longer part of the current table state:</p>
+<ol>
+<li>
+<p>Soft Deletion: Whenever records are deleted, updated, or merged in a Delta table, the older, irrelevant underlying records or files are tombstoned or marked for soft deletion. This is done to maintain time travel and ACID properties without immediate costly file rewriting or removal.</p>
+</li>
+<li>
+<p>Physical Deletion: These tombstoned files are not physically deleted from storage until the <code>VACUUM</code> command is explicitly run. Running <code>VACUUM</code> removes all such files that are no longer referenced in the transaction log and have exceeded the retention duration.</p>
+</li>
+<li>
+<p>Storage Savings: The key benefit of running <code>VACUUM</code> is that it helps save on storage cost by permanently removing unnecessary files.</p>
+</li>
+</ol>
+<blockquote>
+<p>--- Key Considerations</p>
+</blockquote>
+<ul>
+<li>
+<p>Query Performance:</p>
+<p>A popular misconception is that running <code>VACUUM</code> makes queries run faster. This is not the case. Query performance is determined by file filtering and pruning handled by the Delta Log, which directs the engine to scan only the necessary active files. <code>VACUUM</code> only cleans up the retired physical files, and the data being scanned remains the same.</p>
+</li>
+<li>
+<p>Retention Duration and Safety Checks</p>
+<p><code>VACUUM</code> respects a retention duration setting to ensure that time travel capabilities are not compromised prematurely.</p>
+<p>Default Duration: The default retention duration is 168 hours (7 days). Files created within this period are generally not deleted.</p>
+<p>Overriding Retention: To remove files that have been marked for soft delete even if they fall within the default retention period (e.g., immediately after an <code>OPTIMIZE</code> operation), you must specify a shorter duration, such as <code>RETAIN 0 HOURS</code>.</p>
+<p>Safety Warning: Delta Lake usually issues a warning when a user attempts to run <code>VACUUM</code> with a low retention duration (e.g., zero hours). To proceed with low retention, a configuration check must be disabled: <code>set spark.databicks.delta.retentiondurationcheck.enable = false</code>.</p>
+</li>
+<li>
+<p>Limitation on Time Travel:</p>
+<p>Running <code>VACUUM</code> limits your ability to time travel. If a file associated with a previous version is physically deleted by the <code>VACUUM</code> operation, attempting to access that specific old version (<code>VERSION AS OF</code> or <code>TIMESTAMP AS OF</code>) will fail because the required underlying file data is missing.</p>
+</li>
+</ul>
+<blockquote>
+<p>--- Interaction with Other Operations</p>
+</blockquote>
+<p><code>OPTIMIZE</code> Compaction: When the <code>OPTIMIZE</code> command is run to compact small files into one large file, the original small files are tombstoned. These small files remain physically present until <code>VACUUM</code> is run to remove them and recover the storage space.
+   Shallow Clones: <code>VACUUM</code> operations on a source table are constrained by active references from shallow clones. If a file in the source table is deemed obsolete (orphaned) but is still being referenced by a shallow clone, running <code>VACUUM</code> on the source table will not delete that file. The file will only be deleted after all references, including those in all shallow clones, are removed (e.g., by running a delete operation on the relevant data in the shallow clone tables) and then <code>VACUUM</code> is re-run on the source.
+   Deep Clones: <code>VACUUM</code> runs independently on deep clone tables. Since a deep clone is a self-contained and independent copy of the source data with no references linking back, running <code>VACUUM</code> on the source table will not affect the deep clone, and vice versa.</p>
+<p>The <code>VACUUM</code> command is necessary housekeeping in Delta Lake, ensuring that while the transaction log maintains a consistent view of the data, the storage layer only retains necessary files, similar to how recycling services remove old, unnecessary containers to free up space.</p>
+<h2 id="z-ordering"><strong>Z-ordering</strong><a class="headerlink" href="#z-ordering" title="Permanent link">#</a></h2>
+<p>The concept of Z-Ordering is one of the optimization techniques provided by Delta Lake, designed primarily to enhance query performance by maximizing data skipping and minimizing costly data transfers.</p>
+<p>The Problem Z-Ordering Solves (Costly Data Transfer)</p>
+<p>Before Z-ordering is applied, Delta Lake tables, like standard Parquet tables, store statistics (such as minimum and maximum values) for columns within the Delta Log.</p>
+<p>When a user submits a query with a filter (e.g., <code>WHERE age &gt;= 5 AND age &lt;= 10</code>), the query engine uses these statistics to determine which underlying data files need to be scanned and transferred into the memory of the compute cluster.</p>
+<p>If the required filter range overlaps with the minimum and maximum values recorded for a column in a specific Parquet file, that entire file must be transferred over the wire.
+   In poorly organized data, the statistics in different files often overlap significantly. This means that a filtered query may result in the necessary transfer and reading of all underlying data files, even if only a few records within those files actually match the criteria. Transferring all these files is a costly operation that consumes compute resources and leads to poor I/O performance.</p>
+<p>Mechanism of Z-Ordering</p>
+<p>Z-Ordering fundamentally optimizes the physical layout of data to minimize these file overlaps. It achieves this through a process often described as a sort and repartition.</p>
+<ol>
+<li>Collocating Similar Data</li>
+</ol>
+<p>The central idea is to collocate similar data points into the same physical data files. By grouping data together, the statistical ranges (min/max) of the resulting files become much tighter, meaning they are less likely to overlap.</p>
+<p>When a query is run after Z-ordering, the tight statistical ranges allow the engine to prune (filter out or skip) files that clearly do not contain the relevant data, avoiding their transfer over the network.</p>
+<ol>
+<li>Multi-Dimensional Mapping and Locality</li>
+</ol>
+<p>Z-Ordering is particularly powerful because it can apply this sorting principle across multiple columns simultaneously (multi-dimensional filtering).</p>
+<p>It works by taking the values from the selected columns and mapping this multi-dimensional space into a single dimension.
+   This mapping is done using a mathematical technique called a space-filling curve.
+   The curve ensures that data points which are close to each other in the original multi-dimensional space remain close to each other after being mapped to the single dimension (this concept is called preserving locality).</p>
+<p>This single, optimized dimension is then used to physically sort and arrange the data within the files, ensuring similar data points are grouped together.</p>
+<p>Using Z-Order with <code>OPTIMIZE</code></p>
+<p>The <code>ZORDER BY</code> command is not run in isolation; it must be executed together with the <code>OPTIMIZE</code> command.</p>
+<p>The two operations work hand in hand:</p>
+<ol>
+<li><code>OPTIMIZE</code> Compaction: The <code>OPTIMIZE</code> command’s role is to solve the small file problem by merging many small files into fewer, larger files (called "bins"), typically targeting a size of 1 GB.</li>
+<li>Z-Ordering Collocation: While <code>OPTIMIZE</code> is consolidating the small files, Z-Order simultaneously performs the necessary collocation (sorting and rearranging) of the data into the new, larger files.</li>
+</ol>
+<p>Running <code>OPTIMIZE ZORDER BY [columns]</code> leads to significant performance improvements, often seeing query runtimes decrease substantially because the number of files scanned is drastically reduced.</p>
+<p>Z-Ordering with Partitions</p>
+<p>Z-Ordering can be applied incrementally and selectively, particularly when dealing with Hive-style partitions (e.g., partitioning by date). If a table is partitioned (e.g., by <code>invoice date</code>), you can use a predicate or <code>WHERE</code> condition to apply Z-Ordering only to specific, recently updated partitions (e.g., <code>OPTIMIZE ... WHERE category = 'fruit'</code>). This means the expensive Z-Ordering operation is only performed on the small subset of new data, rather than the entire table.</p>
+<p>Z-Ordering is like organizing a massive library collection not just by author (which is like partitioning) but also simultaneously by subject, genre, and length, so that when a reader asks for "short sci-fi books from 2020," the librarian (the query engine) only needs to walk to one aisle and look at two shelves, instead of checking every aisle and every shelf just in case a relevant book overlapped into that section.</p>
+<h2 id="liquid-clustering"><strong>Liquid Clustering</strong><a class="headerlink" href="#liquid-clustering" title="Permanent link">#</a></h2>
+<p>Liquid Clustering is an advanced optimization technique in Delta Lake designed to provide flexibility and robust query performance by dynamically managing the physical data layout.</p>
+<p>It solves the primary problem of inflexibility inherent in traditional Hive-style partitioning and Z-Ordering.</p>
+<blockquote>
+<p>--- Limitations of Traditional Methods Solved by Liquid Clustering</p>
+</blockquote>
+<ul>
+<li>Hard to design right partitioning &amp; z-ordering strategy</li>
+<li>Leads to data skew and concurrency conflicts</li>
+<li>Performance drops as data grows and workloads change</li>
+<li>Re-partitioning required rewriting the entire data</li>
+</ul>
+<p>Hive-style partitioning and Z-Ordering require the user to decide the columns upfront when defining the table.</p>
+<p>If your query filter pattern changes over time (e.g., switching from filtering by <code>country</code> to filtering by <code>category</code>), the original data layout becomes unhelpful.
+   To address the new filter pattern, you would typically need to rewrite the entire dataset according to the new schema or layout.</p>
+<p>Liquid Clustering solves this by allowing you to change the clustering columns anytime, making the approach very flexible. It is also incremental, meaning that when you change clustering columns later on, the data layout changes going ahead to reflect the new desired pattern.</p>
+<blockquote>
+<p>--- Mechanism and Core Principles</p>
+</blockquote>
+<p>The liquid clustering algorithm is designed to maintain a balanced layout in the data files. It ensures several key outcomes simultaneously:</p>
+<ol>
+<li>Uniform File Size: It ensures that files are of uniform or appropriate file size. It avoids creating large files that skew processing or very small files that harm performance.</li>
+<li>Appropriate Number of Files: It manages the data layout to ensure an appropriate number of files, thereby helping to avoid the small file problem.</li>
+<li>Data Collocation: Similar data is collocated (placed close together) within the same physical files, which maximizes data skipping during query execution.</li>
+</ol>
+<blockquote>
+<p>--- How Liquid Clustering Addresses Small Files and Data Skew</p>
+</blockquote>
+<p>Liquid Clustering directly addresses two significant performance inhibitors: the small file problem and data skew.</p>
+<ul>
+<li>
+<p>Avoiding the Small File Problem</p>
+<p>By ensuring uniform and appropriate file sizes, LC avoids the small file problem. It achieves this by:</p>
+<p>Merging Small Files: It combines many small files into appropriately sized files.</p>
+<p>Breaking Down Large Files: Conversely, it can also break down bigger files that are too large (which might otherwise cause data skew) into appropriately sized chunks.</p>
+</li>
+<li>
+<p>Avoiding Data Skew</p>
+<p>Data skew occurs when some partitions contain a disproportionately large amount of data compared to others, creating bottlenecks and leaving compute resources idle.</p>
+<p>In a real-world scenario where partitions (e.g., partitioned by year) might vary drastically in size, the tasks processing the largest partitions must complete before the job finishes (these are on the "critical path").
+  Liquid Clustering works by dividing the larger chunks into smaller buckets. This ensures that all processing tasks or cores receive a uniform amount of data to process, avoiding the skew problem and resulting in higher resource utilization and faster completion times.</p>
+</li>
+</ul>
+<blockquote>
+<p>--- Relationship with Optimization Techniques</p>
+</blockquote>
+<p>Liquid clustering cannot be used together with Z-Ordering or Hive-style partitioning; it serves as the independent, primary mechanism for organizing the data layout.</p>
+<blockquote>
+<p>--- Benefits</p>
+</blockquote>
+<ul>
+<li>Faster Queries</li>
+<li>Automatic Optimization</li>
+<li>Adaptive Data Layout</li>
+<li>Lower maintenance cost</li>
+<li>Simpler Operations</li>
+</ul>
+<blockquote>
+<p>--- When choosing clustering columns, best practices suggest</p>
+</blockquote>
+<p>Select the columns most frequently used in your query filters.</p>
+<p>If transitioning from a table that used both Hive partitioning and Z-Ordering, use both the partition column and the Z-Order column as the new clustering key.</p>
+<p>If certain columns are highly correlated (meaning choosing one implies the value of the other), only include the primary one as the clustering key.</p>
+<p>Liquid clustering provides the flexibility to change clustering columns down the line, avoiding the need to fix partitioning or Z-Order upfront, which protects against changing query patterns.</p>
+<p>Liquid clustering functions like a smart warehouse management system that doesn't just sort inventory based on a single, fixed attribute (like traditional partitioning/Z-Ordering). Instead, it continuously and dynamically rearranges the goods into uniformly sized boxes, grouping similar items together, and automatically breaking down massive shipments into manageable loads, ensuring that no worker is overwhelmed by one oversized box and that retrieval remains efficient even if customer demand shifts to a different set of categories.</p>
+<h2 id="workflowsjobs"><strong>Workflows/Jobs</strong><a class="headerlink" href="#workflowsjobs" title="Permanent link">#</a></h2>
+<p>Databricks Workflows is a managed orchestration service, fully integrated with the Databricks Data Intelligence Platform.</p>
+<p>Workflows lets you easily define, manage and monitor multitask workflows for ETL, analytics and machine learning pipelines.</p>
+<p><img alt="Steps" src="../jobs.svg" /></p>
+<p><img alt="Steps" src="../jobs2.svg" /></p>
+<h2 id="delta-live-tables"><strong>Delta Live Tables</strong><a class="headerlink" href="#delta-live-tables" title="Permanent link">#</a></h2>
+<p>Delta Live Tables is a declarative ETL framework for building reliable, maintainable, and testable data processing pipelines.</p>
+<p><img alt="Steps" src="../lfd.svg" /></p>
+<p>You define the transformations to perform on your data and Delta Live. Tables manages task orchestration, cluster management, monitoring,data quality, and error handling.</p>
+<p>It handles both streaming and batch workloads with minimal manual intervention.</p>
+<p><img alt="Steps" src="../lfd2.svg" /></p>
+<p><img alt="Steps" src="../lfd3.svg" /></p>
+<blockquote>
+<p>--- <strong>Benefits</strong></p>
+</blockquote>
+<ul>
+<li>Automatic orchestration</li>
+<li>Handle checkpoints, retires, and optimization</li>
+<li>Easy to implement CDC, SCD Type 2, and data quality control</li>
+</ul>
+<p><img alt="Steps" src="../lfd4.svg" /></p>
+<p>By default, records violating constraints will be kept.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Action</strong></th>
+<th><strong>SQL Syntax</strong></th>
+<th><strong>Python Syntax</strong></th>
+<th><strong>Result</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>warn (default)</strong></td>
+<td><code>EXPECT</code></td>
+<td><code>dp.expect</code></td>
+<td>Invalid records are written to the target.</td>
+</tr>
+<tr>
+<td><strong>drop</strong></td>
+<td><code>EXPECT ... ON VIOLATION DROP ROW</code></td>
+<td><code>dp.expect_or_drop</code></td>
+<td>Invalid records are dropped before being written. The number of dropped records is logged with dataset metrics.</td>
+</tr>
+<tr>
+<td><strong>fail</strong></td>
+<td><code>EXPECT ... ON VIOLATION FAIL UPDATE</code></td>
+<td><code>dp.expect_or_fail</code></td>
+<td>Invalid records cause the update to fail. Manual intervention is required before reprocessing. This only fails the specific flow, not the entire pipeline.</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Object Type</th>
+<th>Type</th>
+<th>Key Characteristics</th>
+<th>Use Cases</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Streaming Tables</td>
+<td>Permanent</td>
+<td>• Supports incremental refresh <br> • Handles append-only streaming data <br> • Uses <code>spark.readStream</code> or <code>STREAM()</code></td>
+<td>• Real-time / near real-time data ingestion <br> • Kafka, event streams, log pipelines</td>
+</tr>
+<tr>
+<td>Temporary Views</td>
+<td>Temporary</td>
+<td>• Exists only during session/job <br> • Stores intermediate processed data</td>
+<td>• Data transformations <br> • Data quality checks <br> • Breaking complex pipelines into steps</td>
+</tr>
+<tr>
+<td>Materialized Views</td>
+<td>Permanent</td>
+<td>• Supports full or incremental refresh (Serverless only) <br> • Uses batch (<code>spark.read</code>) <br> • Not for low-latency</td>
+<td>• Precomputing BI queries <br> • Batch ingestion <br> • Reporting and analytics workloads</td>
+</tr>
+</tbody>
+</table>
+<p>Here’s a clean, structured version of your content:</p>
+<blockquote>
+<p>--- <strong>Triggered vs Continuous Pipelines</strong></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th><strong>Key Question</strong></th>
+<th><strong>Triggered</strong></th>
+<th><strong>Continuous</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>When does the update stop?</strong></td>
+<td>Automatically stops once processing is complete.</td>
+<td>Runs continuously until manually stopped.</td>
+</tr>
+<tr>
+<td><strong>What data is processed?</strong></td>
+<td>Data available at the time the update starts.</td>
+<td>All incoming data as it arrives at configured sources.</td>
+</tr>
+<tr>
+<td><strong>Best for data freshness needs?</strong></td>
+<td>Suitable for updates every 10 minutes, hourly, or daily.</td>
+<td>Suitable for near real-time updates (every 10 seconds to a few minutes).</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>--- <strong>Key Considerations</strong></p>
+</blockquote>
+<ul>
+<li>
+<p><strong>Triggered pipelines</strong></p>
+</li>
+<li>
+<p>More cost-efficient since clusters run only when needed</p>
+</li>
+<li>
+<p>May introduce latency, as new data is processed only when triggered</p>
+</li>
+<li>
+<p><strong>Continuous pipelines</strong></p>
+</li>
+<li>
+<p>Requires an always-running cluster (higher cost)</p>
+</li>
+<li>Provides lower latency and near real-time data processing</li>
+</ul>
+<hr />
+<p>If you want, I can turn all your notes into a single polished cheat sheet or a one-page PDF-style summary.</p>
+<h2 id="delta-sharing"><strong>Delta Sharing</strong><a class="headerlink" href="#delta-sharing" title="Permanent link">#</a></h2>
+<p>Delta Sharing is an open data sharing protocol that enables secure sharing of data across business units, customers, suppliers and partners.</p>
+<ul>
+<li>Native integration with Databricks Platform allows sharing of Notebooks, Dashboards, AI Models, Volumes etc.</li>
+<li>Available as Fully managed inside the Databricks platform in workspaces enabled with Unity Catalog.</li>
+<li>Native integration with Unity Catalog for Governance and Security</li>
+</ul>
+<blockquote>
+<p>--- <strong>Sharing protocol</strong></p>
+</blockquote>
+<ul>
+<li>D2D: The Databricks-to-Databricks sharing protocol</li>
+</ul>
+<p>Share data between Databricks clients</p>
+<p>Collection of tables, views, volumes, and notebooks</p>
+<p>Leverages built-in authentication with no token exchange</p>
+<ul>
+<li>D2O: The Databricks open sharing protocol</li>
+</ul>
+<p>Share data with users on any computing platform</p>
+<p>Share tables only</p>
+<p>Requires authentication via bearer tokens or OpenID Connect (OIDC) Federation</p>
+<blockquote>
+<p>--- <strong>Databricks-to-Databricks Delta Sharing with History</strong></p>
+</blockquote>
+<ul>
+<li>Enabling History Sharing</li>
+</ul>
+<p>To allow recipients to use time travel queries, change data feed (CDF), and streaming reads on a shared table, enable history sharing:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">ALTER</span><span class="w"> </span><span class="k">SHARE</span><span class="w"> </span><span class="o">&lt;</span><span class="n">share_name</span><span class="o">&gt;</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="k">ADD</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="o">&lt;</span><span class="k">table_name</span><span class="o">&gt;</span><span class="w"> </span><span class="k">WITH</span><span class="w"> </span><span class="n">HISTORY</span><span class="p">;</span>
+</span></code></pre></div>
+<p>What <code>WITH HISTORY</code> Enables</p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Time Travel Queries</td>
+<td>Recipients can query older versions of the shared Delta table</td>
+</tr>
+<tr>
+<td>Change Data Feed (CDF)</td>
+<td>Recipients can read inserted, updated, and deleted rows over time</td>
+</tr>
+<tr>
+<td>Streaming Reads</td>
+<td>Recipients can consume changes incrementally from the shared table</td>
+</tr>
+</tbody>
+</table>
+<p>When using <code>WITH HISTORY</code>, Databricks improves performance by giving recipients temporary cloud storage credentials scoped only to the root directory of the shared table.</p>
+<p>This provides performance close to directly reading the source table.</p>
+<p>However, this optimization does not apply to partitioned tables </p>
+<blockquote>
+<p>--- <strong>Delta Sharing and Data Replication</strong></p>
+</blockquote>
+<p>Delta Sharing does not copy or replicate the data.</p>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Egress Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Same cloud region</td>
+<td>No data egress cost</td>
+</tr>
+<tr>
+<td>Different cloud region or different cloud provider</td>
+<td>Cloud vendor charges egress fees</td>
+</tr>
+</tbody>
+</table>
+<p>To reduce cross-region or cross-cloud costs, common approaches are:</p>
+<p>Clone the shared data into the recipient’s local region
+ Share data through Cloudflare R2</p>
+<blockquote>
+<p>--- <strong>Current Limitations</strong></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Limitation</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Read-Only Access</td>
+<td>Recipients can only read shared data; they cannot modify it</td>
+</tr>
+<tr>
+<td>Format Restriction</td>
+<td>Only Delta tables can be shared</td>
+</tr>
+<tr>
+<td>No Non-Delta Support</td>
+<td>Formats like Parquet, CSV, JSON, or Iceberg are not supported directly</td>
+</tr>
+</tbody>
+</table>
+<h2 id="lakehouse-federation"><strong>Lakehouse Federation</strong><a class="headerlink" href="#lakehouse-federation" title="Permanent link">#</a></h2>
+<p>Lakehouse Federation is a capability in Databricks that allows you to access and govern data stored outside of the Lakehouse without physically moving or copying it into the Lakehouse.</p>
+<ul>
+<li>Maintain live access to external systems.</li>
+<li>Ad hoc reporting or proof-of-concept access to operational data
+stored in external databases.</li>
+<li>Complex queries don’t benefit from the power of Databricks</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Query Federation</th>
+<th>Catalog Federation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Connection Type</td>
+<td>Direct JDBC connection to external databases (e.g., MySQL, SQL Server, Redshift)</td>
+<td>Connects to external catalogs (AWS Glue, Hive Metastore, Snowflake)</td>
+</tr>
+<tr>
+<td>Query Execution</td>
+<td>Query executed on the external database</td>
+<td>Query executed on Databricks compute</td>
+</tr>
+<tr>
+<td>Performance &amp; Cost</td>
+<td>Depends on the source system</td>
+<td>More optimized and cost-effective</td>
+</tr>
+<tr>
+<td>Join Capability</td>
+<td>Can join with Lakehouse data</td>
+<td>Can join with Lakehouse data</td>
+</tr>
+<tr>
+<td>Best Use Case</td>
+<td>Ad-hoc queries, Proof of Concept (PoC)</td>
+<td>Migration, hybrid architecture, centralized governance</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>--- <strong>Implementation</strong></p>
+</blockquote>
+<ul>
+<li>Query Federation</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Enable Unity Catalog</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Create connection (JDBC + credentials)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Create foreign catalog</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Grant privileges</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Run queries → Executed on external database (pushdown)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Catalog Federation</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Enable Unity Catalog</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Create connection to external catalog (e.g., AWS Glue, Hive Metastore)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Create storage credential + external location</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Create foreign catalog</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Grant privileges</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Run queries → Executed on Databricks (reads from object storage)</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../aws/" class="md-footer__link md-footer__link--prev" aria-label="Previous: AWS">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                AWS
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../../about/" class="md-footer__link md-footer__link--next" aria-label="Next: About Me">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                About Me
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 Manishkumar Chetpalli.  This website is maintained for personal learning and documentation purposes. Content is inspired by various public resources and original authors.
+
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://www.linkedin.com/in/manishkumarchetpalli/" target="_blank" rel="noopener" title="www.linkedin.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/manish-chet" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.annotation", "content.code.copy", "content.tooltips", "content.tabs.link", "navigation.tabs", "navigation.tabs.sticky", "navigation.path", "navigation.top", "navigation.footer", "navigation.indexes", "navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.instant.preview", "navigation.tracking", "navigation.path", "navigation.sections", "navigation.instant", "search.highlight", "search.suggest", "search.share", "navigation.footer", "content.action.feedback", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

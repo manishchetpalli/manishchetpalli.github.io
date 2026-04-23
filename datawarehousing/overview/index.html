@@ -1,0 +1,3566 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for Data Engineering and Big Data Technologies">
+      
+      
+        <meta name="author" content="Manishkumar Chetpalli">
+      
+      
+        <link rel="canonical" href="https://manishchetpalli.github.io/datawarehousing/overview/">
+      
+      
+        <link rel="prev" href="../../airflow/dataorchestration/">
+      
+      
+        <link rel="next" href="../../DataEngineering/fileformat/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/sqldeveloper-original.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Data Warehousing - DEwithManish</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="pink">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#oltp" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="DEwithManish" class="md-header__button md-logo" aria-label="DEwithManish" data-md-component="logo">
+      
+  <img src="../../assets/images/sqldeveloper-original.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            DEwithManish
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Data Warehousing
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="pink"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="light-green"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/manishchetpalli/DataEngineeringNotes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    AnalyticsWithManish
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../projects/flink-ignite/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Projects/Setup
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../DataEngineering/DE/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Fundamentals
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../hadoop/HDFS/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Big Data
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../cloud/aws/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Cloud computing
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../about/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  About Me
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="DEwithManish" class="md-nav__button md-logo" aria-label="DEwithManish" data-md-component="logo">
+      
+  <img src="../../assets/images/sqldeveloper-original.svg" alt="logo">
+
+    </a>
+    DEwithManish
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/manishchetpalli/DataEngineeringNotes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    AnalyticsWithManish
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Projects/Setup
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Projects/Setup
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../projects/flink-ignite/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flink Ignite Custom Dialect
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../projects/kafkaapi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FastAPI Kafka Producer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tooling/airflow_install_onpremise/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Airflow Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tooling/igniteinstall/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ignite Multi Node Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tooling/kafka_install_zookeeper/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kafka Multi Node Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tooling/kubernetes_install/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kubernetes Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tooling/spark3standalone/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sparkstandalone Multi Node
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tooling/sparkkube/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Spark on Kubernetes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tooling/flinkonk8/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flink on Kubernetes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tooling/spark23yarn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multiple Spark version on YARN
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fundamentals
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Fundamentals
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DataEngineering/DE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DataEngineering/DEcycle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DE Lifecycle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DataEngineering/DEundercurrent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DE UnderCurrents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DataEngineering/DesigningGDA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DE Architecture & Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../airflow/dataorchestration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Orchestration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Warehousing
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Warehousing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#oltp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OLTP
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#olap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OLAP
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#oltp-vs-olap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OLTP vs OLAP
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#normalized-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Normalized data
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#denormalized-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Denormalized Data
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-warehouse-transformations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Warehouse Transformations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#datalake" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DataLake
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#datamart" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DataMart
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-modeling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Modeling
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#primary-key-pk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Primary Key (PK)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#foreign-key-fk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Foreign Key (FK)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#composite-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Composite Key
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#natural-key-business-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Natural Key (Business Key)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#surrogate-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Surrogate Key
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#star-schema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Star Schema
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#snowflake-schema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Snowflake Schema
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#galaxy-schema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Galaxy Schema
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SCD
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#types-of-databases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Types of Databases
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DataEngineering/fileformat/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File Formats
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hadoop/kerberos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kerberos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Big Data
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Big Data
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hadoop/HDFS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache Hadoop
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hadoop/mapreduce/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache MapReduce
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hadoop/yarn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache Yarn
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hive/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache Hive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../airflow/airflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache Airflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../spark/intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache Spark
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kafka/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache Kafka
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../flink/flink/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache Flink
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ignite/ignite/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache Ignite
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../iceberg/iceberg/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache Iceberg
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cloud computing
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Cloud computing
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/aws/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AWS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/databricks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Databricks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About Me
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#oltp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OLTP
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#olap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OLAP
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#oltp-vs-olap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OLTP vs OLAP
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#normalized-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Normalized data
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#denormalized-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Denormalized Data
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-warehouse-transformations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Warehouse Transformations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#datalake" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DataLake
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#datamart" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DataMart
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-modeling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Modeling
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#primary-key-pk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Primary Key (PK)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#foreign-key-fk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Foreign Key (FK)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#composite-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Composite Key
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#natural-key-business-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Natural Key (Business Key)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#surrogate-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Surrogate Key
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#star-schema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Star Schema
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#snowflake-schema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Snowflake Schema
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#galaxy-schema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Galaxy Schema
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SCD
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#types-of-databases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Types of Databases
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../../DataEngineering/DE/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Fundamentals
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+  <h1>Data Warehousing</h1>
+
+<p>Data warehousing is the process of collecting, integrating, storing and managing data from multiple sources in a central repository. It enables organizations to organize large volumes of current and historical data for efficient querying, analysis and reporting.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The main goal of data warehousing is to support decision-making by providing clean, consistent and timely access to data. It ensures fast data retrieval even when working with massive datasets.</p>
+</div>
+<blockquote>
+<p>--- <strong>Need for Data Warehousing</strong></p>
+</blockquote>
+<ol>
+<li>Handling Large Data Volumes</li>
+<li>Centralized Data Storage</li>
+<li>Business Intelligence Support</li>
+<li>Data Marts</li>
+<li>OLAP (Online Analytical Processing) Tools</li>
+<li>End-User Access Tools</li>
+</ol>
+<blockquote>
+<p>--- <strong>DBMS vs DataWarehouse</strong></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Database (DBMS)</th>
+<th>Data Warehouse</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Purpose</td>
+<td>Designed for operational / transactional processing (OLTP)</td>
+<td>Designed for analytical processing (OLAP)</td>
+</tr>
+<tr>
+<td>Type of Data</td>
+<td>Stores current and up-to-date data</td>
+<td>Stores historical data over long periods</td>
+</tr>
+<tr>
+<td>Data Usage</td>
+<td>Used for day-to-day operations</td>
+<td>Used for trend analysis, reporting, and decision-making</td>
+</tr>
+<tr>
+<td>Transaction Handling</td>
+<td>Each operation is an indivisible transaction</td>
+<td>Optimized for complex queries and aggregations</td>
+</tr>
+<tr>
+<td>Data Scope</td>
+<td>Usually application-specific</td>
+<td>Integrated at organization level</td>
+</tr>
+<tr>
+<td>Data Sources</td>
+<td>Typically sourced from a single application</td>
+<td>Combines data from multiple databases and sources</td>
+</tr>
+<tr>
+<td>Data Structure</td>
+<td>Highly normalized to reduce redundancy</td>
+<td>Often denormalized (star/snowflake schemas)</td>
+</tr>
+<tr>
+<td>Time Dimension</td>
+<td>Mostly current state data</td>
+<td>Maintains time-variant data</td>
+</tr>
+<tr>
+<td>Query Type</td>
+<td>Simple inserts, updates, deletes, and selects</td>
+<td>Complex analytical queries (GROUP BY, JOINs, aggregates)</td>
+</tr>
+<tr>
+<td>Performance Focus</td>
+<td>Fast read/write transactions</td>
+<td>Fast read-heavy analytical queries</td>
+</tr>
+<tr>
+<td>Cost</td>
+<td>Relatively inexpensive to construct and maintain</td>
+<td>Can be expensive due to storage, ETL, and infrastructure</td>
+</tr>
+<tr>
+<td>Users</td>
+<td>End users, applications</td>
+<td>Data analysts, BI tools, decision makers</td>
+</tr>
+<tr>
+<td>Examples</td>
+<td>Student records in a school database</td>
+<td>Analyzing best-performing schools across a city</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>--- <strong>We can only store Structured Data in Data Warehouse?</strong></p>
+</blockquote>
+<p>Traditionally, data warehouses were designed to handle structured data - that is, data that fits neatly into a table with rows and columns, like you would find in a relational database or an Excel spreadsheet. This structured data could be analyzed using SQL or similar querying languages.</p>
+<p>However, with the advent of Big Data, the nature of data has evolved. Today's organizations also need to handle semi-structured data (like JSON or XML files) and unstructured data (like text documents, images, videos, etc.) to extract insights. Consequently, the concept of data warehousing has also evolved.</p>
+<p>Modern data warehouses have extended their capabilities and can now accommodate, process, and analyze semi-structured and even unstructured data. For example, solutions like Google's BigQuery, Amazon's Redshift, and Snowflake allow users to query non-relational data types including nested and repeated data.</p>
+<p>However, while it's possible to store and query unstructured and semi-structured data in a modern data warehouse, often it's not the most efficient or cost-effective way to handle such data. For many use cases, it may be more appropriate to use other types of data storage and processing systems, like data lakes or NoSQL databases, which are specifically designed to handle these types of data. These systems can then work in conjunction with a data warehouse as part of a broader data architecture.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It's important to note that implementing a data warehouse is not a trivial task. It involves data cleaning, data integration, and data transformation tasks that can be complex and time-consuming. Therefore, the decision to create a data warehouse should take into consideration the specific needs of the organization, the availability of resources, and the potential return on investment.</p>
+</div>
+<h2 id="oltp"><strong>OLTP</strong><a class="headerlink" href="#oltp" title="Permanent link">#</a></h2>
+<p>OLTP, or Online Transaction Processing, is a class of software applications capable of supporting transaction-oriented programs. </p>
+<blockquote>
+<p>--- <strong><em>Here are some key points about OLTP</em></strong></p>
+</blockquote>
+<ol>
+<li>Transactional Operations - OLTP systems handle a large number of short, atomic transactions. These transactions are typically CRUD operations - Create, Read, Update, Delete.</li>
+<li>Concurrency - Due to the high number of transactions, OLTP systems use multi-concurrency control techniques to prevent conflicts and ensure data consistency.</li>
+<li>Data Integrity - The systems are designed to ensure absolute data integrity through ACID (Atomicity, Consistency, Isolation, Durability) properties.</li>
+<li>Real-Time Processing - OLTP applications are designed for real-time transactional processing and quick response times.</li>
+<li>High Availability - Given the critical nature of many OLTP systems, they are designed for high availability and fault tolerance.</li>
+<li>Operational vs. Analytical - OLTP systems are focused on operational data and current transactional activity, as opposed to OLAP (Online Analytical Processing) systems, which are optimized for complex, analytical queries and historical and aggregated data reporting.</li>
+<li>Performance Metrics - The performance of OLTP systems is usually measured in transactions per second (TPS).</li>
+<li>Database Design - OLTP systems often use a relational database design with an extensive index to deliver rapid responses to SQL queries.</li>
+</ol>
+<blockquote>
+<p>--- <strong><em>OLTP Systems</em></strong></p>
+</blockquote>
+<ol>
+<li>ERP Systems </li>
+<li>Banking Systems</li>
+<li>Airline Reservation Systems</li>
+<li>E-commerce Platforms </li>
+<li>Telecommunication Network Systems</li>
+<li>Retail POS Systems </li>
+<li>Customer Relationship Management Systems</li>
+<li>Online Service Applications </li>
+</ol>
+<blockquote>
+<p>--- <strong><em>Popular Databases for OLTP</em></strong></p>
+</blockquote>
+<ol>
+<li>Oracle Database </li>
+<li>MySQL </li>
+<li>Microsoft SQL Server </li>
+<li>PostgreSQL </li>
+<li>IBM DB2 </li>
+<li>MariaDB </li>
+<li>SAP HANA </li>
+<li>Amazon Aurora </li>
+<li>Google Cloud Spanner</li>
+<li>CockroachDB </li>
+</ol>
+<h2 id="olap"><strong><em>OLAP</em></strong><a class="headerlink" href="#olap" title="Permanent link">#</a></h2>
+<p>OLAP, or Online Analytical Processing, is a category of software tools that provide analysis of data for business decisions. It is characterized by relatively low volume of transactions but complex queries involving aggregations, which need to be executed relatively quickly.</p>
+<blockquote>
+<p>--- <strong><em>Here are the key characteristics of OLAP systems</em></strong></p>
+</blockquote>
+<ol>
+<li>Multi-Dimensional Analysis - OLAP tools allow users to analyze data along multiple dimensions, which is generally more intuitive for users. For example, a business person might want to analyze sales by product, by region, and by time period.</li>
+<li>Speedy Query Performance - Despite the size and complexity of the data sets, OLAP tools provide rapid results to queries due to their use of multidimensional data cubes and precalculation.</li>
+<li>Aggregation and Computation - OLAP systems are optimized to perform complex calculations and data aggregations, like sums, averages, ratios, ranks, etc., on the fly.</li>
+<li>Support for Complex Queries - OLAP tools support complex queries and enable users to perform 'what-if' type analysis.</li>
+<li>Data Discovery - They support data discovery by providing flexible, ad-hoc querying and multi-dimensional analysis.</li>
+<li>Read-Optimized - Unlike OLTP, which is write-optimized, OLAP is optimized for a high volume of read operations with fewer write operations.</li>
+</ol>
+<blockquote>
+<p>--- <strong><em>OLAP Systems</em></strong></p>
+</blockquote>
+<p>There are several databases and systems that are designed to work as OLAP systems, providing multi-dimensional analysis of data. </p>
+<ol>
+<li>Microsoft Analysis Services</li>
+<li>SAP BW (Business Warehouse)</li>
+<li>Amazon Redshift </li>
+<li>Google BigQuery </li>
+<li>Snowflake </li>
+</ol>
+<h2 id="oltp-vs-olap"><strong>OLTP vs OLAP</strong><a class="headerlink" href="#oltp-vs-olap" title="Permanent link">#</a></h2>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>OLTP (Online Transaction Processing)</th>
+<th>OLAP (Online Analytical Processing)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Main Function</td>
+<td>Manages day-to-day transactions of an organization</td>
+<td>Supports complex analysis and decision making</td>
+</tr>
+<tr>
+<td>Database Design</td>
+<td>Normalized schema, optimized for INSERTs and UPDATEs</td>
+<td>Denormalized schema, optimized for analysis and reporting</td>
+</tr>
+<tr>
+<td>Data Type</td>
+<td>Detailed, current operational data</td>
+<td>Summarized, consolidated, and historical data</td>
+</tr>
+<tr>
+<td>Transactions</td>
+<td>Short and fast updates and queries</td>
+<td>Long, complex queries involving aggregations</td>
+</tr>
+<tr>
+<td>Number of Records Accessed</td>
+<td>Accesses individual records (e.g., single row)</td>
+<td>Accesses large volumes of data, often entire tables</td>
+</tr>
+<tr>
+<td>Performance Metrics</td>
+<td>Measured in transactions per second (TPS)</td>
+<td>Measured in query response time</td>
+</tr>
+<tr>
+<td>Users</td>
+<td>Front-line workers (clerks, operators, IT staff)</td>
+<td>Managers, Business Analysts, Decision Makers</td>
+</tr>
+<tr>
+<td>Database Size</td>
+<td>Smaller (stores current operational data)</td>
+<td>Larger (stores historical data over time)</td>
+</tr>
+<tr>
+<td>Nature of Queries</td>
+<td>Simple, predefined queries</td>
+<td>Complex, ad-hoc queries</td>
+</tr>
+<tr>
+<td>Consistency Requirement</td>
+<td>High concurrency control and transaction consistency</td>
+<td>Lower consistency needs, data loaded in batches</td>
+</tr>
+<tr>
+<td>Examples</td>
+<td>Online banking, airline ticket booking, order processing</td>
+<td>Sales trend analysis, financial reporting, BI dashboards</td>
+</tr>
+</tbody>
+</table>
+<h2 id="normalized-data"><strong>Normalized data</strong><a class="headerlink" href="#normalized-data" title="Permanent link">#</a></h2>
+<p>Data Normalization is a process in database design that organizes data to minimize redundancy and improve data integrity. It involves structuring data in accordance with a series of so-called normal forms, each with an increasing level of strictness.</p>
+<p><img alt="Steps" src="../normalize.svg" /></p>
+<blockquote>
+<p>--- <strong>The primary advantages of normalization are</strong></p>
+</blockquote>
+<ol>
+<li>Minimize Redundancy - By ensuring that each piece of data is stored in only one place, normalization reduces the redundancy of data within the database.</li>
+<li>Data Consistency - Normalization improves data consistency as each data item is stored in only one place. Any update needs to be performed only in one place, reducing the chances of inconsistent data.</li>
+<li>Efficient Use of Storage - Normalized databases are more compact and often require less storage space, especially for large databases.</li>
+<li>Simplified Data Management - Normalization simplifies the management and updating of data as it ensures that a piece of information exists in one place only.</li>
+</ol>
+<p>Normalized Data Systems, such as OLTP (Online Transaction Processing) systems, use normalized databases. These systems require high data integrity and support a large number of short online transactions (INSERT, UPDATE, DELETE). </p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p>Databases for managing sales transactions, customer relationship management (CRM) systems, airline reservation systems, and banking systems. These systems rely on data normalization to ensure data consistency and efficiency in processing a high volume of transactions.</p>
+</div>
+<h2 id="denormalized-data"><strong>Denormalized Data</strong><a class="headerlink" href="#denormalized-data" title="Permanent link">#</a></h2>
+<p>Data Denormalization is the process of combining data from several normalized tables into one, for the purpose of improving read performance, simplifying queries, or preparing the data for specific analytical requirements. This is the opposite of normalization, where data is separated into multiple tables to minimize redundancy and improve data integrity.</p>
+<p>Denormalization may lead to data redundancy and anomalies (like insert, update, or delete anomalies), but it reduces the need for complex joins and can therefore enhance the performance of read-heavy applications.</p>
+<p>Denormalized Data Systems, such as OLAP (Online Analytical Processing) systems or data warehousing systems, use denormalized databases. These systems are designed for reporting and data analysis, and they support complex queries against large amounts of data. The data in these systems is typically read-only or infrequently updated, and the emphasis is on retrieval speed rather than transaction speed.</p>
+<p><img alt="Steps" src="../denormalize.svg" /></p>
+<blockquote>
+<p>--- <strong>Here are some key characteristics of denormalized data systems</strong></p>
+</blockquote>
+<ol>
+<li>Data Redundancy - Since data is combined into fewer tables, some data can be repeated or redundant.</li>
+<li>Read Optimization - Denormalized databases can retrieve data faster because they often need fewer joins to answer a query.</li>
+<li>Complexity - By reducing the number of tables, the database structure becomes simpler, and complex queries can be more easily written.</li>
+<li>Data Integrity - In denormalized databases, maintaining data integrity can be more challenging due to potential redundancy.</li>
+<li>Usage - Denormalized data systems are commonly used for data analysis, data mining, data warehousing, and any system where reading data is more important than updating or inserting data.</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It's important to note that denormalization doesn't mean that normalization principles are entirely abandoned. Rather, it's a strategic optimization for specific read-heavy use cases.</p>
+</div>
+<blockquote>
+<p>--- <strong>Normalized vs Denormalized</strong></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Normalized Data</th>
+<th>Denormalized Data</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Structure</td>
+<td>Data is spread across multiple tables to eliminate redundancy and dependency</td>
+<td>Data is combined into fewer tables to speed up data retrieval</td>
+</tr>
+<tr>
+<td>Redundancy</td>
+<td>Redundancy is minimized; each data item is stored in only one place</td>
+<td>Redundancy may be introduced to improve read performance</td>
+</tr>
+<tr>
+<td>Performance</td>
+<td>Writing data (INSERT, UPDATE, DELETE) is usually faster; reading can be slower due to multiple joins</td>
+<td>Reading data is typically faster due to fewer joins; writing can be slower because of redundancy</td>
+</tr>
+<tr>
+<td>Data Integrity</td>
+<td>Higher, as redundancy is eliminated</td>
+<td>Lower, as redundancy can lead to inconsistencies</td>
+</tr>
+<tr>
+<td>Use Case</td>
+<td>Optimized for transactional systems like OLTP, where write operations are common</td>
+<td>Optimized for analytical and reporting systems like OLAP, where read operations are common</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>--- <strong>Which is better depends on your use case</strong></p>
+</blockquote>
+<ol>
+<li>Choose Normalized Data when - You are dealing with transactional systems (like OLTP), where write operations (insert, update, delete) are common and the data integrity is crucial. This includes applications like online retail websites, banking systems, CRM, etc.</li>
+<li>Choose Denormalized Data when - You are dealing with analytical systems (like OLAP), where read operations and speed of data retrieval are more important than write operations. This is common in reporting, data mining, and decision support systems.</li>
+</ol>
+<p>It's important to remember that this is not an either/or situation. Often, in a single system, a part of the database might be normalized (to support transactional operations) and another part might be denormalized (to support analytical operations). It's all 
+about choosing the right tool for the right job based on your specific needs.</p>
+<h2 id="data-warehouse-transformations"><strong>Data Warehouse Transformations</strong><a class="headerlink" href="#data-warehouse-transformations" title="Permanent link">#</a></h2>
+<p>The transformation phase occurs after data is extracted from source systems and before it is loaded into the final Data Warehouse tables. The two main objectives of this phase are:</p>
+<ul>
+<li>
+<p>Uniformity: Ensuring that data coming from different sources (like different retail zones) follows a consistent format and standard.</p>
+</li>
+<li>
+<p>Restructuring: Adjusting the data structure (number of columns and rows) to match the predefined Data Warehouse model</p>
+</li>
+</ul>
+<blockquote>
+<p>--- <strong>Data Value Unification</strong></p>
+</blockquote>
+<p>Different source systems often use different values to represent the same information. Transformation is required to map these varying source values into a single, uniform standard in the Data Warehouse.</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p>Zone 1 uses a Status column with values "Active" or "Inactive," while Zone 2 uses an Active column with "Y" or "N"</p>
+</div>
+<blockquote>
+<p>--- <strong>Data Type and Size Unification</strong></p>
+</blockquote>
+<p>Sources may have technical mismatches in how they define columns, such as different data types or character limits.</p>
+<ul>
+<li>
+<p>Type Mismatch: One system might use VARCHAR while another uses CHAR.</p>
+</li>
+<li>
+<p>Size Mismatch: Zone 1 might allow 25 characters for a name (CHAR(25)), while Zone 2 allows 35 (CHAR(35)). The Data Warehouse must decide on a standard (e.g., 35) to prevent data loss or "trimming"</p>
+</li>
+</ul>
+<blockquote>
+<p>--- <strong>De-duplication</strong></p>
+</blockquote>
+<p>In a retail environment, the same customer might make purchases in different zones. If that customer is not already in the master table, both zones might try to flow that record into the Data Warehouse as a "new customer," leading to duplicates. Since a Data Warehouse is non-volatile, de-duplication logic must be applied before final writing</p>
+<blockquote>
+<p>--- <strong>Dropping Columns and Records</strong></p>
+</blockquote>
+<ul>
+<li>Dropping Columns: Unnecessary data, such as specific auditing columns that have no analytical value in the DWH, are removed during transformation.</li>
+<li>Dropping Records: Unwanted rows (e.g., data for employees who have left) can be filtered out. While companies often prefer changing a status to "Inactive" rather than deleting, the DELETE command or filtering is a common transformation step</li>
+</ul>
+<blockquote>
+<p>--- <strong>Error Correction and Null Handling</strong></p>
+</blockquote>
+<p>Data might arrive with errors, such as a Null value in a "Sales Amount" column. Engineers have two main options:</p>
+<ol>
+<li>
+<p>Drop the record: If the data is too corrupt to be useful.</p>
+</li>
+<li>
+<p>Fix the error: Assign a logical value, such as the average sales amount for that day or assigning a missing pin code based on the location where the customer shops most frequently</p>
+</li>
+</ol>
+<blockquote>
+<p>--- <strong>Initial Load vs. Incremental Load</strong></p>
+</blockquote>
+<p>The loading process is generally categorized into two types:</p>
+<p>• Initial Load: This is a full load conducted only once before the Data Warehouse goes live. It extracts all necessary data from various source systems, applies transformations, and loads it into the DWH.</p>
+<p>• Incremental Load: To keep the DWH up-to-date, incremental loads are performed at regular intervals (daily, weekly, or monthly). These loads only capture the changes that occurred since the last load—for example, processing data changes between November 8th and November 9th. While the DWH is "non-volatile," it must periodically enter a "volatile" state during these load windows to accept new data</p>
+<blockquote>
+<p>--- <strong>Types of Data in Incremental Loads</strong></p>
+</blockquote>
+<p>Incremental loads handle three main types of data changes:</p>
+<p>• New Data: Records for new entities, such as a newly registered customer or a newly launched product.</p>
+<p>• Modified Data: Updates to existing records, such as an employee getting a promotion (role change) or a change in a product's price.</p>
+<p>• Deleted Data: Handling data that is no longer needed. In a DWH, data is often not physically deleted but is instead marked as "Inactive" (e.g., when an employee resigns). It may also involve removing very old data to maintain a specific historical window (e.g., keeping only the last 2 years)</p>
+<hr />
+<h2 id="datalake"><strong>DataLake</strong><a class="headerlink" href="#datalake" title="Permanent link">#</a></h2>
+<p>Data Lake is a storage repository, usually on a large scale, that holds a vast amount of raw data in its original, native format until it's needed. Unlike a traditional data warehouse, which stores data in a structured and often processed format, a data lake retains all data—structured, semi-structured, and unstructured—and does not require the schema to be defined before storing the data.</p>
+<p><img alt="Steps" src="../datalake.svg" /></p>
+<hr />
+<blockquote>
+<p>--- <strong><em>Here are some reasons why we need data lakes</em></strong></p>
+</blockquote>
+<ol>
+<li>Data Variety - Can store any type of data (structured, semi-structured, unstructured), accommodating the wide variety of data formats in big data.</li>
+<li>Scalability - Can handle massive volumes of data and quickly scale as data grows.</li>
+<li>Cost-Effective - Utilizes inexpensive, commodity hardware for storing large amounts of data.</li>
+<li>Data Exploration - Allows for exploratory data analysis, which is essential for data discovery and advanced analytics.</li>
+<li>Data Integration - Acts as a central hub for all organizational data, creating a unified data view.</li>
+<li>Real-time Processing - Supports both batch and real-time data processing, suitable for real-time analytics.</li>
+<li>Schema on Read - Doesn't require data modeling before storing, offering flexibility in data usage.</li>
+</ol>
+<hr />
+<h2 id="datamart"><strong>DataMart</strong><a class="headerlink" href="#datamart" title="Permanent link">#</a></h2>
+<p>A Data Mart is a subset of a data warehouse that is focused on a specific area of business, such as sales, marketing, finance, or HR. 
+Essentially, a data mart is a condensed version of a data warehouse that is tailored to fit the needs of a specific business unit or team.</p>
+<p><img alt="Steps" src="../datamart.svg" /></p>
+<hr />
+<blockquote>
+<p>--- <strong><em>Here are the reasons why we need data marts</em></strong></p>
+</blockquote>
+<ol>
+<li>Focused Business Insights - Since data marts focus on a specific area of business, they can provide more detailed and relevant insights for a specific department or team.</li>
+<li>Improved Performance - With less data to process, queries run faster in data marts, improving response times for users.</li>
+<li>Ease of Use - Data marts are simpler and more intuitive for end users because they only contain data relevant to a specific business area. Users don't need to sift through unrelated data, which makes their analysis faster and more efficient.</li>
+<li>Autonomy - By having their own data mart, a business unit can maintain control over their data, making decisions on data handling, and access based on their unique needs and priorities.</li>
+<li>Less Risk - With data marts, you can start small and grow over time. This approach reduces the risk and cost compared to implementing a full data warehouse at once.</li>
+<li>Increased Security - It's easier to secure data because data marts only hold a limited set of data. Therefore, even if a breach occurs, the amount of exposed data would be less compared to a full data warehouse.</li>
+</ol>
+<p>Despite these advantages, it's essential to ensure that data marts are well-coordinated within an organization to avoid issues like data duplication or data inconsistencies. Sometimes, an organization may choose a hybrid approach, having a central data warehouse for the entire organization, and then creating data marts for specific departments or functions.</p>
+<hr />
+<h2 id="data-modeling"><strong>Data Modeling</strong><a class="headerlink" href="#data-modeling" title="Permanent link">#</a></h2>
+<p>Data Modelling, on the other hand, is a specific part of the data warehouse design process. It involves creating a conceptual model of how data should be structured in the database.</p>
+<p>Data modeling typically consists of three levels: conceptual, logical, and physical. The conceptual model defines high-level entities and relationships, the logical model defines tables and attributes, and the physical model represents the actual database implementation including datatypes and indexes.</p>
+<table>
+<thead>
+<tr>
+<th>Data Model</th>
+<th>Real Life</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Conceptual</td>
+<td>Idea of house</td>
+</tr>
+<tr>
+<td>Logical</td>
+<td>House blueprint</td>
+</tr>
+<tr>
+<td>Physical</td>
+<td>Actual construction</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<blockquote>
+<p>--- <strong><em>Difference between Data Warehouse Design &amp; Data Modelling</em></strong></p>
+</blockquote>
+<p>Data Warehouse Design and Data Modelling are interrelated concepts in the field of data management, but they focus on different aspects. Here's a brief comparison -</p>
+<p>Data Warehouse Design refers to the process of creating a blueprint for the data warehouse system. It includes the decision-making and planning for -</p>
+<ol>
+<li>Data sources - Identifying the sources from where data will be pulled.</li>
+<li>Data transformation - Defining how data will be cleaned, transformed, and integrated.</li>
+<li>Data storage - Choosing the structure in which data will be stored, such as deciding between a normalized or denormalized schema, or choosing between different architectures like a Star Schema, Snowflake Schema, etc.</li>
+<li>Data retrieval - Planning for how data will be queried and retrieved, such as creating indexes, views, or OLAP cubes.</li>
+<li>Security and backup - Defining how the data will be secured, how privacy will be maintained, and how data will be backed up.</li>
+</ol>
+<hr />
+<blockquote>
+<p>--- <strong><em>FACT table</em></strong></p>
+</blockquote>
+<p>A Fact Table is a central component of a star schema or a snowflake schema in a dimensional modelling. It is the main table in a dimensional model, which holds the quantitative or measurable data that a business wishes to analyze.</p>
+<p>Fact tables typically contain two types of columns -</p>
+<ol>
+<li>Fact - These are the measurable, quantitative data points that are relevant to the business. They are usually numerical values that can be aggregated (like summed, averaged, etc.). Examples of facts could be 'Sales Amount', 'Quantity Sold', 'Profit', etc.</li>
+<li>Foreign Keys - These are the keys that connect the fact table to its associated dimension tables. These keys enable you to categorize your facts and look at them from different perspectives.</li>
+</ol>
+<p><img alt="Steps" src="../fact.svg" /></p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p>For instance, in a retail business scenario, a fact table might have a structure like this -</p>
+<p>In this case, 'Sales' and 'Quantity Sold' are the facts. 'Date Key', 'Product Key', and 'Store Key' are the foreign keys linking the fact table to the dimension tables for 'Date', 'Product', and 'Store', respectively. This design allows you to analyze your sales and quantities from different dimensions like time, product type, and location.</p>
+</div>
+<hr />
+<blockquote>
+<p>--- <strong><em>Dimension Table</em></strong></p>
+</blockquote>
+<p>The main purpose of a dimension table is to provide context and descriptive attributes for facts stored in the Fact Table in the same dimensional data model. This allows users to understand and interpret the quantitative values in the fact table.</p>
+<p>Characteristics of dimension tables include -</p>
+<ol>
+<li>Descriptive - Dimension tables store descriptive or textual data, often referred to as "attribute data." For example, the Product dimension table might include details like product name, product type, product category, etc.</li>
+<li>Granularity - The granularity of a dimension table is at the level of the individual instance. For instance, each row in a Product dimension table would represent a single product.</li>
+<li>Primary Key - Each dimension table has its own primary key, which is used to connect the dimension table with the fact table(s).</li>
+<li>Hierarchical - Dimensions often include a hierarchy of categories. For instance, a "Time" dimension might include fields for Year, Quarter, Month, and Day.</li>
+<li>Stability - While fact table data changes frequently, dimension table data is relatively stable. However, dimension tables can change in response to business changes, such as adding a new product or a new sales region.</li>
+</ol>
+<p><img alt="Steps" src="../dimension.svg" /></p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p>In this example, 'Store_ID' would be the primary key that connects this dimension table to the fact table, and the other columns ('Store_Name', 'Store_Type', 'Location') provide descriptive details about each store.</p>
+</div>
+<p>Dimension tables help in performing meaningful analysis of the fact data. They allow the business users to look at the data from various perspectives and help in slicing and dicing the fact data.</p>
+<blockquote>
+<p>--- <strong>The 4-Step Dimensional Design Process</strong></p>
+</blockquote>
+<ul>
+<li>Step 1: Select the Business Process</li>
+</ul>
+<p>The first step involves understanding the business domain—whether it is Retail, Real Estate, or Insurance. You must sit with stakeholders to identify the end goal of the analysis.</p>
+<p>What does the business do? What specific measurements do you want to analyze (e.g., sales price, patient behavior)?</p>
+<p>To analyze which products are selling, in which store, on which day, and under what promotional activity.</p>
+<ul>
+<li>Step 2: Declare the Grain</li>
+</ul>
+<p>The Grain is the level of detail stored in each record of the Fact table. It is one of the most critical decisions for a data modeler.</p>
+<p>It is recommended to capture data at the lowest possible (atomic) level. While this increases storage size because you have more records, it allows you to answer ad-hoc and unknown future questions.</p>
+<p>If you store data at an aggregated level (e.g., total sales per customer per day), you cannot later answer questions about specific products.</p>
+<ul>
+<li>Step 3: Identify Dimensions</li>
+</ul>
+<p>Dimensions provide the context (Who, What, When, Where) for the facts. Once the grain is correctly declared, identifying dimensions becomes much easier.</p>
+<p>They answer descriptive questions and provide the "context" for the measurements.</p>
+<ul>
+<li>Step 4: Identify the Facts</li>
+</ul>
+<p>Facts are the quantitative measurements resulting from the business process (e.g., Sales Quantity, Price). The selection of facts is directly dependent on the Grain you defined in Step 2</p>
+<blockquote>
+<p>--- <strong>Derived Facts vs. Database Views</strong></p>
+</blockquote>
+<p>A Derived Fact is a measurement calculated from other existing facts, such as Profit (Profit = Sale Price - Cost).</p>
+<p>• Storage Trade-off: Storing derived facts physically in a table increases the database size and storage costs.</p>
+<p>• Using Views: To save space, some modelers prefer using a View. A View is a virtual table that runs a query at runtime to calculate these values without storing them physically</p>
+<blockquote>
+<p>--- <strong>Types of Additive Facts</strong></p>
+</blockquote>
+<p>Additive facts are measurements that can be summed across any dimension associated with the Fact Table. These are the most common and useful facts for business analysis.</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p>Sales Amount. You can sum sales for a specific date, for a specific store, or for a specific product without generating a "nonsensical" result</p>
+</div>
+<p>Non-additive facts are measurements that cannot be summed along any dimension. Attempting to add these values results in a "nonsensical" or incorrect figure.</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p>Unit Price: If one soap costs ₹25 and another costs ₹60, saying the total unit price is ₹85 makes no sense.</p>
+<p>Temperature: If yesterday was 45°C and today is 28°C, they cannot be added to say the total temperature is 73°C.</p>
+<p>Profit Percentage: You cannot simply add percentages (e.g., 10% + 5%) to get a total</p>
+</div>
+<p>Semi-additive facts can be summed along some dimensions but not all. Typically, they can be added across dimensions like Store or Product, but cannot be added across the Time/Date dimension.</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p>Inventory (Quantity on Hand). Can Add (Store/Product): If Store A has 500 units and Store B has 200 units on Nov 25th, the total inventory for that day is 700.</p>
+<p>◦Cannot Add (Time): If you had 500 units on Monday and 400 on Tuesday, you cannot say you have 900 total units in the inventory; you simply have 400 units remaining</p>
+</div>
+<blockquote>
+<p>--- <strong>Types of Fact table</strong></p>
+</blockquote>
+<ul>
+<li>Transaction Fact Table</li>
+</ul>
+<p>This is the most common type of fact table. It captures data at the most granular level—the individual transaction or event.</p>
+<p>One Record per Transaction: Every time an event occurs (like a sale), a new row is added.</p>
+<p>Data Volume: These are typically the largest tables in a Data Warehouse, often containing billions or trillions of rows.</p>
+<p>Usage: Best for Point of Sales (POS) data, such as a pharmacy where every medicine sold in a prescription is captured as a separate line item.</p>
+<ul>
+<li>Periodic Snapshot Fact Table</li>
+</ul>
+<p>Instead of capturing every single movement, this table takes a "snapshot" of the data at a specific, regular interval (daily, weekly, or monthly).</p>
+<p>Time-Based Performance: It is used to track changes over time, similar to a "75-day hard challenge" where you take a photo every day to see progress.</p>
+<p>Best Use Case: Inventory Management. It tracks how many products are "on hand" at the end of each day.</p>
+<p>The Challenge (Data Explosion): This table grows extremely fast. If you have 1,000 stores and 10,000 products, you generate 10 million records every single day, even if the stock levels didn't change.</p>
+<p>Optimization: Companies often keep only the last 3 months of daily data and aggregate older data to save storage.    </p>
+<ul>
+<li>Accumulating Snapshot Fact Table</li>
+</ul>
+<p>This table is used to track a process that has a well-defined start and end point with multiple milestones in between.</p>
+<p>Single Record per Lifecycle: Unlike the other two, a record here is updated multiple times as it moves through different stages.</p>
+<p>Best Use Case: Order Fulfillment or Supply Chain. For example, an Amazon order: Order Placed <span class="arithmatex">\(\rightarrow\)</span> Picked <span class="arithmatex">\(\rightarrow\)</span> Shipped <span class="arithmatex">\(\rightarrow\)</span> Delivered.</p>
+<p>Lag Analysis: It is excellent for identifying "bottlenecks." By looking at the time difference between "Received" and "Inspected," managers can see where the process is slowing down.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Fact Table Type</th>
+<th style="text-align: left;">Record Frequency</th>
+<th style="text-align: left;">Data Action</th>
+<th style="text-align: left;">Primary Goal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Transaction</td>
+<td style="text-align: left;">One per event</td>
+<td style="text-align: left;">Insert Only</td>
+<td style="text-align: left;">Detail/History</td>
+</tr>
+<tr>
+<td style="text-align: left;">Periodic Snapshot</td>
+<td style="text-align: left;">One per interval</td>
+<td style="text-align: left;">Insert Only</td>
+<td style="text-align: left;">Performance over time</td>
+</tr>
+<tr>
+<td style="text-align: left;">Accumulating</td>
+<td style="text-align: left;">One per lifecycle</td>
+<td style="text-align: left;">Update multiple times</td>
+<td style="text-align: left;">Process/Lag analysis</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>--- <strong>What is a Factless Fact Table?</strong></p>
+</blockquote>
+<p>In a standard fact table, you have measurements—numbers like 200 (representing $200 or 200 items sold). A Factless Fact Table is a table that does not contain these traditional numerical measurements.</p>
+<p>• The Key Difference: In these tables, the entire record (row) itself is treated as the measurement or the "fact". It captures the occurrence of an event or a relationship between dimensions even if no numerical quantity is associated with it.</p>
+<blockquote>
+<p>--- <strong>Importance of the Date Dimension Table</strong></p>
+</blockquote>
+<p>A Date Dimension is unique because it is one of the few tables you can pre-calculate and populate for years into the future. While product tables require new products to exist before entry, a date table can be built today to cover the next 20 years.</p>
+<p>• Tracking Growth: It allows businesses to see how sales or products are performing over time (stagnant, growing, or declining).</p>
+<p>• Partitioning: Data in a Data Warehouse is often partitioned by date, which significantly improves query performance during joins.</p>
+<blockquote>
+<p>--- <strong>Determining Data Frequency</strong></p>
+</blockquote>
+<p>The "grain" or frequency of the records determines the table's size and utility.</p>
+<p>• Daily (Standard): 99% of use cases use one record per day. For 20 years of history, this is only ~7,300 records, making it a very manageable table.</p>
+<p>• Hourly: Used for specific high-velocity scenarios like an "Amazon Prime Day Sale" to track hourly roll-ups of sales. This results in ~175,200 records over 20 years.</p>
+<p>• Per Minute: This results in ~10 million records for 20 years, making it difficult to manage and rarely necessary.</p>
+<blockquote>
+<p>--- <strong>Table Structure and Schema</strong></p>
+</blockquote>
+<p>A robust Date Dimension contains more than just a date; it includes various attributes to simplify business reporting.</p>
+<blockquote>
+<p>--- <strong>Why Not Just Use SQL Date Functions?</strong></p>
+</blockquote>
+<p>A common question is why a separate table is needed if SQL functions like YEAR() or MONTH() can extract data from a timestamp.</p>
+<ol>
+<li>
+<p>Complexity and Errors: Calculating attributes on the fly is an expensive operation and prone to human error.</p>
+</li>
+<li>
+<p>Missing Attributes: Raw timestamps do not contain Holiday Indicators (which vary by company) or Fiscal Year/Month information needed for tax and financial reports.</p>
+</li>
+<li>
+<p>Performance: While joining is an expensive operation, fetching pre-calculated data from a small dimension table is often more efficient than performing complex calculations on billions of fact rows.</p>
+</li>
+</ol>
+<blockquote>
+<p>--- <strong>Design Best Practices: Clarity vs. Storage</strong></p>
+</blockquote>
+<p>When designing indicators (like Holiday or Weekday), there is a trade-off between storage and intuitiveness.</p>
+<p>• The Storage View: Using single-character codes (e.g., Y/N or W/E) saves space. For 20 years of data, using full words like "Holiday" instead of "Y" only adds about 65.6 KB of extra storage.</p>
+<p>• The Business Intelligence (BI) View: The end goal of a Data Warehouse is to support decision-making. Reports that explicitly say "Holiday" or "Non-Holiday" are much more intuitive for business users than codes.</p>
+<p>• The Verdict: Because the storage impact is negligible (~65 KB), it is better to store descriptive strings to make reports immediately readable without requiring the user to memorize codes</p>
+<ul>
+<li>The Product Dimension Table</li>
+</ul>
+<p>The primary goal of dimension modeling is to provide data in a way that is simple and accessible for decision-makers, BI analysts, and data scientists.</p>
+<p>Master Table: Managed by a specialized team, this table contains every product ever sold by the company (e.g., 50,000–60,000 records). Entries are never deleted from the master table, even if a product is discontinued, to maintain historical records.</p>
+<p>Active Products: Only a subset (e.g., 10,000) of these products are currently active and sold across various stores.</p>
+<p>Store-Level Fetching: Each store fetches only the product data it needs from the master table based on its specific location and ID. A product only appears in a Sales Transaction table if it is available in that specific store.</p>
+<p>A Product Dimension table includes descriptive columns that provide context for sales measurements.</p>
+<ul>
+<li>The Problem of Redundancy (Star Schema)</li>
+</ul>
+<p>In a Star Schema, all these attributes are stored in a single, flat dimension table. While simple, it leads to significant data redundancy.</p>
+<p>Example: If there are 50,000 products but only 20 departments, the value "Bakery" will be repeated roughly 2,500 times in the department column.</p>
+<p>Storage Issues: Storing detailed descriptions for departments or categories within the same table results in many redundant columns and massive storage waste.</p>
+<ul>
+<li>Snowflake Schema and One-to-Many Hierarchies</li>
+</ul>
+<p>The Snowflake Schema solves redundancy by breaking the flat dimension table into multiple related tables based on hierarchies.</p>
+<p>One-to-Many Hierarchy: One department contains many categories, and one category contains many sub-categories.</p>
+<p>Implementation: The main Product table stores a Foreign Key pointing to a sub-category table, which in turn points to a category table, and finally to a department table.</p>
+<ul>
+<li>Measurements in Dimension Tables</li>
+</ul>
+<p>Occasionally, a numerical measurement like Standard Price is stored in a dimension table.</p>
+<p>When to keep in Dimension: If the price is a fixed attribute that rarely changes and is only needed for occasional lookups.</p>
+<p>When to keep in Fact: If the measurement is used for continuous, heavy analysis (e.g., calculating potential revenue: <code>Standard Price  Quantity</code>), it should be stored in the Fact table for performance.</p>
+<ul>
+<li>Analytical Operations: Drill-down and Roll-up</li>
+</ul>
+<p>These terms describe how analysts change the level of detail (grain) in their reports.</p>
+<p>Drill-down (Roll-down): Moving from a high-level summary to a more detailed level by adding columns to the <code>GROUP BY</code> clause.
+   Example: Moving from "Department Sales" to "Sales by Brand within a Department".</p>
+<p>Roll-up (Drill-up): Aggregating data to a higher level of the hierarchy.
+   Example: Aggregating monthly data into quarterly or yearly summaries.</p>
+<p>By drilling down, a business might discover that while a department's sales are high, a specific brand within that department is underperforming, allowing for targeted improvements.</p>
+<blockquote>
+<p>--- <strong>Conformed Dimension</strong></p>
+</blockquote>
+<p>A Conformed Dimension is a single dimension table that is used across multiple fact tables in a Data Warehouse. </p>
+<p>Most Common Example: The Date Dimension table is the most frequent example because it is created once and reused for various fact tables, such as Retail Sales or Promotion Coverage.</p>
+<p>Advantage of Consistency: By using the exact same table (not a copy), you avoid redundant storage and confusion between teams. </p>
+<p>Standardization: It ensures that column names and meanings remain the same (e.g., using "Calendar Month" everywhere), which helps Business Intelligence (BI) tools maintain accurate and consistent levels for Drill-up and Drill-down operations.</p>
+<blockquote>
+<p>--- <strong>Role Playing Dimension</strong></p>
+</blockquote>
+<p>A Role Playing Dimension occurs when a single dimension table plays multiple "roles" within the same fact table. </p>
+<p>Example: In an Inventory Accumulating Fact Table, you might have three different date IDs: <code>Date_Received_ID</code>, <code>Date_Inspection_ID</code>, and <code>Last_Shipment_Date_ID</code>.</p>
+<p>Implementation via Views: Instead of creating physical copies of the date table, you create a View (a logical entity that uses no physical storage) for each role. This allows you to alias column names to match their specific roles (e.g., renaming <code>Date_Key</code> to <code>Order_Date_Key</code>).</p>
+<p>This method makes joins easier and ensures column names make sense for specific business use cases without wasting storage.</p>
+<hr />
+<blockquote>
+<p>--- <strong>Junk Dimension</strong></p>
+</blockquote>
+<p>A Junk Dimension is used to handle low-cardinality information (like "Yes/No" flags or status indicators) that would otherwise clutter a large fact table and waste storage.</p>
+<p>The Problem: If you have a 1-billion row fact table and store text like "Payment Mode" (Cash/Card/UPI) and "Promotion" (Yes/No) directly in it, you could waste billions of bytes of storage.</p>
+<p>The Solution: Instead of creating multiple tiny dimension tables for each flag, you merge all possible combinations into a single "Junk" dimension table.</p>
+<p>The Cartesian Product: The number of records in a junk dimension is the product of all flag options (e.g., 4 Payment Modes × 2 Promotion flags × 2 Commission flags = 16 total records).</p>
+<p>Before (Direct Storage): Storing flags as text strings might take 9 Billion bytes (9 GB) for a 1-billion row table.</p>
+<p>After (Junk Dimension): By replacing those strings with a single small integer ID pointing to a 16-row junk dimension, you only use approximately 2 Billion bytes (2 GB), saving 7 GB of storage while keeping the fact table concise.</p>
+<blockquote>
+<p>--- <strong>Slowly Changing Dimension (SCD)</strong></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Dimension Type</th>
+<th style="text-align: left;">Definition</th>
+<th style="text-align: left;">Key Benefit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Conformed</td>
+<td style="text-align: left;">One table used across multiple fact tables.</td>
+<td style="text-align: left;">Data consistency and standardized reporting.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Role Playing</td>
+<td style="text-align: left;">One table used multiple times in one fact table.</td>
+<td style="text-align: left;">Logical separation of identical data types (e.g., different dates).</td>
+</tr>
+<tr>
+<td style="text-align: left;">Junk</td>
+<td style="text-align: left;">One table merging multiple low-cardinality flags.</td>
+<td style="text-align: left;">Massive storage savings and cleaner fact tables.</td>
+</tr>
+<tr>
+<td style="text-align: left;">SCD</td>
+<td style="text-align: left;">A dimension that changes slowly over time.</td>
+<td style="text-align: left;">Tracks historical changes in data.</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>--- <strong>The Problem: Transactional Table Issues</strong></p>
+</blockquote>
+<p>In a raw transactional system, a single table often contains both context (customer names, product details) and measurements (sales quantity, date). </p>
+<p>Data Redundancy: Storing information like a customer's name ("Manish") every time they make a purchase leads to massive duplication.</p>
+<p>Costs: If there are 1 billion records, repeating the same descriptive data 1 billion times significantly increases storage costs and computation costs.</p>
+<p>Solution: Data modelers split these tables into a central Fact table (measurements) and surrounding Dimension tables (context).</p>
+<p>Conceptual SQL Example: From Transactional to Structured
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">-- RAW TRANSACTIONAL TABLE (Redundant)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="c1">-- Columns: Date, Product_Name, Product_Category, Customer_Name, Sales_Qty</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1">-- STEP 1: Split into Dimensions</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">dim_customer</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="k">DISTINCT</span><span class="w"> </span><span class="n">customer_id</span><span class="p">,</span><span class="w"> </span><span class="n">customer_name</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">raw_data</span><span class="p">;</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">dim_product</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="k">DISTINCT</span><span class="w"> </span><span class="n">product_id</span><span class="p">,</span><span class="w"> </span><span class="n">product_name</span><span class="p">,</span><span class="w"> </span><span class="n">category</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">raw_data</span><span class="p">;</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="c1">-- STEP 2: Create Fact Table (Compact)</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">fact_sales</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">date_id</span><span class="p">,</span><span class="w"> </span><span class="n">customer_id</span><span class="p">,</span><span class="w"> </span><span class="n">product_id</span><span class="p">,</span><span class="w"> </span><span class="n">sales_qty</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">raw_data</span><span class="p">;</span>
+</span></code></pre></div></p>
+<hr />
+<h2 id="primary-key-pk"><strong>Primary Key (PK)</strong><a class="headerlink" href="#primary-key-pk" title="Permanent link">#</a></h2>
+<p>A Primary Key is a column (or set of columns) that uniquely identifies a specific row in a table.</p>
+<p>Identification: In a raw product table, columns like Category or Sub-category may contain duplicate values (e.g., "Education" appearing multiple times) and cannot be primary keys. However, a Product ID (like 101, 102) is unique to each item and serves as the Primary Key.</p>
+<ul>
+<li>No Nulls: A Primary Key column cannot contain empty or null values.</li>
+<li>No Duplicates: Every entry must be unique; duplicate entries are strictly prohibited.</li>
+<li>Quantity: A table can have only one Primary Key.</li>
+<li>Format: It can be Numeric (e.g., 101) or Alpha-numeric (e.g., 101ABC).</li>
+</ul>
+<hr />
+<blockquote>
+<p>--- <strong>Transitioning from De-normalized to Normalized Tables</strong></p>
+</blockquote>
+<p>De-normalized Table: Contains repetitive text like "Education," "Kitchen," or "Grocery" across thousands of rows.</p>
+<p>Normalization Process: This involves splitting the large table into smaller, specialized tables (e.g., Category Table, Sub-category Table) and using ID references instead of repeating full text. </p>
+<p>Trade-off: While normalization saves storage, it requires multiple joins to retrieve the full information for a report.</p>
+<p>Conceptual Code Example: Splitting Tables
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1">-- DE-NORMALIZED (Redundant)</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="c1">-- Product_ID | Product_Name | Category_Name</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="c1">-- 101        | Book         | Education</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1">-- 102        | Pen          | Education</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="c1">-- NORMALIZED (Efficient)</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1">-- Table: Categories</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="c1">-- Cat_ID | Cat_Name</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="c1">-- 1      | Education</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="c1">-- Table: Products</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="c1">-- Product_ID | Product_Name | Cat_ID (Foreign Key)</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="c1">-- 101        | Book         | 1</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="c1">-- 102        | Pen          | 1</span>
+</span></code></pre></div></p>
+<hr />
+<h2 id="foreign-key-fk"><strong>Foreign Key (FK)</strong><a class="headerlink" href="#foreign-key-fk" title="Permanent link">#</a></h2>
+<p>A Foreign Key is essentially a Primary Key from another table that is used in the current table to establish a relationship.</p>
+<p>Function: It links tables together. For example, a <code>Category_ID</code> in the Product table "points" to the Primary Key of the Category table to identify which category a product belongs to.
+   Core Features:
+       Null Values: Unlike Primary Keys, Foreign Keys can have null values if the information is missing.
+       Duplicates: They can have duplicate values (e.g., many products belonging to the same Category ID).
+       Relationship: They are used to fetch details through Joins.</p>
+<hr />
+<h2 id="composite-key"><strong>Composite Key</strong><a class="headerlink" href="#composite-key" title="Permanent link">#</a></h2>
+<p>A Composite Key is used when a single column is not enough to uniquely identify a record in a table.</p>
+<p>Requirement: In scenarios where multiple rows share the same ID but have different attributes (like price), one column alone fails the uniqueness test.</p>
+<p>Definition: It is a combination of two or more columns that together create a unique identifier for a row.</p>
+<p>Example: If "Pressure Cooker" has the same Product ID for both 2-liter and 5-liter versions, you might combine Product ID + Price to uniquely identify each specific product record.</p>
+<p>Conceptual Code Example: Composite Key
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1">-- Neither Product_ID nor Price is unique on its own</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c1">-- Product_ID | Product_Name     | Price</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1">-- 501        | Pressure Cooker  | 1000</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1">-- 501        | Pressure Cooker  | 1500</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="c1">-- COMPOSITE KEY = (Product_ID + Price)</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1">-- Together, they uniquely identify the 2L vs 5L version.</span>
+</span></code></pre></div></p>
+<blockquote>
+<p>--- <strong>Summary Table</strong></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Feature</th>
+<th style="text-align: left;">Primary Key</th>
+<th style="text-align: left;">Foreign Key</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Uniqueness</td>
+<td style="text-align: left;">Must be unique</td>
+<td style="text-align: left;">Can be duplicate</td>
+</tr>
+<tr>
+<td style="text-align: left;">Nulls</td>
+<td style="text-align: left;">Not allowed</td>
+<td style="text-align: left;">Allowed</td>
+</tr>
+<tr>
+<td style="text-align: left;">Purpose</td>
+<td style="text-align: left;">Identify a row</td>
+<td style="text-align: left;">Link tables/establish relationships</td>
+</tr>
+<tr>
+<td style="text-align: left;">Limit</td>
+<td style="text-align: left;">One per table</td>
+<td style="text-align: left;">Multiple allowed per table</td>
+</tr>
+</tbody>
+</table>
+<h2 id="natural-key-business-key"><strong>Natural Key (Business Key)</strong><a class="headerlink" href="#natural-key-business-key" title="Permanent link">#</a></h2>
+<p>A Natural Key is an identifier that is derived directly from business values and carries specific meaning,. </p>
+<p>Structure: It often combines multiple attributes to create a code. For example, a product key might be <code>SG4025</code>, which decodes to SG (Sugar), 40 (Price: ₹40/kg), and 25 (Expiry Year: 2025).</p>
+<p>Pharmacy Example: In the pharmaceutical industry, a natural key might combine the drug name (e.g., Paracetamol), dosage (500mg), batch number, and manufacturing location into one long string.</p>
+<p>Usage: It is often used in transactional systems to help business users identify records quickly.</p>
+<p>Conceptual Code Example (SQL):
+In a transactional system, a natural key might be stored as a string:
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1">-- Creating a table using a Natural Key (Business Key)</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">sales_source</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="n">product_business_key</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span><span class="w"> </span><span class="c1">-- e.g., &#39;SG4025&#39;</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="n">quantity</span><span class="w"> </span><span class="nb">INT</span><span class="p">,</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="n">customer_id</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="w"> </span><span class="c1">-- e.g., &#39;MANI1234&#39;</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="p">);</span>
+</span></code></pre></div></p>
+<blockquote>
+<p>--- <strong>Problems with Natural Keys in a DWH</strong></p>
+</blockquote>
+<p>While natural keys work in simple systems, they present several challenges in a Data Warehouse environment:</p>
+<ol>
+<li>Violation of Uniqueness: If a customer’s address changes, a new record might be created. If the natural key is based on their name and phone number (which haven't changed), the Primary Key constraint is violated because the same key now points to two different address records,.</li>
+<li>Merging Systems: When two companies merge (e.g., Reliance and Big Bazaar), they may have different logic for generating natural keys, or they might have overlapping IDs, leading to duplicates when the data is combined,.</li>
+<li>Storage Inefficiency: Natural keys are often long Alpha-numeric strings. Since these keys must be stored in the Fact Table as Foreign Keys, they waste significant storage space (bytes) and degrade query performance,.</li>
+<li>Indexing: Indexing on long strings is much slower and more difficult than indexing on integers,.</li>
+</ol>
+<hr />
+<h2 id="surrogate-key"><strong>Surrogate Key</strong><a class="headerlink" href="#surrogate-key" title="Permanent link">#</a></h2>
+<p>A Surrogate Key is an artificial, numeric identifier generated within the Data Warehouse to act as the Primary Key for a dimension table.</p>
+<p>Characteristics:
+    Numeric and Incremental: It is usually an auto-generated integer (1, 2, 3, etc.),.
+    No Business Meaning: Unlike a natural key, it carries no information about the product or customer; it is just a unique identifier for that specific row.
+    Guaranteed Uniqueness: Because the Data Warehouse generates it, uniqueness is guaranteed even if source systems change or merge,.
+    Internal Use: It is applied in the Fact and Dimension tables but is not used in transactional (source) systems.</p>
+<p>Conceptual Code Example (SQL):
+A Surrogate Key is typically an auto-incrementing integer:
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1">-- Adding a Surrogate Key to a Dimension Table</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">dim_product</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="n">product_sk</span><span class="w"> </span><span class="nb">INT</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span><span class="w"> </span><span class="c1">-- Surrogate Key (Auto-increment)</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="n">product_business_key</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span><span class="w"> </span><span class="c1">-- The original natural key</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="n">product_name</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">    </span><span class="n">is_active</span><span class="w"> </span><span class="nb">BIT</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="p">);</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="c1">-- Fact Table uses the small INT Surrogate Key as a Foreign Key</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">fact_sales</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">    </span><span class="n">sales_id</span><span class="w"> </span><span class="nb">INT</span><span class="p">,</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">    </span><span class="n">product_sk</span><span class="w"> </span><span class="nb">INT</span><span class="p">,</span><span class="w"> </span><span class="c1">-- Foreign Key to Dimension</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">    </span><span class="n">sales_amount</span><span class="w"> </span><span class="nb">DECIMAL</span><span class="p">,</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">    </span><span class="k">FOREIGN</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="n">product_sk</span><span class="p">)</span><span class="w"> </span><span class="k">REFERENCES</span><span class="w"> </span><span class="n">dim_product</span><span class="p">(</span><span class="n">product_sk</span><span class="p">)</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="p">);</span>
+</span></code></pre></div></p>
+<hr />
+<blockquote>
+<p>--- <strong>Summary Comparison</strong></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Feature</th>
+<th style="text-align: left;">Natural Key (Business Key)</th>
+<th style="text-align: left;">Surrogate Key</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Origin</td>
+<td style="text-align: left;">Source/Transactional System</td>
+<td style="text-align: left;">Data Warehouse (Internal)</td>
+</tr>
+<tr>
+<td style="text-align: left;">Format</td>
+<td style="text-align: left;">Often Alpha-numeric strings</td>
+<td style="text-align: left;">Always Numeric (Integers)</td>
+</tr>
+<tr>
+<td style="text-align: left;">Business Meaning</td>
+<td style="text-align: left;">Yes (e.g., Price/Expiry in key)</td>
+<td style="text-align: left;">No business meaning</td>
+</tr>
+<tr>
+<td style="text-align: left;">Uniqueness</td>
+<td style="text-align: left;">May be violated during merges/updates,</td>
+<td style="text-align: left;">Guaranteed unique (auto-generated)</td>
+</tr>
+<tr>
+<td style="text-align: left;">Performance</td>
+<td style="text-align: left;">Slower joins/indexing due to size</td>
+<td style="text-align: left;">Faster joins/indexing</td>
+</tr>
+<tr>
+<td style="text-align: left;">Storage</td>
+<td style="text-align: left;">High (more bytes per record)</td>
+<td style="text-align: left;">Low (compact integers)</td>
+</tr>
+</tbody>
+</table>
+<p>Surrogate keys are essential for handling Slowly Changing Dimensions (SCD) Type 2, where historical changes must be tracked without breaking relationships between tables.</p>
+<p><strong>------------------------------------------------------------------------------------------------------------</strong></p>
+<h2 id="star-schema"><strong>Star Schema</strong><a class="headerlink" href="#star-schema" title="Permanent link">#</a></h2>
+<p>The Star Schema is a simple yet powerful database architecture used in data warehousing and business intelligence reporting. The star schema gets its name from the physical model's resemblance to a star shape with a fact table in the middle surrounded by dimension tables.</p>
+<p><img alt="Steps" src="../starschema.svg" /></p>
+<ol>
+<li>Fact Table - At the center of the star schema is the fact table. This table contains the quantitative or measurable data (the "facts") that the business wants to analyze. For example, in a retail business, the fact table might store transaction data like units sold and total sales. Fact tables often contain a large number of rows, reflecting the detailed level of data they store.</li>
+<li>Dimension Tables - Surrounding the fact table are dimension tables. These tables contain descriptive data that provide context to the facts. For example, in the retail business scenario, the dimension tables might include information on products, customers, stores, and dates. Each row in a dimension table represents a unique instance of that dimension, like a specific product or a specific store.</li>
+<li>Schema Layout - In a star schema, each dimension table is directly connected to the fact table via a foreign key relationship. The fact table includes a foreign key for each dimension table that it's linked to. These foreign keys enable the joining of the fact table with dimension tables.</li>
+<li>Simplicity - The star schema is denormalized, which means it does not strictly enforce certain data integrity rules that are required in a normalized database design. This denormalization simplifies the database design and makes it easier to write and run queries.</li>
+<li>Performance - The star schema is designed for efficient data retrieval and is the standard schema for a reason. The simple, predictable queries, reduced number of tables, and minimized joins make it ideal for handling complex business queries and aggregations.</li>
+</ol>
+<p><strong>------------------------------------------------------------------------------------------------------------</strong></p>
+<h2 id="snowflake-schema"><strong>Snowflake Schema</strong><a class="headerlink" href="#snowflake-schema" title="Permanent link">#</a></h2>
+<p><img alt="Steps" src="../snowflake.svg" /></p>
+<p>The Snowflake Schema is a type of database schema that is used in data warehousing. It's a variant of the star schema, but with additional levels of complexity due to further normalization of the dimension tables. It's called a "snowflake" schema because its diagram resembles a snowflake with spokelike arms branching out from a center.</p>
+<ol>
+<li>Fact Table - Similar to the star schema, the snowflake schema also consists of a central fact table which contains the business data (facts) that are being analyzed. This could include things like sales amounts, quantities, and so forth.</li>
+<li>Normalized Dimension Tables - In the snowflake schema, the dimension tables are normalized. This means that the data in the dimension tables is split or segregated into additional tables. For example, instead of having a single "Product" table that includes all product-related information, you might have a main "Product" table linked to separate tables for "Product Category" and "Product Manufacturer". This normalization reduces data redundancy.</li>
+<li>Schema Layout - In a snowflake schema, the fact table is at the center with multiple branching dimension tables, which can have other tables branching off of them. This multi-level relationship between the fact table and dimension tables gives the schema its snowflake-like appearance.</li>
+<li>Query Complexity - Due to the additional level of normalization, queries in snowflake schemas can become more complex as they may involve more tables and joins. This might lead to longer query times, but it can also lead to more efficient storage.</li>
+<li>Storage Efficiency - One of the main advantages of the snowflake schema is the reduction in storage required due to the normalization of dimension tables. This can also lead to improved data integrity as it helps to eliminate redundancy and inconsistencies.</li>
+</ol>
+<p><strong>------------------------------------------------------------------------------------------------------------</strong></p>
+<h2 id="galaxy-schema"><strong>Galaxy Schema</strong><a class="headerlink" href="#galaxy-schema" title="Permanent link">#</a></h2>
+<p><img alt="Steps" src="../galaxyschema.svg" /></p>
+<p>A Galaxy Schema, also known as a Fact Constellation Schema, is a complex type of schema used in data warehouse environments. It extends the concepts of the Star and Snowflake schemas by allowing multiple fact tables to share dimension tables.</p>
+<ol>
+<li>Multiple Fact Tables - Unlike the star and snowflake schemas, which have a single fact table, a galaxy schema can have multiple fact tables. Each fact table in a galaxy schema represents a different business process or event.</li>
+<li>Shared Dimension Tables - The dimension tables in a galaxy schema are often shared among fact tables. This makes it possible to analyze facts from different fact tables across shared dimensions.</li>
+<li>Schema Layout - The galaxy schema looks like multiple star or snowflake schemas combined, where the fact tables form the center of each star or snowflake, and the dimension tables branch out from there. The shared dimensions form the intersecting points between these multiple stars or snowflakes.</li>
+<li>Complexity - Galaxy schemas are typically more complex than star or snowflake schemas. They involve more tables, more relationships, and more complex queries. However, they also offer more analytical capabilities due to the ability to compare and analyze multiple facts across shared dimensions.</li>
+<li>Flexibility - One of the main advantages of the galaxy schema is its flexibility. It allows for complex analyses and queries across multiple business processes or events. This can be particularly useful in large organizations with complex data needs.</li>
+</ol>
+<p><strong>------------------------------------------------------------------------------------------------------------</strong></p>
+<h2 id="scd"><strong>SCD</strong><a class="headerlink" href="#scd" title="Permanent link">#</a></h2>
+<p>SCD stands for Slowly Changing Dimensions, which are a common concept in Data Warehousing, Business Intelligence, and data modeling. These dimensions are the aspects of the business that can change over time, but not at a high frequency, hence "slowly changing."</p>
+<blockquote>
+<p>--- <strong><em>SCD Type 1 (Overwrite)</em></strong></p>
+</blockquote>
+<p>In this type, when changes occur in attribute values, the old values are overwritten with new ones. No history is kept in this scenario, only the current state is stored. This approach is typically used for minor or correctional changes where tracking the history is not important.</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p>Let's take an example of a customer dimension where the customer's address is an attribute. If a customer changes their address, in a Type 1 SCD, the new address would simply replace the old address in the customer dimension table.</p>
+</div>
+<hr />
+<blockquote>
+<p>--- <strong><em>SCD Type 2 (Add a new row)</em></strong></p>
+</blockquote>
+<p>This type is used when it is necessary to maintain a full history of data changes. When changes occur, instead of updating the existing records, a new row is added with the new values, and the original record is marked as inactive or retained with a flag indicating that it is the old version.</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p>In the same customer dimension example, if the customer changes their address and we are using a Type 2 SCD, a new row would be added for the customer with the new address, and the old address row would be marked as inactive or have a flag indicating it's an old version. This way, we have a complete history of all addresses the customer has had over time.</p>
+</div>
+<hr />
+<blockquote>
+<p>--- <strong><em>SCD Type 3 (Add a new column)</em></strong></p>
+</blockquote>
+<p>In this type, when changes occur, a new column is added to the table to track the changes. This is generally used when we are only interested in maintaining the current value and the immediate previous value.</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p>In the customer dimension example, if the customer changes their address and we are using a Type 3 SCD, a new column would be added (e.g., "Previous_Address") to store the old address, and the "Address" column would be updated with the new address. This method allows us to see the current and previous address but doesn't keep a full history of all addresses.</p>
+</div>
+<hr />
+<blockquote>
+<p>---<strong><em>SCD Type 4 (Using History Table)</em></strong></p>
+</blockquote>
+<p>This method involves the use of a separate history table to track the changes. When a change happens, the current table (dimension table) gets updated, and the old record gets pushed into the history table. This method keeps the dimension table lightweight but provides full historical context in the separate table.</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p>If a customer changes their address in a Type 4 SCD setup, the customer's current address in the main customer table would be updated with the new address, and the old address would be stored in a separate customer address history table.</p>
+</div>
+<hr />
+<blockquote>
+<p>--- <strong><em>SCD Type 6 (Combination of Type 1, 2, and 3)</em></strong> </p>
+</blockquote>
+<p>Also known as a hybrid method, this combines elements of Type 1, Type 2, and Type 3 SCDs. This method usually holds one or more current attributes (Type 1), one or more historical attributes (Type 2), and may include a "previous value" column for specific attributes (Type 3).</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p>If a customer changes their address in a Type 6 SCD setup, a new row would be added with the new address (like Type 2), and the old row may be kept as it is or updated in a Type 1 style for certain attributes. Additionally, there might be a column in the new row capturing the previous address (like Type 3).</p>
+</div>
+<p>Please note that Type 4 and Type 6 are less commonly used due to their complexity, but they do provide additional options for handling changes over time in a data warehouse environment. The decision on which type to use depends on the specific needs of your business and the resources available for managing the data warehouse.</p>
+<hr />
+<blockquote>
+<p>--- <strong><em>Slowly Changing Dimensions (SCD) – Raw Examples</em></strong></p>
+</blockquote>
+<p>Sample Source Data</p>
+<p>Customer C001 changes address on 2024-06-01</p>
+<table>
+<thead>
+<tr>
+<th>customer_id</th>
+<th>name</th>
+<th>address</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C001</td>
+<td>Rahul</td>
+<td>Mumbai</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<blockquote>
+<p>---  <strong><em>SCD Type 1 – Overwrite (No History)</em></strong></p>
+</blockquote>
+<p>Dimension Table (customer_dim)</p>
+<table>
+<thead>
+<tr>
+<th>customer_id</th>
+<th>name</th>
+<th>address</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C001</td>
+<td>Rahul</td>
+<td>Pune</td>
+</tr>
+</tbody>
+</table>
+<p>Old value (Mumbai) is overwritten
+ No history maintained</p>
+<hr />
+<blockquote>
+<p>---  <strong><em>SCD Type 2 – Add New Row (Full History)</em></strong></p>
+</blockquote>
+<p>Dimension Table (customer_dim)</p>
+<table>
+<thead>
+<tr>
+<th>surrogate_key</th>
+<th>customer_id</th>
+<th>name</th>
+<th>address</th>
+<th>start_date</th>
+<th>end_date</th>
+<th>is_active</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>101</td>
+<td>C001</td>
+<td>Rahul</td>
+<td>Mumbai</td>
+<td>2022-01-01</td>
+<td>2024-05-31</td>
+<td>N</td>
+</tr>
+<tr>
+<td>102</td>
+<td>C001</td>
+<td>Rahul</td>
+<td>Pune</td>
+<td>2024-06-01</td>
+<td>9999-12-31</td>
+<td>Y</td>
+</tr>
+</tbody>
+</table>
+<p>Full history maintained
+ Time-based analysis possible</p>
+<hr />
+<blockquote>
+<p>---  <strong><em>SCD Type 3 – Add New Column (Limited History)</em></strong></p>
+</blockquote>
+<p>Dimension Table (customer_dim)</p>
+<table>
+<thead>
+<tr>
+<th>customer_id</th>
+<th>name</th>
+<th>current_address</th>
+<th>previous_address</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C001</td>
+<td>Rahul</td>
+<td>Pune</td>
+<td>Mumbai</td>
+</tr>
+</tbody>
+</table>
+<p>Only current + previous value
+ No complete historical tracking</p>
+<hr />
+<blockquote>
+<p>---  <strong><em>SCD Type 4 – History Table</em></strong></p>
+<p>--- Current Dimension Table (customer_dim)</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>customer_id</th>
+<th>name</th>
+<th>address</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C001</td>
+<td>Rahul</td>
+<td>Pune</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>--- History Table (customer_address_history)</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>customer_id</th>
+<th>address</th>
+<th>change_date</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C001</td>
+<td>Mumbai</td>
+<td>2024-05-31</td>
+</tr>
+</tbody>
+</table>
+<p>Dimension table remains small
+ Full history stored separately</p>
+<hr />
+<blockquote>
+<p>---  <strong><em>SCD Type 6 – Hybrid (Type 1 + 2 + 3)</em></strong></p>
+</blockquote>
+<p>Dimension Table (customer_dim)</p>
+<table>
+<thead>
+<tr>
+<th>surrogate_key</th>
+<th>customer_id</th>
+<th>name</th>
+<th>current_address</th>
+<th>previous_address</th>
+<th>start_date</th>
+<th>end_date</th>
+<th>is_active</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>201</td>
+<td>C001</td>
+<td>Rahul</td>
+<td>Mumbai</td>
+<td>NULL</td>
+<td>2022-01-01</td>
+<td>2024-05-31</td>
+<td>N</td>
+</tr>
+<tr>
+<td>202</td>
+<td>C001</td>
+<td>Rahul</td>
+<td>Pune</td>
+<td>Mumbai</td>
+<td>2024-06-01</td>
+<td>9999-12-31</td>
+<td>Y</td>
+</tr>
+</tbody>
+</table>
+<p>Type 2 → New row
+ Type 3 → Previous address column
+ Type 1 → Non-historical attributes can be overwritten</p>
+<hr />
+<blockquote>
+<p>---  <strong><em>Summary Table</em></strong></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>SCD Type</th>
+<th>History</th>
+<th>Technique</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Type 1</td>
+<td>No</td>
+<td>Overwrite</td>
+</tr>
+<tr>
+<td>Type 2</td>
+<td>Full</td>
+<td>New rows</td>
+</tr>
+<tr>
+<td>Type 3</td>
+<td>Limited</td>
+<td>New column</td>
+</tr>
+<tr>
+<td>Type 4</td>
+<td>Full</td>
+<td>History table</td>
+</tr>
+<tr>
+<td>Type 6</td>
+<td>Full + Quick Access</td>
+<td>Hybrid</td>
+</tr>
+</tbody>
+</table>
+<h2 id="types-of-databases"><strong>Types of Databases</strong><a class="headerlink" href="#types-of-databases" title="Permanent link">#</a></h2>
+<p><img alt="Types of Databases" src="../tod.svg" /></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../../airflow/dataorchestration/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Data Orchestration">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Data Orchestration
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../../DataEngineering/fileformat/" class="md-footer__link md-footer__link--next" aria-label="Next: File Formats">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                File Formats
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 Manishkumar Chetpalli.  This website is maintained for personal learning and documentation purposes. Content is inspired by various public resources and original authors.
+
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://www.linkedin.com/in/manishkumarchetpalli/" target="_blank" rel="noopener" title="www.linkedin.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/manish-chet" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.annotation", "content.code.copy", "content.tooltips", "content.tabs.link", "navigation.tabs", "navigation.tabs.sticky", "navigation.path", "navigation.top", "navigation.footer", "navigation.indexes", "navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.instant.preview", "navigation.tracking", "navigation.path", "navigation.sections", "navigation.instant", "search.highlight", "search.suggest", "search.share", "navigation.footer", "content.action.feedback", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

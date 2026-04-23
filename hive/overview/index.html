@@ -1,0 +1,2502 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for Data Engineering and Big Data Technologies">
+      
+      
+        <meta name="author" content="Manishkumar Chetpalli">
+      
+      
+        <link rel="canonical" href="https://manishchetpalli.github.io/hive/overview/">
+      
+      
+        <link rel="prev" href="../../hadoop/yarn/">
+      
+      
+        <link rel="next" href="../../airflow/airflow/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/sqldeveloper-original.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Apache Hive - DEwithManish</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="pink">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#hive-architecture" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="DEwithManish" class="md-header__button md-logo" aria-label="DEwithManish" data-md-component="logo">
+      
+  <img src="../../assets/images/sqldeveloper-original.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            DEwithManish
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Apache Hive
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="pink"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="light-green"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/manishchetpalli/DataEngineeringNotes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    AnalyticsWithManish
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../projects/flink-ignite/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Projects/Setup
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../DataEngineering/DE/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Fundamentals
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../hadoop/HDFS/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Big Data
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../cloud/aws/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Cloud computing
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../about/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  About Me
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="DEwithManish" class="md-nav__button md-logo" aria-label="DEwithManish" data-md-component="logo">
+      
+  <img src="../../assets/images/sqldeveloper-original.svg" alt="logo">
+
+    </a>
+    DEwithManish
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/manishchetpalli/DataEngineeringNotes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    AnalyticsWithManish
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Projects/Setup
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Projects/Setup
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../projects/flink-ignite/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flink Ignite Custom Dialect
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../projects/kafkaapi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FastAPI Kafka Producer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tooling/airflow_install_onpremise/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Airflow Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tooling/igniteinstall/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ignite Multi Node Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tooling/kafka_install_zookeeper/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kafka Multi Node Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tooling/kubernetes_install/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kubernetes Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tooling/spark3standalone/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sparkstandalone Multi Node
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tooling/sparkkube/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Spark on Kubernetes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tooling/flinkonk8/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flink on Kubernetes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tooling/spark23yarn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multiple Spark version on YARN
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fundamentals
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Fundamentals
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DataEngineering/DE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DataEngineering/DEcycle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DE Lifecycle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DataEngineering/DEundercurrent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DE UnderCurrents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DataEngineering/DesigningGDA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DE Architecture & Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../airflow/dataorchestration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Orchestration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../datawarehousing/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Warehousing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DataEngineering/fileformat/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File Formats
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hadoop/kerberos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kerberos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Big Data
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Big Data
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hadoop/HDFS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache Hadoop
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hadoop/mapreduce/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache MapReduce
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hadoop/yarn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache Yarn
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache Hive
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache Hive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#hive-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hive Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hive-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hive Services
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hive-query-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hive Query Flow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Storage
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#serde-in-hive" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SerDe in Hive
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#file-formats-in-hive-with-serde-library" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        File formats in Hive with SerDe Library
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#partitioning-in-hive" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Partitioning in Hive
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bucketing-in-hive" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bucketing in Hive
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#primary-key-in-hive" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Primary key in Hive
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../airflow/airflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache Airflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../spark/intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache Spark
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kafka/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache Kafka
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../flink/flink/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache Flink
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ignite/ignite/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache Ignite
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../iceberg/iceberg/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache Iceberg
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cloud computing
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Cloud computing
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/aws/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AWS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/databricks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Databricks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About Me
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#hive-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hive Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hive-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hive Services
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hive-query-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hive Query Flow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Storage
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#serde-in-hive" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SerDe in Hive
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#file-formats-in-hive-with-serde-library" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        File formats in Hive with SerDe Library
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#partitioning-in-hive" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Partitioning in Hive
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bucketing-in-hive" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bucketing in Hive
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#primary-key-in-hive" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Primary key in Hive
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../../hadoop/HDFS/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Big Data
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+  <h1>Apache Hive</h1>
+
+<p>Apache Hive is an open source data warehouse system built on top of Hadoop HA used for querying and analyzing large datasets stored in Hadoop files.</p>
+<p>Initially, you have to write complex Map-Reduce jobs, but now with the help of the Hive, you just need to submit merely SQL queries. Hive is mainly targeted towards users who are comfortable with SQL.
+Hive use language called HiveQL (HQL), which is similar to SQL. HiveQL automatically translates SQL-like queries into MapReduce jobs.</p>
+<p>Hive abstracts the complexity of Hadoop. The main thing to notice is that there is no need to learn java for Hive.
+The Hive generally runs on your workstation and converts your SQL query into a series of jobs for execution on a Hadoop cluster. Apache Hive organizes data into tables. This provides a means for attaching the structure to data stored in HDFS.</p>
+<h2 id="hive-architecture"><strong>Hive Architecture</strong><a class="headerlink" href="#hive-architecture" title="Permanent link">#</a></h2>
+<p><img alt="Steps" src="../hive.svg" /></p>
+<p>The major components of Apache Hive are:</p>
+<blockquote>
+<p>--- <strong>Hive Client</strong></p>
+</blockquote>
+<ul>
+<li>
+<p>Thrift Client: The Hive server is based on Apache Thrift so that it can serve the request from a thrift client.</p>
+</li>
+<li>
+<p>JDBC Client: Hive allows for the Java applications to connect to it using the JDBC driver. JDBC driver uses Thrift to communicate with the Hive Server.</p>
+</li>
+<li>
+<p>ODBC Client: Hive ODBC driver allows applications based on the ODBC protocol to connect to Hive. Similar to the JDBC driver, the ODBC driver uses Thrift to communicate with the Hive Server.</p>
+</li>
+</ul>
+<h2 id="hive-services"><strong>Hive Services</strong><a class="headerlink" href="#hive-services" title="Permanent link">#</a></h2>
+<ul>
+<li>
+<p>Beeline: The Beeline is a command shell supported by HiveServer2, where the user can submit its queries and command to the system. It is a JDBC client that is based on SQLLINE CLI (pure Java-console-based utility for connecting with relational databases and executing SQL queries).</p>
+</li>
+<li>
+<p>Hive Server 2 : HiveServer2 is the successor of HiveServer1. HiveServer2 enables clients to execute queries against the Hive. It allows multiple clients to submit requests to Hive and retrieve the final results. It is basically designed to provide the best support for open API clients like JDBC and ODBC. Note: Hive server1, also called a Thrift server, is built on Apache Thrift protocol to handle the cross-platform communication with Hive. It allows different client applications to submit requests to Hive and retrieve the final results. It does not handle concurrent requests from more than one client due to which it was replaced by HiveServer2.</p>
+</li>
+<li>
+<p>Hive Driver: The Hive driver receives the HiveQL statements submitted by the user through the command shell. It creates the session handles for the query and sends the query to the compiler.</p>
+</li>
+<li>
+<p>Hive Compiler: Hive compiler parses the query. It performs semantic analysis and type-checking on the different query blocks and query expressions by using the metadata stored in metastore and generates an execution plan. The execution plan created by the compiler is the DAG(Directed Acyclic Graph), where each stage is a map/reduce job, operation on HDFS, a metadata operation.</p>
+</li>
+<li>
+<p>Optimizer: Optimizer performs the transformation operations on the execution plan and splits the task to improve efficiency and scalability.</p>
+</li>
+<li>
+<p>Execution Engine: Execution engine, after the compilation and optimization steps, executes the execution plan created by the compiler in order of their dependencies using Hadoop.</p>
+</li>
+<li>
+<p>Metastore: Metastore is a central repository that stores the metadata information about the structure of tables and partitions, including column and column type information. It also stores information of serializer and deserializer, required for the read/write operation, and HDFS files where data is stored. This metastore is generally a relational database. Metastore provides a Thrift interface for querying and manipulating Hive metadata.</p>
+<p>We can configure metastore in any of the two modes:</p>
+<ol>
+<li>
+<p>Remote: In remote mode, metastore is a Thrift service and is useful for non-Java applications.</p>
+</li>
+<li>
+<p>Embedded: In embedded mode, the client can directly interact with the metastore using JDBC.</p>
+</li>
+</ol>
+</li>
+</ul>
+<h2 id="hive-query-flow"><strong>Hive Query Flow</strong><a class="headerlink" href="#hive-query-flow" title="Permanent link">#</a></h2>
+<p><img alt="Steps" src="../hiveqf.svg" /></p>
+<ul>
+<li>
+<p>execututeQuery: Command Line or Web UI sends the query to the Driver (any Hive interface like database driver JDBC, ODBC, etc.) to execute the query.</p>
+</li>
+<li>
+<p>getPlan: The driver takes the help of the query compiler which parses the query to check the syntax and the query plan or the requirement of the query.</p>
+</li>
+<li>
+<p>getMetaData: The compiler sends a metadata request to the Metastore (any database).</p>
+</li>
+<li>
+<p>sendMetaData: Metastore sends the metadata to the compiler in response.</p>
+</li>
+<li>
+<p>sendPlan: The compiler checks the requirement and resends the plan to the driver. The parsing and compiling of a query is complete.</p>
+</li>
+<li>
+<p>executePlan: The driver sends the executing plan to the execution engine.</p>
+<ol>
+<li>
+<p>metaDataOps (On Hive): Meanwhile in execution, the execution engine can execute metadata operations with Metastore.</p>
+</li>
+<li>
+<p>executeJob (on Hadoop): Internally, the process of execution job is a MapReduce job. The execution engine sends the job to JobTracker, which is in the Name node and it assigns this job to TaskTracker, which is in the Data node. Here, the query executes MapReduce job.</p>
+</li>
+<li>
+<p>job done: After the map-reduce process in Hadoop is finished, it sends a message that the process is finished here</p>
+</li>
+<li>
+<p>dfsOperations: DFS operations using the client’s reported user and group permissions and worked between Execution Engine and NameNode</p>
+</li>
+</ol>
+</li>
+<li>
+<p>fetchResults: The driver sends the results to Hive Interfaces.</p>
+</li>
+<li>
+<p>sendResults: The execution engine sends those resultant values to the driver.</p>
+</li>
+<li>
+<p>fetchResults: The driver sends the results to HDFS.</p>
+</li>
+</ul>
+<h2 id="data-storage"><strong>Data Storage</strong><a class="headerlink" href="#data-storage" title="Permanent link">#</a></h2>
+<blockquote>
+<p>--- <strong>Plain Text Storage</strong></p>
+</blockquote>
+<p>In plain text data storage, data is stored as readable characters.
+For example, consider the number 12345. In plain text, it's stored as the characters '1', '2', '3', '4', and '5'.
+Each character typically uses 1 byte of memory (in ASCII), or 2 bytes (in UTF-16), so this number would use 5 to 10 bytes of memory.
+The advantage of plain text storage is that it's human-readable and easy to interpret without any conversion.
+The disadvantage is that it's not space-efficient. Larger numbers or data types other than integers (like floating-point numbers) will use more space.</p>
+<blockquote>
+<p>--- <strong>Byte (Binary) Data Storage</strong></p>
+</blockquote>
+<p>In byte (or binary) data storage, data is stored as binary values, not as readable characters. Each byte consists of 8 bits, and each bit can be either 0 or 1.
+Using our previous example, the number 12345 can be represented in binary format as 11000000111001, which is 14 bits or 2 bytes (with 6 unused bits). In a more memory-optimized format, it could use only the necessary 14 bits.
+The advantage of binary storage is that it's very space-efficient. Each type of data (integer, float, etc.) has a standard size, regardless of its value.
+The disadvantage is that binary data is not human-readable. You need to know the type of data and how it's encoded to convert it back to a readable format.</p>
+<h2 id="serde-in-hive"><strong>SerDe in Hive</strong><a class="headerlink" href="#serde-in-hive" title="Permanent link">#</a></h2>
+<p>SerDe stands for Serializer/Deserializer.
+It's a crucial component of Hive used for IO operations, specifically for reading and writing data.
+It helps Hive to read data in custom formats and translate it into a format Hive can process
+(deserialization) and vice versa (serialization).</p>
+<p>Role of SerDe in Hive:</p>
+<ol>
+<li>
+<p>When reading data from a table (input to Hive), deserialization is performed by the SerDe.</p>
+</li>
+<li>
+<p>When writing data to a table (output from Hive), serialization is performed by the SerDe.</p>
+</li>
+</ol>
+<p>Serialization - Process of converting an object in memory into bytes that can be stored in a file or transmitted over a network.</p>
+<p>Deserialization - Process of converting the bytes back into an object in memory.</p>
+<p>“A select statement creates deserialized data(columns) that is understood by Hive. An insert statement creates serialized data(files) that can be stored into an external storage like HDFS”.</p>
+<p>In any table definition, there are two important sections. The “Row Format” describes the libraries used to convert a given row into columns. The “Stored as” describes the InputFormat and OutputFormat libraries used by map-reduce to read and write to HDFS files.</p>
+<p><img alt="Steps" src="../hiveserde.svg" /></p>
+<h2 id="file-formats-in-hive-with-serde-library"><strong>File formats in Hive with SerDe Library</strong><a class="headerlink" href="#file-formats-in-hive-with-serde-library" title="Permanent link">#</a></h2>
+<ul>
+<li>
+<p>Textfile </p>
+<p>This is the default file format.
+Each line in the text file is a record. Hive uses the LazySimpleSerDe for serialization and deserialization.
+It's easy to use but doesn't provide good compression or the ability to skip over not-needed columns during read.</p>
+</li>
+<li>
+<p>JSON</p>
+<p>Hive supports reading and writing JSON format data.
+Note that JSON files typically do not have a splittable structure, which can affect performance as only one mapper can read the data when not splittable.</p>
+</li>
+<li>
+<p>CSV</p>
+<p>CSV is a simple, human-readable file format used to store tabular data. Columns are separated by commas, and rows by new lines.
+CSV files can be read and written in Hive using the</p>
+<p>CSV lacks a splittable structure, which may affect performance due to limited parallel processing.</p>
+</li>
+<li>
+<p>ORCFile (Optimized Row Columnar File)</p>
+<p>Introduced by Hortonworks, ORC is a highly efficient way to store Hive data.
+It provides efficient compression and encoding schemes with enhanced performance to handle complex data types.</p>
+<p>Built for the Hive query engine, ORC is a columnar storage format that allows Hive to read, write, and process data faster.
+It allows for efficient compression, which saves storage space, and adds improvements in the speed of data retrieval, making it suitable for performing high-speed queries.
+It stores collections of rows, not individual rows.
+Each file consists of row index, column statistics, and stripes (a row of data consisting of several rows) that contain the column data.</p>
+<p>Supports complex types: Structs, Lists, Maps, and Unions. Also supports advanced features like bloom filters and indexing. A bloom filter is a data structure that can identify whether an element might be present in a set, or is definitely not present. In the context of ORC, bloom filters can help skip unnecessary reads when performing a lookup on a particular column value.</p>
+<p>An ORC file contains groups of row data called stripes, along with auxiliary information in a file footer. At the end of the file a postscript holds compression parameters and the size of the compressed footer.
+The default stripe size is 250 MB. Large stripe sizes enable large, efficient reads from HDFS.
+The file footer contains a list of stripes in the file, the number of rows per stripe, and each column's data type. It also contains column-level aggregates count, min, max, and sum.</p>
+<p><img alt="Steps" src="../orc.svg" /></p>
+<p>Strip structure:
+As shown in the diagram, each stripe in an ORC file holds index data, row data, and a stripe footer.
+ORC organizes data for each column into streams, the stripe footer records the location and size of these streams within the stripe. This allows the reader to locate and access specific parts of the stripe efficiently.
+Row data is used in table scans.
+Index data includes min and max values for each column and the row positions within each column. Row index entries provide offsets that enable seeking to the right compression block and byte within a decompressed block.  Note that ORC indexes are used only for the selection of stripes and row groups and not for answering queries.</p>
+</li>
+<li>
+<p>Parquet</p>
+<p>Columnar storage format, available to any project in the Hadoop ecosystem.
+It's designed to bring efficient columnar storage of data compared to row-based like CSV or TSV files.</p>
+<p>It is columnar in nature and designed to bring efficient columnar storage of data.
+Provides efficient data compression and encoding schemes with enhanced performance to handle complex data in comparison to row-based files like CSV.</p>
+<p>Schema evolution is handled in the file metadata allowing compatible schema evolution.
+It supports all data types, including nested ones, and integrates well with flat data, semi-structured data, and nested data sources.</p>
+<p>Parquet is considered a de-facto standard for storing data nowadays</p>
+<p>Data compression – by applying various encoding and compression algorithms, Parquet file provides reduced memory consumption</p>
+<p>Columnar storage – this is of paramount importance in analytic workloads, where fast data read operation is the key requirement. But, more on that later in the article…</p>
+<p>Language agnostic – as already mentioned previously, developers may use different programming languages to manipulate the data in the Parquet file</p>
+<p>Open-source format – meaning, you are not locked with a specific vendor</p>
+<p>Support for complex data types</p>
+<p>In traditional, row-based storage, the data is stored as a sequence of rows. Something like this:</p>
+<p><img alt="Steps" src="../parquetnew.svg" /></p>
+<p>Parquet is a columnar format that stores the data in row groups!
+Wait, what?! Wasn’t it enough complicated even before this? Don’t worry, it’s much easier than it sounds:)
+Let’s go back to our previous example and depict how Parquet will store this same chunk of data:</p>
+<p>Let’s stop for a moment and understand above diagram, as this is exactly the structure of the Parquet file (some additional things were intentionally omitted, but we will come soon to explain that as well). Columns are still stored as separate units, but Parquet introduces additional structures, called Row group.</p>
+<p>Why is this additional structure super important?</p>
+<p>In OLAP scenarios, we are mainly concerned with two concepts: projection and predicate(s). Projection refers to a SELECT statement in SQL language – which columns are needed by the query. Back to our previous example, we need only the Product and Country columns, so the engine can skip scanning the remaining ones.</p>
+<p>Predicate(s) refer to the WHERE clause in SQL language – which rows satisfy criteria defined in the query. In our case, we are interested in T-Shirts only, so the engine can completely skip scanning Row group 2, where all the values in the Product column equal socks!</p>
+<p>This means, every Parquet file contains “data about data” – information such as minimum and maximum values in the specific column within the certain row group. Furthermore, every Parquet file contains a footer, which keeps the information about the format version, schema information, column metadata, and so on.</p>
+<p><img alt="Steps" src="../parformat.svg" /></p>
+</li>
+<li>
+<p>AVRO</p>
+<p>It's a row-oriented format that is highly splittable.
+It also supports schema evolution - you can have Avro data files where each file has a different schema but all are part of the same table.</p>
+<ul>
+<li>
+<p>Schema-Based: 
+    Avro uses a schema to define the structure of the data. The schema is written in JSON and is included in the serialized data, allowing data to be self-describing and ensuring that the reader can understand the data structure without external information.</p>
+</li>
+<li>
+<p>Compact and Fast: 
+    Avro data is serialized in a compact binary format, which makes it highly efficient in terms of both storage and transmission.</p>
+</li>
+<li>
+<p>Compression: 
+    Avro supports various compression codes such as Snappy, Deflate, Bzip2, Xz</p>
+</li>
+<li>
+<p>Schema Evolution: 
+    Avro supports schema evolution, allowing the schema to change over time without breaking compatibility with old data. This is particularly useful in big data environments where data structures might evolve.</p>
+</li>
+<li>
+<p>Rich Data Structures: 
+    Avro supports complex data types, including nested records, arrays, maps, and unions, allowing for flexible and powerful data modelling.</p>
+</li>
+<li>
+<p>Interoperability: 
+    Avro is designed to work seamlessly with other big data tools and frameworks, especially within the Hadoop ecosystem, such as Apache Hive, Apache Pig, and Apache Spark.</p>
+</li>
+<li>
+<p>Language Agnostic: 
+    Avro has libraries for many programming languages, including Java, C, C++, Python, and more, enabling cross-language data exchange.</p>
+</li>
+</ul>
+<p><img alt="Steps" src="../avro.svg" /></p>
+</li>
+</ul>
+<blockquote>
+<p>--- <strong>ORC vs Parquet vs AVRO</strong></p>
+</blockquote>
+<p><img alt="Steps" src="../diff.svg" />  </p>
+<blockquote>
+<p>--- <strong>How to decide which file format to choose?</strong></p>
+</blockquote>
+<ul>
+<li>
+<p>Columnar vs Row-based: Columnar storage like Parquet and ORC is efficient for read-heavy workloads and is especially effective for queries that only access a small subset of total columns, as it allows skipping over non-relevant data quickly. Row-based storage like Avro is typically better for write-heavy workloads and for queries that access many or all columns of a table, as all of the data in a row is located next to each other.</p>
+</li>
+<li>
+<p>Schema Evolution: If your data schema may change over time, Avro is a solid choice because of its support for schema evolution. Avro stores the schema and the data together, allowing you to add or remove fields over time. Parquet and ORC also support schema evolution, but with some limitations compared to Avro.</p>
+</li>
+<li>
+<p>Compression: Parquet and ORC, being columnar file formats, allow for better compression and improved query performance as data of the same type is stored together. Avro also supports compression but being a row-based format, it might not be as efficient as Parquet or ORC.</p>
+</li>
+<li>
+<p>Splittability: When compressed, splittable file formats can still be divided into smaller parts and processed in parallel. Parquet, ORC, and Avro are all splittable, even when compressed.</p>
+</li>
+<li>
+<p>Complex Types and Nested Data: If your data includes complex nested structures, then Parquet is a good choice because it provides efficient encoding and compression of nested data.</p>
+</li>
+</ul>
+<h2 id="partitioning-in-hive"><strong>Partitioning in Hive</strong><a class="headerlink" href="#partitioning-in-hive" title="Permanent link">#</a></h2>
+<p>Apache Hive organizes tables into partitions. Partitioning is a way of dividing a table into related parts based on the values of particular columns like date, city, and department.</p>
+<p>Each table in the hive can have one or more partition keys to identify a particular partition. Using partition it is easy to do queries on slices of the data.</p>
+<p><img alt="Steps" src="../parti.svg" />  </p>
+<blockquote>
+<p>--- <strong>Why is partitioning important?</strong></p>
+</blockquote>
+<ol>
+<li>Speeds Up Data Query: Partitioning reduces data search space for queries, speeding up data retrieval.</li>
+<li>Reduces I/O Operations: Only relevant data partitions are scanned, reducing unnecessary I/O operations.</li>
+<li>Improves Query Performance: By limiting data read, partitioning boosts query performance.</li>
+<li>Saves Resources: Querying only relevant partitions uses fewer computational resources.</li>
+<li>Manages Large Data Sets: Helps handle large datasets by dividing them into smaller, manageable parts.</li>
+<li>Filter Data Efficiently: Speeds up queries that commonly filter by certain columns.</li>
+<li>Enables Scalability: As data grows, new partitions can be added without degradation in performance.</li>
+<li>Data Management and Archiving: Makes it easier to archive or delete data based on time or other attributes.</li>
+</ol>
+<blockquote>
+<p>--- <strong>Types of Partitioning</strong></p>
+</blockquote>
+<ul>
+<li>
+<p><strong>Static Partitioning</strong></p>
+<ol>
+<li>Insert input data files individually into a partition table is Static Partition.</li>
+<li>Usually when loading files (big files) into Hive tables static partitions are preferred.</li>
+<li>Static Partition saves your time in loading data compared to dynamic partition.</li>
+<li>You “statically” add a partition in the table and move the file into the partition of the table.</li>
+<li>We can alter the partition in the static partition.</li>
+<li>Static partition is the default partition strategy in hive</li>
+<li>Static partition is in Strict Mode.</li>
+<li>You should use where clause to use limit in the static partition.</li>
+<li>You can perform Static partition on Hive Manage table or External table.</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Syntax to load data in Static Partitioned Table</p>
+<p>LOAD DATA INPATH '/hdfs/path/to/datafile' INTO TABLE employees PARTITION (year='2023');</p>
+<p>OR</p>
+<p>INSERT OVERWRITE TABLE employees PARTITION (year='2023') SELECT name, age FROM emp_data WHERE year = '2023';</p>
+</div>
+</li>
+<li>
+<p><strong>Dynamic Partitioning</strong></p>
+<ol>
+<li>Single insert to partition table is known as a dynamic partition.</li>
+<li>Usually, dynamic partition loads the data from the non-partitioned table.</li>
+<li>Dynamic Partition takes more time in loading data compared to static partition.</li>
+<li>When you have large data stored in a table then the Dynamic partition is suitable.</li>
+<li>If you want to partition a number of columns but you don’t know how many columns then also dynamic partition is suitable.</li>
+<li>Dynamic partition there is no required where clause to use limit.</li>
+<li>We can’t perform alter on the Dynamic partition.</li>
+<li>You can perform dynamic partition on hive external table and managed table.</li>
+<li>If you want to use the Dynamic partition in the hive then the mode is in non-strict mode.
+    SET hive.exec.dynamic.partition = true;
+    SET hive.exec.dynamic.partition.mode = nonstrict;</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Syntax to load data in Dynamic Partitioned Table</p>
+<p>INSERT OVERWRITE TABLE employees PARTITION (year) SELECT name, age, year FROM emp_data</p>
+</div>
+</li>
+</ul>
+<h2 id="bucketing-in-hive"><strong>Bucketing in Hive</strong><a class="headerlink" href="#bucketing-in-hive" title="Permanent link">#</a></h2>
+<p><img alt="Steps" src="../bucket.svg" />  </p>
+<p>You’ve seen that partitioning gives results by segregating HIVE table data into multiple files only when there is a limited number of partitions, what if partitioning the tables results in a large number of partitions. This is where the concept of bucketing comes in.
+When a column has a high cardinality, we can’t perform partitioning on it. A very high number of partitions will generate too many Hadoop files which would increase the load on the node. That’s because the node will have to keep the metadata of every partition, and that would affect the performance of that node
+In simple words, You can use bucketing if you need to run queries on columns that have huge data, which makes it difficult to create partitions.</p>
+<ol>
+<li>The concept of bucketing is based on the hashing technique.</li>
+<li>modules of current column value and the number of required buckets is calculated (let say, F(x) % 3).</li>
+<li>Based on the resulted value, the data stored into the corresponding bucket.</li>
+<li>The Records with the same bucketed column stored in the same bucket</li>
+<li>This function requires you to use the Clustered By clause to divide a table into buckets.</li>
+</ol>
+<p><img alt="Steps" src="../buc.svg" /> </p>
+<blockquote>
+<p>--- <strong>Difference between Partitioning and Bucketing</strong></p>
+</blockquote>
+<p><img alt="Steps" src="../diffpb.svg" /> </p>
+<p>Partitioning and bucketing are not dependent on each other, but they can be used together to improve query performance and data management. They serve different purposes and can coexist to complement each other. </p>
+<p>Using partitioning and bucketing together allows Hive to prune data at the partition level and further organize data within a partition by distributing it into buckets.</p>
+<blockquote>
+<p>--- <strong>Benefits of partitioning</strong></p>
+</blockquote>
+<ol>
+<li>Filtering: If queries often filter data based on a certain column, partitioning on that column can significantly reduce the amount of data read, thus improving performance. For example, if a table is partitioned by date and queries frequently request data from a specific date, partitioning can speed up these queries.</li>
+<li>Aggregation: If you're aggregating data based on the partition column, partitioning can optimize these operations by reducing the amount of data Hive needs to read.</li>
+<li>Data Management: Partitioning helps manage and organize data better. It can be useful for removing or archiving data efficiently. For example, you can quickly drop a partition to delete data for a specific date. </li>
+</ol>
+<blockquote>
+<p>--- <strong>Benefits of bucketing</strong></p>
+</blockquote>
+<ol>
+<li>Sampling: Bucketing allows efficient sampling of data. Since each bucket essentially represents a sample of data, you can quickly get a sample by querying a single bucket.</li>
+<li>Join Operations: Bucketing can be used to perform more efficient map-side joins when joining on the bucketed column. If two tables are bucketed on the join columns and are of similar size, Hive can perform a bucketed map join, which is much faster than a regular join.</li>
+<li>Handling Skew: If data is skewed (i.e., some values appear very frequently), bucketing can distribute the data more evenly across files, improving query performance.</li>
+</ol>
+<h2 id="primary-key-in-hive"><strong>Primary key in Hive</strong><a class="headerlink" href="#primary-key-in-hive" title="Permanent link">#</a></h2>
+<p>Apache Hive does not enforce primary key constraints natively like traditional RDBMS systems do. Hive is designed to operate on large datasets using a distributed computing approach, which is fundamentally different from how relational databases manage data.
+However, from Hive 2.1.0 onwards, there is support for defining primary keys during table creation for informational purposes, but they are not enforced by Hive itself.</p>
+<blockquote>
+<p>--- <strong>Map Side Join (Broadcast Join) in Hive</strong></p>
+</blockquote>
+<p>A Map Side Join (also known as Map Join) is an optimized version of the join operation in Hive, where one table is small enough to fit into memory. This smaller table (also known as the dimension table) is loaded into memory, and the larger table (also known as the fact table) is read line by line. Because the join operation occurs at the map phase and doesn't need a reduce phase, it's much faster than a traditional join operation.</p>
+<p>To use a Map Join, the following properties need to be set:</p>
+<ol>
+<li>hive.auto.convert.join: This property should be set to true. It allows Hive to automatically convert a common join into a Map Join based on the sizes of the tables.</li>
+<li>hive.mapjoin.smalltable.filesize: This property sets the maximum size for the small table that can be loaded into memory. If the size of the table exceeds the value set by this property, Hive won't perform a Map Join. The default value is 25000000 bytes (approximately 25MB).
+    SET hive.auto.convert.join=true;
+    SET hive.mapjoin.smalltable.filesize=50000000;  // setting limit to 50MB</li>
+</ol>
+<p>Also, keep in mind that if your join operation includes more than two tables, the table in the last position of the FROM clause is considered the large table (fact table), and the other tables are considered small tables 
+(dimension tables). This matters because Hive attempts to perform the Map Join operation using the last table as the fact table.</p>
+<blockquote>
+<p>--- <strong>Bucket Map Join in Hive</strong></p>
+</blockquote>
+<p>A Bucket Map Join is an optimization of a Map Join in Hive where both tables are bucketed on the join columns. Instead of loading the entire small table into memory as done in a standard Map Join, the Bucket Map Join only needs to load the relevant bucket from the small table into memory, reducing memory usage and potentially allowing larger tables to be used in a Map Join.</p>
+<p>To perform a Bucket Map Join, the following conditions need to be satisfied:</p>
+<p>Both tables should be bucketed on the join column.The number of buckets in the large table should be a multiple of the number of buckets in the small table.</p>
+<p>To enable Bucket Map Joins, the following properties need to be set:</p>
+<ol>
+<li>hive.auto.convert.join: This property should be set to true. It allows Hive to automatically convert a common join into a Map Join based on the sizes of the tables.</li>
+<li>hive.optimize.bucketmapjoin: This property should be set to true to allow Hive to convert common joins into Bucket Map Joins when possible.
+    SET hive.auto.convert.join=true;
+    SET hive.optimize.bucketmapjoin=true;</li>
+</ol>
+<blockquote>
+<p>--- <strong>Sorted Merge Bucket Join in Hive</strong></p>
+</blockquote>
+<p>A Sorted Merge Bucket (SMB) Join in Hive is an optimization for bucketed tables where not only are the tables bucketed on the join column, but also sorted on the join column. This is similar to the bucket map join, but SMB join does not require one table to fit into memory, making it more scalable.</p>
+<p>For a Sorted Merge Bucket Join, the following conditions need to be satisfied:</p>
+<ol>
+<li>Both tables should be bucketed and sorted on the join column.</li>
+<li>Both tables should have the same number of buckets.</li>
+</ol>
+<p>When these conditions are satisfied, each mapper can read a bucket from each table at a time and perform the join, significantly reducing the disk I/O operations.</p>
+<p>To enable SMB Joins, the following properties need to be set:</p>
+<ol>
+<li>hive.auto.convert.sortmerge.join: This property should be set to true. It allows Hive to automatically convert common joins into Sorted Merge Bucket Joins when possible.</li>
+<li>hive.optimize.bucketmapjoin.sortedmerge: This property should be set to true to allow Hive to perform a SMB Join.</li>
+</ol>
+<blockquote>
+<p>--- <strong>Skew Join in Hive</strong></p>
+</blockquote>
+<p>A Skew Join in Hive is an optimization technique for handling skewed data, where some values appear very frequently compared to others in the dataset. In a typical MapReduce job, skewed data can lead to a few reducers taking much longer to complete than others because they process a majority of the data. This can negatively impact the overall performance of the join.</p>
+<p>A Skew Join in Hive tries to handle this problem by performing the join in two stages:</p>
+<ol>
+<li>In the first stage, Hive identifies the skewed keys and processes all the non-skewed keys.</li>
+<li>In the second stage, Hive processes the skewed keys. The skewed keys are partitioned into different reducers based on a hash function, thus reducing the burden on a single reducer.</li>
+</ol>
+<p>To perform a Skew Join, the following conditions need to be satisfied:</p>
+<ol>
+<li>The join should be a two-table join. Currently, Hive does not support multi-table skew joins.</li>
+<li>There should be skew in key distribution. If the key distribution is uniform, a skew join may not provide any advantage and can be less efficient than a regular join.</li>
+</ol>
+<p>To enable Skew Joins, the following properties need to be set:</p>
+<ol>
+<li>hive.optimize.skewjoin: This property should be set to true. It enables the skew join optimization.</li>
+<li>hive.skewjoin.key: This property sets the minimum number of rows for a key to be considered skewed. The default value is 10000.</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../../hadoop/yarn/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Apache Yarn">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Apache Yarn
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../../airflow/airflow/" class="md-footer__link md-footer__link--next" aria-label="Next: Apache Airflow">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Apache Airflow
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 Manishkumar Chetpalli.  This website is maintained for personal learning and documentation purposes. Content is inspired by various public resources and original authors.
+
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://www.linkedin.com/in/manishkumarchetpalli/" target="_blank" rel="noopener" title="www.linkedin.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/manish-chet" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.annotation", "content.code.copy", "content.tooltips", "content.tabs.link", "navigation.tabs", "navigation.tabs.sticky", "navigation.path", "navigation.top", "navigation.footer", "navigation.indexes", "navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.instant.preview", "navigation.tracking", "navigation.path", "navigation.sections", "navigation.instant", "search.highlight", "search.suggest", "search.share", "navigation.footer", "content.action.feedback", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
