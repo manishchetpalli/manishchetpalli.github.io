@@ -1496,3 +1496,52 @@ This crucial Kafka property determines which of the two options (durability or a
     ● Watchdog for stuck consumers
     ● Try/catch with logging around deserialization
     ● Switched to cooperative-sticky assignor
+
+
+!!!- "PRODUCER PIPELINE DESIGN"
+    “I design Kafka producers focusing on reliability, throughput, and partitioning strategy.”
+
+    Step 1: Event Design (VERY IMPORTANT)
+    Define clear schema (JSON/Avro/Protobuf)
+    Step 2: Topic & Partition Strategy
+    Ensures ordering of events per order
+    Avoids cross-partition inconsistency
+    Step 3: Reliability Config (CRITICAL)
+    Producer configs:
+    acks=all
+    retries=3
+    enable.idempotence=true
+    Step 4: Throughput Optimization
+    batch.size=32KB
+    linger.ms=5-10ms
+    compression.type=snappy
+    Step 5: Failure Handling
+    Retry logic with backoff
+    Dead Letter Queue (DLQ) topic for failures
+    Step 6: Schema Management
+    Use Confluent Schema Registry
+
+
+!!!- "CONSUMER PIPELINE DESIGN"
+    “I design Kafka consumers focusing on scalability, fault tolerance, and exactly-once/at-least-once guarantees.”
+
+    Step 1: Consumer Group Design
+    Use consumer groups for parallelism
+    Partitions = upper limit of parallelism
+    Step 2: Offset Management
+    enable.auto.commit=false
+    Step 3: Idempotent Processing (CRITICAL)
+    To handle duplicates:
+    Use primary key (order_id/event_id)
+    Store processed IDs (DB/cache)
+    Step 4: Handling Failures
+    Retry logic
+    Send failed records to DLQ
+    Step 5: Lag Monitoring
+    Monitor consumer lag via:
+    Kafka metrics
+    tools like Burrow
+    Step 6: Rebalancing Safety
+    Use:
+    max.poll.interval.ms
+    session.timeout.ms

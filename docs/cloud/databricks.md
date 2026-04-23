@@ -325,6 +325,17 @@ Checkpointing is a fault-tolerance mechanism that allows a query to recover from
 - Write-Ahead Logs (WAL) and Checkpointing helps provide Fault Tolerance
 - Idempotent Sinks enables exactly once guarantees
 
+## **Compute Selection**
+
+| **VM Category**       | **Workload Type / Use Cases**                                                                                                            |
+| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| **Memory Optimized**  | - Machine Learning (ML) workloads<br>- Workloads with heavy shuffle and disk spills<br>- When Spark caching is required                  |
+| **Compute Optimized** | - Structured Streaming jobs<br>- ELT workloads with full data scans and no reuse<br>- Running Delta commands like `OPTIMIZE` and Z-order |
+| **Storage Optimized** | - Leveraging Delta caching<br>- ML and Deep Learning (DL) workloads with data caching<br>- Ad hoc and interactive data analysis          |
+| **GPU Optimized**     | - ML and DL workloads with exceptionally high memory requirements                                                                        |
+| **General Purpose**   | - Default choice when no specific requirement exists<br>- Running Delta command like `VACUUM`                                            |
+
+
 ## **Auto Loader**
 
 >--- **Traditional streaming issues**
@@ -355,6 +366,34 @@ customers_df = spark.readStream
 .option("cloudFiles.schemaEvolutionMode", "addNewColumns")
  .load("/Volumes/gizmobox/landing/operational_data/customers_stream")
 ```
+
+Auto Loader detects the addition of new columns as it processes your data. When Auto Loader detects a new column, the stream stops with an UnknownFieldException. Before your stream throws this error, Auto Loader performs schema inference on the latest micro-batch of data and updates the schema location with the latest schema by merging new columns to the end of the schema. The data types of existing columns remain unchanged.
+
+Databricks recommends configuring Auto Loader streams with Lakeflow Jobs to restart automatically after such schema changes.
+
+Auto Loader supports the following modes for schema evolution, which you set in the cloudFiles.schemaEvolutionMode option:
+
+| **Mode**                          | **Behavior on Reading New Columns**                                                                                                                                     |
+| --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **addNewColumns (default)**       | Stream fails. New columns are added to the schema. Existing columns do not evolve data types.                                                                           |
+| **rescue**                        | Schema is not evolved and the stream does not fail. All new columns are captured in the *rescued data* column.                                                          |
+| **failOnNewColumns**              | Stream fails and does not restart unless you update the schema or remove the problematic data file.                                                                     |
+| **none**                          | Schema is not evolved. New columns are ignored. Data is not rescued unless `rescuedDataColumn` is set. Stream does not fail.                                            |
+| **addNewColumnsWithTypeWidening** | Stream fails. New columns are added, and supported data type changes are widened. Unsupported changes (e.g., `int` → `string`) are captured in the rescued data column. |
+
+
+>--- **What is the rescued data column?**
+
+When Auto Loader infers the schema, Auto Loader automatically adds a rescued data column to your schema as _rescued_data. You can rename the column or include it when you provide a schema by setting the rescuedDataColumn option.
+
+The rescued data column ensures that Auto Loader rescues columns that don't match the schema instead of dropping them. The rescued data column contains any data that isn't parsed for the following reasons:
+
+The column is missing from the schema.
+
+- Type mismatches.
+- Case mismatches.
+
+The rescued data column contains a JSON blob with the rescued columns and the source file path of the record.
 
 ## **Databricks Git Folders/repos**
 
@@ -1064,6 +1103,10 @@ While highly effective at preventing small files, Optimize Write introduces a no
 Therefore, Optimize Write is generally viewed as a very good solution for optimizing for the small file problem, but users must consider the added shuffle overhead. The source demonstrated this, showing that a query operation ran much quicker (1.82 seconds) on a table created with Optimize Write compared to a table created using traditional, small-file-generating methods (6.97 seconds).
 
 
+Always run OPTIMIZE command on a separate job cluster and not as part of the job itself; otherwise, it might impact the corresponding job’s SLA
+
+Compute-optimized instance family is recommended for the OPTIMIZE command as it’s a compute-intensive operation
+
 ## **Vacuum**
 
 The `VACUUM` command in Delta Lake is a crucial optimization technique used for managing the physical storage of data files associated with a Delta table.
@@ -1163,9 +1206,7 @@ Running `OPTIMIZE ZORDER BY [columns]` leads to significant performance improvem
 
 Z-Ordering can be applied incrementally and selectively, particularly when dealing with Hive-style partitions (e.g., partitioning by date). If a table is partitioned (e.g., by `invoice date`), you can use a predicate or `WHERE` condition to apply Z-Ordering only to specific, recently updated partitions (e.g., `OPTIMIZE ... WHERE category = 'fruit'`). This means the expensive Z-Ordering operation is only performed on the small subset of new data, rather than the entire table.
 
-
 Z-Ordering is like organizing a massive library collection not just by author (which is like partitioning) but also simultaneously by subject, genre, and length, so that when a reader asks for "short sci-fi books from 2020," the librarian (the query engine) only needs to walk to one aisle and look at two shelves, instead of checking every aisle and every shelf just in case a relevant book overlapped into that section.
-
 
 ## **Liquid Clustering**
 
@@ -1274,11 +1315,12 @@ It handles both streaming and batch workloads with minimal manual intervention.
 
 By default, records violating constraints will be kept.
 
-| Action         | SQL Syntax                          | Python Syntax                                |
-| ------------------ | --------------------------------------- | ------------------------------------------------ |
-| Warn (Default) | `EXPECT (...)`                          | `dp.expect` <br> `dp.expect_all`                 |
-| Drop           | `EXPECT (...) ON VIOLATION DROP ROW`    | `dp.expect_or_drop` <br> `dp.expect_all_or_drop` |
-| Fail           | `EXPECT (...) ON VIOLATION FAIL UPDATE` | `dp.expect_or_fail` <br> `dp.expect_all_or_fail` |
+| **Action**         | **SQL Syntax**                        | **Python Syntax**   | **Result**                                                                                                                                                 |
+| ------------------ | ------------------------------------- | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **warn (default)** | `EXPECT`                              | `dp.expect`         | Invalid records are written to the target.                                                                                                                 |
+| **drop**           | `EXPECT ... ON VIOLATION DROP ROW`    | `dp.expect_or_drop` | Invalid records are dropped before being written. The number of dropped records is logged with dataset metrics.                                            |
+| **fail**           | `EXPECT ... ON VIOLATION FAIL UPDATE` | `dp.expect_or_fail` | Invalid records cause the update to fail. Manual intervention is required before reprocessing. This only fails the specific flow, not the entire pipeline. |
+
 
 
 | Object Type        | Type  | Key Characteristics                                                                                                | Use Cases                                                                                  |
@@ -1286,6 +1328,33 @@ By default, records violating constraints will be kept.
 | Streaming Tables   | Permanent | • Supports incremental refresh <br> • Handles append-only streaming data <br> • Uses `spark.readStream` or `STREAM()`  | • Real-time / near real-time data ingestion <br> • Kafka, event streams, log pipelines         |
 | Temporary Views    | Temporary | • Exists only during session/job <br> • Stores intermediate processed data                                             | • Data transformations <br> • Data quality checks <br> • Breaking complex pipelines into steps |
 | Materialized Views | Permanent | • Supports full or incremental refresh (Serverless only) <br> • Uses batch (`spark.read`) <br> • Not for low-latency | • Precomputing BI queries <br> • Batch ingestion <br> • Reporting and analytics workloads      |
+
+Here’s a clean, structured version of your content:
+
+>--- **Triggered vs Continuous Pipelines**
+
+| **Key Question**                   | **Triggered**                                            | **Continuous**                                                           |
+| ---------------------------------- | -------------------------------------------------------- | ------------------------------------------------------------------------ |
+| **When does the update stop?**     | Automatically stops once processing is complete.         | Runs continuously until manually stopped.                                |
+| **What data is processed?**        | Data available at the time the update starts.            | All incoming data as it arrives at configured sources.                   |
+| **Best for data freshness needs?** | Suitable for updates every 10 minutes, hourly, or daily. | Suitable for near real-time updates (every 10 seconds to a few minutes). |
+
+>--- **Key Considerations**
+
+* **Triggered pipelines**
+
+  * More cost-efficient since clusters run only when needed
+  * May introduce latency, as new data is processed only when triggered
+
+* **Continuous pipelines**
+
+  * Requires an always-running cluster (higher cost)
+  * Provides lower latency and near real-time data processing
+
+---
+
+If you want, I can turn all your notes into a single polished cheat sheet or a one-page PDF-style summary.
+
 
 ## **Delta Sharing**
 

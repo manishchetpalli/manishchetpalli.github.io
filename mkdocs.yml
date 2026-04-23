@@ -64,9 +64,17 @@ theme:
 
 nav:
   - Home: index.md
-  - Projects:
+  - Projects/Setup:
     - Flink Ignite Custom Dialect: projects/flink-ignite.md
     - FastAPI Kafka Producer: projects/kafkaapi.md
+    - Airflow Setup: tooling/airflow_install_onpremise.md
+    - Ignite Multi Node Setup: tooling/igniteinstall.md
+    - Kafka Multi Node Setup: tooling/kafka_install_zookeeper.md
+    - Kubernetes Setup: tooling/kubernetes_install.md
+    - Sparkstandalone Multi Node: tooling/spark3standalone.md
+    - Spark on Kubernetes: tooling/sparkkube.md
+    - Flink on Kubernetes: tooling/flinkonk8.md
+    - Multiple Spark version on YARN: tooling/spark23yarn.md
   - Fundamentals:
       - Overview: DataEngineering/DE.md
       - DE Lifecycle: DataEngineering/DEcycle.md
@@ -90,12 +98,6 @@ nav:
   - Cloud computing:
     - AWS: cloud/aws.md
     - Databricks: cloud/databricks.md
-  - SetupDocs:
-    - Airflow Setup: tooling/airflow_install_onpremise.md
-    - Ignite Multi Node Setup: tooling/igniteinstall.md
-    - Kafka Multi Node Setup: tooling/kafka_install_zookeeper.md
-    - Kubernetes Setup: tooling/kubernetes_install.md
-    - Sparkstandalone Multi Node Setup: tooling/spark3standalone.md
   - About Me: about.md
   
 # Extensions
