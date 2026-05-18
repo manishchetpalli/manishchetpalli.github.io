@@ -1,53 +1,52 @@
-### **What is Orchestration in BigData?**
+## **What is Orchestration in BigData?**
 
 Orchestration in big data refers to the automated configuration, coordination, and management of complex big data systems and services. Like an orchestra conductor ensures each section of the orchestra plays its part at the right time and the right way to create harmonious music, orchestration in big data ensures that each component of a big data system interacts in the correct manner at the right time to execute complex, multi-step processes efficiently and reliably.
 
-> --- ***Workflow management***
+>--- **Workflow management**
 
 It defines, schedules, and manages workflows involving multiple tasks across disparate systems. These workflows can be simple linear sequences or complex directed acyclic graphs (DAGs) with branching and merging paths.
 
-> --- ***Task scheduling***
+>--- **Task scheduling**
 
 Orchestration tools schedule tasks based on their dependencies. This ensures that tasks are executed in the correct order and that tasks that can run in parallel do so, increasing overall system efficiency.
 
-> --- ***Failure handling***
+>--- **Failure handling**
 
 Orchestration tools handle failures in the system, either by retrying failed tasks, skipping them, or alerting operators to the failure.
 
-**------------------------------------------------------------------------------------------------------------**
+---
 
-### **Need of Workflow management while Designing Data Pipelines**
+## **Need of Workflow management**
 
-
-> --- ***Ordering and Scheduling***
+>--- **Ordering and Scheduling**
 
 Data processing tasks often have dependencies, meaning one task needs to complete before another can begin. For example, a task that aggregates data may need to wait until the data has been extracted and cleaned. A workflow management system can keep track of these dependencies and ensure tasks are executed in the right order.
 
-> --- ***Parallelization*** 
+>--- **Parallelization**
 
 When tasks don't have dependencies, they can often run in parallel. This can significantly speed up data processing. Workflow management systems can manage parallel execution, maximizing the use of computational resources and reducing overall processing time.
 
-> --- ***Error Handling***
+>--- **Error Handling**
 
 If a task in a data pipeline fails, it can have a knock-on effect on other tasks. Workflow management systems can handle these situations, for instance by retrying failed tasks, skipping them, or stopping the pipeline and alerting operators.
 
-> --- ***Visibility and Monitoring***
+>--- **Visibility and Monitoring**
 
 Workflow management systems often provide tools for monitoring the progress of data pipelines and visualizing their structure. This can make it easier to spot bottlenecks or failures, and to understand the flow of data through the pipeline.
 
-> --- ***Resource Management***
+>--- **Resource Management**
 
 Workflow management systems can allocate resources (like memory, CPU, etc.) depending on the requirements of different tasks. This helps in efficiently utilizing resources and ensures optimal performance of tasks.
 
-**------------------------------------------------------------------------------------------------------------**
+---
 
+## **What is AirFlow?**
 
-### **What is AirFlow?**
 Apache Airflow is an open-source platform that programmatically allows you to author, schedule, and monitor workflows. It was originally developed by Airbnb in 2014 and later became a part of the Apache Software Foundation's project catalog.
 
 Airflow uses directed acyclic graphs (DAGs) to manage workflow orchestration. DAGs are a set of tasks with directional dependencies, where the tasks are the nodes in the graph, and the dependencies are the edges. In other words, each task in the workflow executes based on the completion status of its predecessors.
 
-> --- ***Key features of Apache Airflow include***
+>--- **Key features of Apache Airflow include**
 
 1. Dynamic Pipeline Creation - Airflow allows you to create dynamic pipelines using Python. This provides flexibility and can be adapted to complex dependencies and operations.
 2. Easy Scheduling - Apache Airflow includes a scheduler to execute tasks at defined intervals. The scheduling syntax is quite flexible, allowing for complex scheduling.
@@ -56,25 +55,25 @@ Airflow uses directed acyclic graphs (DAGs) to manage workflow orchestration. DA
 5. Extensibility - Airflow supports custom plugins and can integrate with several big data technologies. You can define your own operators and executors, extend the library, and even use the user interface API.
 6. Failure Management - In case of a task failure, Airflow sends alerts and allows for retries and catchup of past runs in a robust way
 
-**------------------------------------------------------------------------------------------------------------**
+--
 
-### ***Airflow Architecture***
+## **Airflow Architecture**
 
 ![Steps](airflowarc.svg)
 
-> --- ***Scheduler***
+>--- **Scheduler**
 
 The scheduler is a critical component of Airflow. Its primary function is to continuously scan the DAGs (Directed Acyclic Graphs) directory to identify and schedule tasks based on their dependencies and specified time intervals. The scheduler is responsible for determining which tasks to execute and when. It interacts with the metadata database to store and retrieve task state and execution information.
 
-> --- ***Metadata Database***
+>--- **Metadata Database**
 
 Airflow leverages a metadata database, such as PostgreSQL or MySQL, to store all the configuration details, task states, and execution metadata. The metadata database provides persistence and ensures that Airflow can recover from failures and resume tasks from their last known state. It also serves as a central repository for managing and monitoring task execution.
 
-> --- ***Web Server***
+>--- **Web Server**
 
 The web server component provides a user interface for interacting with Airflow. It enables users to monitor task execution, view the status of DAGs, and access logs and other operational information. The web server communicates with the metadata database to fetch relevant information and presents it in a user-friendly manner. Users can trigger manual task runs, monitor task progress, and configure Airflow settings through the web server interface.
 
-> --- ***Executors***
+>--- **Executors**
 
 Airflow supports different executor types to execute tasks. The executor is responsible for allocating resources and running tasks on the specified worker nodes.
 
@@ -82,26 +81,24 @@ Airflow supports different executor types to execute tasks. The executor is resp
 
     the local executor executes tasks on the same node as the scheduler, while the Kubernetes executor executes tasks in containers.
 
-> --- ***Worker Nodes***
+>--- **Worker Nodes**
 
 Worker nodes are responsible for executing the tasks assigned to them by the executor. They retrieve the task details, dependencies, and code from the metadata database and execute the tasks accordingly. The number of worker nodes can be scaled up or down based on the workload and resource requirements.
 
-> --- ***Message Queue***
+>--- **Message Queue**
 
 Airflow relies on a message queue system, such as RabbitMQ, Apache Kafka, or Redis, to enable communication between the scheduler and the worker nodes. The scheduler places task execution requests in the message queue, and the worker nodes pick up these requests, execute the tasks, and update their status back to the metadata database. The message queue acts as a communication channel, ensuring reliable task distribution and coordination.
 
-> --- ***The DAG Processor***
+>--- **The DAG Processor**
 
 It processes DAG files and stores the metadata in the database. It scans the DAG folder every 30 seconds (default) to look for new or updated files. It uses DagFileProcessorManager to detect changes and DagFileProcessorProcess to parse the actual code. To speed up parsing, import statements and variables should be placed inside methods rather than at the top of the script.In newer versions, the DAG Processor is separated from the Scheduler to allow independent scaling and prevent CPU bottlenecks
 
-> --- ***Triggerer***
+>--- **Triggerer**
 
 Introduced to handle long-running tasks. Normally, long tasks block the Scheduler's task slots.
 The Triggerer allows a task to enter a "Deferred" state. It uses a small asynchronous Python code to "watch" the task while the Worker does the heavy lifting, freeing up the Scheduler's pool for other tasks
 
----
-
-> --- ***Airflow 3.0: The New Client-Server Architecture***
+>--- **Airflow 3.0: The New Client-Server Architecture**
 
 The most significant architectural shift in Airflow 3.0 is the removal of direct database access for several components.
 
@@ -113,7 +110,7 @@ The most significant architectural shift in Airflow 3.0 is the removal of direct
     3. The Scheduler reads from the DB and triggers the task.
     4. If a task is deferred, the Triggerer updates the status via the API Server to the DB.
 
-> --- ***Worker Execution Flow***
+>--- **Worker Execution Flow**
 
 1. Task Submission - The Scheduler identifies a task that needs to run and hands it to the Executor. The Executor then submits a message containing the execution command to a Broker/Queue (typically Redis).
 2. Message Pulling - The Worker Process constantly monitors the Redis queue. When a message appears, the Worker pulls the message to begin the job.
@@ -127,9 +124,9 @@ The most significant architectural shift in Airflow 3.0 is the removal of direct
 4. Result Reporting - After the Task Runner completes the work, it writes the task status (Success/Failure) to the Result Backend.
 5. Database Update - The Scheduler reads the status from the Result Backend and updates the primary Postgres Metadata Database so the status can be reflected in the Airflow UI
 
-**------------------------------------------------------------------------------------------------------------**
+---
 
-### **DAGs and Tasks**
+## **DAGs and Tasks**
 
 DAGs are at the core of Airflow’s architecture. A DAG is a directed graph consisting of interconnected tasks. Each task represents a unit of work within the data pipeline. Tasks can have dependencies on other tasks, defining the order in which they should be executed. Airflow uses the DAG structure to determine task dependencies, schedule task execution, and track their progress.
 
@@ -144,18 +141,15 @@ An operator is essentially a Python class that defines what a task should do and
 - Operators provide a high-level abstraction of the tasks, letting us focus on the logic and flow of the workflow without getting bogged down in the implementation details.
 - Apache Airflow has several types of operators that allow you to perform different types of tasks. 
 
----
 
-> --- **Why use Airflow/DAGs instead of Simple Scripts**
+>--- **Why use Airflow/DAGs instead of Simple Scripts**
 
 A common question is why one shouldn't just use a Python for loop or sequential method calls. 
 
 1. Parallel Task Execution - If you need to fetch data from 50 different APIs, a sequential script might take 4 minutes (5 seconds each). Airflow can run these tasks in parallel, reducing the total time to just 5 seconds.
 2. Granular Re-runs (Error Handling) - In a sequential script, if the "Clean" step fails after a 2-hour "Fetch" step, you might have to restart everything. In an Airflow DAG, you can re-trigger only the failed task (the "Clean" step) without re-running the successful "Fetch" step, saving time and resources
 
----
-
-> --- ***Create a DAG***
+>--- **Create a DAG**
 
 Different Styles of Writing DAGs
 
@@ -230,9 +224,7 @@ Some of the most-used parameters are:
 
 4. tags - List of tags helping us search DAGs in the UI.
 
----
-
-## Scheduling in airflow
+## **Scheduling in airflow**
 
 > --- **Core Scheduling Parameters**
 

@@ -83,7 +83,7 @@ nav:
       - Data Orchestration: airflow/dataorchestration.md
       - Data Warehousing: datawarehousing/overview.md
       - File Formats: DataEngineering/fileformat.md
-      - Kerberos: hadoop/kerberos.md
+      # - Kerberos: hadoop/kerberos.md
   - Big Data: 
     - Apache Hadoop: hadoop/HDFS.md
     - Apache MapReduce: hadoop/mapreduce.md
